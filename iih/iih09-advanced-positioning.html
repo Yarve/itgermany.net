@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+<title>9. ПРОДВИНУТОЕ ПОЗИЦИОНИРОВАНИЕ</title>
+<!-- <link rel="stylesheet" href="../css/style.css"> -->
+<link rel="stylesheet" href="style-iih.css">
+</head>
+
+<body>
+<!--
+<div class="page">
+<div class="blur"></div>
+<header class="header" id='header'> -->
+<header>
+</header>
+<!--
+<section class="main">
+<div class="container"> -->
+<h1><a href="/" title="RUS EDITION of Interneting is Hard">HTML & CSS IS HARD - НА РУССКОМ</a></h1>
+<h2>ПРОДВИНУТОЕ ПОЗИЦИОНИРОВАНИЕ</h2>
+<p>УРОК Nº 9.</p>
+<p><em>
+    Самое понятное руководство по статическому, относительному, абсолютному и
+		фиксированному позиционированию
+</em></p>
+
+
+<p>
+    Под "статическим позиционированием" подразумевается нормальный поток страницы,
+		с которым мы работали до сих пор.
+<a href="iih05-css-box-model.html">
+		Блоковая модель CSS</a>, <a href="iih07-floats.html">float элементы</a>
+		и схемы верстки <a href="iih08-flexbox.html">flexbox</a> работают в этом
+		"статическом" потоке, но это не единственная схема позиционирования,
+		доступная в CSS.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-01-css-positioning-schemes-790d5b.3d581d20.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 1: сравнение схем статического, относительного, абсолютного и
+		фиксированного позиционирования
+</small></figcaption>
+</figure>
+
+<p>
+    Три других типа позиционирования - "относительное", "абсолютное" и "фиксированное".
+		Каждый из них позволяет вручную позиционировать элементы по определенным
+		координатам, в отличие от более семантических вариантов flexbox и floats.
+		Вместо того чтобы сказать: "Этот блок поместить в центр его контейнера",
+		продвинутое позиционирование позволяет сказать нечто-то вроде: "Этот блок
+		поместить на 20 пикселей выше и на 50 пикселей правее от начала координат
+		его родителя".
+</p><p>
+    Подавляющее большинство элементов на веб-странице должно быть расположено в
+		соответствии со статическим потоком страницы.
+		Другие схемы позиционирования появляются, когда вы хотите сделать более сложные
+		вещи, например, изменить положение определенного элемента или анимировать
+		компонент пользовательского интерфейса, не испортив окружающие элементы.
+</p><p>
+    Эта глава состоит из двух частей.
+		Мы начнем с изучения относительного, абсолютного и фиксированного
+    позиционирования по отдельности, а затем применим все, что узнали, к созданию
+		шикарного выпадающего меню.
+</p>
+
+<div class="title">подготовка<br>setup</div>
+<p>
+    Начните с создания нового <a href="iih01-intro.html#atom">проекта Atom</a>
+		под названием advanced-positioning и нового файла schemes.html со следующей
+		разметкой:
+</p><p class="code">
+<span class="code-green">&lt;!DOCTYPE html&gt;</span><br>
+&lt;html lang='en'&gt;<br>
+&lt;head&gt;<br>
+&lt;meta charset='UTF-8'/&gt;<br>
+&lt;title&gt;Positioning Is Easy!&lt;/title&gt;<br>
+&lt;link rel='stylesheet' href='styles.css'/&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+<br>
+&lt;div class='container'&gt;<br>
+&lt;div class='example relative'&gt;<br>
+&lt;div class='item'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;div class='item item-relative'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;div class='item'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class='container'&gt;<br>
+&lt;div class='example absolute'&gt;<br>
+&lt;div class='item'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;div class='item item-absolute'&gt;&lt;img src='images/absolute.svg' /&gt;&lt;/div&gt;<br>
+&lt;div class='item'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class='container'&gt;<br>
+&lt;div class='example fixed'&gt;<br>
+&lt;div class='item'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;div class='item item-fixed'&gt;&lt;img src='images/fixed.svg' /&gt;&lt;/div&gt;<br>
+&lt;div class='item'&gt;&lt;img src='images/static.svg' /&gt;&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</p><p>
+    У нас есть три примера для работы, все с одинаковой HTML-структурой.
+		Изменение поведения позиционирования в каждом из них будет иметь кардинально
+		разные эффекты.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-02-project-files-714b6b.98c25e29.png"
+width="30%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 2: файлы в проекте примера
+</small></figcaption>
+</figure>
+
+<p>
+    На этой странице используются <a href="docs/iih09-images-89bc45.zip">изображения</a>,
+		чтобы сделать наш пример немного нагляднее.
+		При распаковке файлов в проект сохраняйте родительскую папку images, как
+		показано выше.
+    Не забудьте также создать файл styles.css и заполнить его необходимыми
+		базовыми стилями:
+</p><p class="code">
+<span class="code-strong">*</span> {<br>
+<span class="code-green">margin</span>: 0;<br>
+<span class="code-green">padding</span>: 0;<br>
+<span class="code-green">box-sizing</span>: border-box;<br>
+}<br>
+<br>
+<span class="code-strong">body</span> {<br>
+<span class="code-green">height</span>: 1200px;<br>
+}<br>
+<br>
+<span class="code-blue">.container</span> {<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">justify-content</span>: center;<br>
+}<br>
+<br>
+<span class="code-blue">.example</span> {<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">justify-content</span>: space-around;<br>
+}<br>
+<br>
+<span class="code-green">width</span>: 800px;<br>
+<span class="code-green">margin</span>: 50px 0;<br>
+<span class="code-green">background-color</span>: #D6E9FE;<br>
+}<br>
+<br>
+<span class="code-blue">.item</span> <span class="code-strong">img</span> {<br>
+<span class="code-green">display</span>: block;<br>
+}
+</p><p id="grid">
+    Здесь нет ничего нового, просто знакомые приемы <a href="iih08-flexbox.html">
+		flexbox</a> для создания сетки элементов.
+		Единственная особенность - четко указанная высота элемента &lt;body&gt;, которая
+		позволит нам прокручивать страницу вверх и вниз, чтобы продемонстрировать
+		различные варианты позиционирования.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-03-initial-project-screenshot-8ebe66.48084c00.png"
+width="40%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 3: веб-страница со статичными, относительными [relative], абсолютными
+		и фиксированными блоками разных цветов
+</small></figcaption>
+</figure>
+
+<div class="title">позиционированные элементы<br>positioned elements</div>
+<p>
+    Свойство CSS position позволяет изменять схему позиционирования конкретного
+		элемента.
+		Его значение по умолчанию, как можно догадаться, статично.
+		Если свойство position элемента <em>не имеет</em> значения static, он
+		называется "позиционированным элементом".
+		Именно позиционированным элементам посвящен весь этот урок.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-04-positioned-elements-terminology-861fca.a9f6aa7d.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 4: относительные, абсолютные и фиксированные элементы, обозначаемые
+		как позиционированные элементы
+</small></figcaption>
+</figure>
+
+<p>
+    Можно смешивать и сочетать различные схемы позиционирования.
+		Опять же, большая часть вашей веб-страницы должна быть статически позиционирована,
+		но часто можно встретить относительно и абсолютно позиционированные элементы
+		внутри других элементов, которые являются частью нормального потока страницы.
+</p>
+
+<div class="title">относительное позиционирование<br>relative positioning</div>
+<p>
+    "Относительное позиционирование" перемещает элементы <em>относительно</em>
+		того места, где они обычно появляются в статическом потоке страницы.
+		Это полезно для перемещения блоков, когда стандартный поток немного смещен.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-05-css-relative-positioning-26842e.5977eeb5.png"
+width="33%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 5: относительно позиционированный блок смещен относительно левого
+		верхнего угла своей статической позиции
+</small></figcaption>
+</figure>
+
+<p>
+    Давайте превратим элемент .item-relative в файле schemes.html в относительно
+		позиционированный элемент.
+		Добавьте следующее правило в styles.css:
+</p><p class="code">
+<span class="code-blue">.item-relative</span> {<br>
+<span class="code-green">position</span>: relative;<br>
+<span class="code-green">top</span>: 30px;<br>
+<span class="code-green">left</span>: 30px;<br>
+}
+</p><p>
+    Благодаря position: relative; он становится позиционированным элементом,
+		а свойства top и left позволяют определить, насколько он смещен от своего
+		статического положения.
+		Это похоже на задание координат (x, y) для элемента.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-06-relative-positioning-screenshot-4c23c2.385135e6.png"
+width="45%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 6: веб-страница с относительно (relative) позиционированным элементом
+</small></figcaption>
+</figure>
+
+<p>
+    Относительное позиционирование работает аналогично отступам margin, с одним
+		очень важным отличием: значения top и left не влияют ни на окружающие элементы,
+		ни на родительский элемент.
+		Все остальное отображается так, как если бы .item-relative находился в своем
+		исходном положении.
+		Смещение можно рассматривать как действие, применяемое <em>после того</em>,
+		как браузер завершит компоновку страницы.
+</p><p>
+    Свойства top и left отмеряются от верхнего и левого краев исходного блока.
+		С помощью свойств bottom и right мы можем задать смещение относительно других
+		краев.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-07-relative-positioning-offsets-494268.06d72664.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 7: верхнее, левое, нижнее и правое смещение относительно
+		позиционированного элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Например, следующий код сдвинет блок в противоположном направлении:
+</p><p class="code">
+<span class="code-blue">.item-relative</span> {<br>
+<span class="code-green">position</span>: relative;<br>
+<span class="code-green">bottom</span>: 30px;<br>
+<span class="code-green">right</span>: 30px;<br>
+}
+</p><p>
+    Обратите внимание, что эти свойства принимают отрицательные значения, что
+		означает два способа задать одно и то же смещение.
+		Мы могли бы с тем же успехом использовать top: -30px; вместо объявленного ранее
+		bottom: 30px;.
+</p>
+
+<div class="title">абсолютное позиционирование<br>absolute positioning</div>
+<p>
+    "Абсолютное позиционирование" - это то же самое, что и относительное
+		позиционирование, но смещение происходит относительно всего окна браузера,
+		а не исходной позиции элемента.
+		Поскольку в этом случае нет никакой связи со статическим потоком страницы.
+		Считайте, что это самый ручной способ размещения элемента.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-08-css-absolute-positioning-228ce0.6d62d6e4.png"
+width="30%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 8: абсолютно позиционированный элемент, смещенный от левого верхнего
+		края окна браузера
+</small></figcaption>
+</figure>
+
+<p>
+    Давайте рассмотрим это, добавив следующее правило в нашу таблицу стилей:
+</p><p class="code">
+<span class="code-blue">.item-absolute</span> {<br>
+<span class="code-green">position</span>: absolute;<br>
+<span class="code-green">top</span>: 10px;<br>
+<span class="code-green">left</span>: 10px;<br>
+}
+</p><p>
+    Наша HTML-структура точно такая же, как и в предыдущем примере, но в этом случае
+		фиолетовое изображение будет помещено в левый верхний угол окна браузера.
+		Вы также можете попробовать задать значение bottom или right, чтобы получить
+		более четкое представление о происходящем.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-09-absolute-positioning-screenshot-641ad7.2f18f4f2.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 9: веб-страница с абсолютно позиционированным элементом
+</small></figcaption>
+</figure>
+
+<p>
+    Другой интересный эффект абсолютного позиционирования заключается в том, что
+		оно полностью удаляет элемент из нормального потока страницы.
+		Это легче увидеть на примере элементов, выровненных по левому краю, поэтому
+		давайте временно изменим свойство justify-content в нашем правиле .example:
+</p><p class="code">
+<span class="code-blue">.example</span> {<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">justify-content</span>: flex-start;
+<span class="code-grey">/* Обновите это */</span><br>
+<span class="code-grey">/* ... */</span><br>
+}
+</p><p>
+    В нашем примере с относительным позиционированием (первый ряд) на месте
+		позиционируемого элемента все еще остается пространство, а при абсолютном
+		позиционировании это пространство исчезает.
+		Как будто .item-absolute даже не существует для своего родителя и окружающих
+		элементов.
+		Перед тем как двигаться дальше, обязательно измените justify-content обратно
+		на space-around.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-10-absolute-positioning-flex-start-screenshot-d4b627.62dc0552.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 10: веб-страница, выделяющая пустое пространство, оставленное
+		абсолютно позиционированным элементом
+</small></figcaption>
+</figure>
+
+<p>
+    В большинстве случаев такое поведение не слишком полезно, поскольку в этом
+		случае <em>все на вашей странице</em> должно быть абсолютно позиционировано - иначе
+		мы получим непредсказуемые наложения статических элементов на абсолютные.
+		Итак, зачем вообще существует absolute?
+</p>
+
+<div class="title-under">(ОТНОСИТЕЛЬНО) АБСОЛЮТНОЕ ПОЗИЦИОНИРОВАНИЕ<br>
+    (RELATIVELY) ABSOLUTE POSITIONING</div>
+<p>
+    Абсолютное позиционирование становится гораздо более практичным, когда оно
+		осуществляется относительно какого-либо другого элемента, <em>находящегося</em>
+		в статическом потоке страницы.
+		К счастью, существует способ изменить систему координат абсолютно позиционированного
+		элемента.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-11-css-relatively-absolute-positioning-1ba963.bdf038c3.png"
+width="30%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 11: абсолютный элемент, позиционированный относительно родительского
+		позиционированного элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Координаты абсолютных элементов всегда относительны к ближайшему контейнеру,
+		который является позиционированным элементом. Он становится относительным по
+		отношению к браузеру только тогда, когда ни один из его родителей не позиционирован.
+		Так, если мы изменим родительский элемент .item-absolute на относительно
+		позиционированный, он должен появиться в левом верхнем углу <em>этого</em> элемента,
+		а не в окне браузера.
+</p><p class="code">
+<span class="code-blue">.absolute</span> {<br>
+<span class="code-green">position</span>: relative;<br>
+}
+</p><p>
+    div-контейнер .absolute располагается в соответствии с нормальным потоком
+		страницы, и мы можем вручную перемещать наш .item-absolute, куда нам нужно.
+		Это великолепно, потому что если мы захотим изменить нормальный поток контейнера,
+		скажем, для мобильного макета, любые абсолютно позиционированные элементы
+		автоматически передвинутся вместе с ним.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-12-relatively-absolute-positioning-screenshot-98bcce.4a0c68d2.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 12: веб-страница с абсолютно позиционированным элементом внутри
+		другого элемента, который позиционирован относительно
+</small></figcaption>
+</figure>
+
+<p>
+    Обратите внимание, что мы не указали никаких координат смещения для .absolute.
+		Мы используем относительное позиционирование только для того, чтобы позволить
+		нашему абсолютному элементу вернуться в нормальный поток страницы.
+		Так мы безопасно сочетаем абсолютное позиционирование со статическим позиционированием.
+</p>
+
+<div class="title">фиксированное позиционирование<br>fixed positioning</div>
+<p>
+    У "фиксированного позиционирования" много общего с абсолютным: оно очень "ручное",
+		элемент удален от нормального течения страницы, а система координат относительна
+		ко всему окну браузера.
+		Ключевое отличие заключается в том, что фиксированные элементы не прокручиваются
+		вместе с остальной частью страницы.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-13-css-fixed-positioning-342eff.bf560e17.png"
+width="30%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 13:  фиксированный элемент, расположенный относительно окна браузера,
+		но с отключенной прокруткой
+</small></figcaption>
+</figure>
+
+<p>
+    Перейдем к обновлению нашего третьего примера, чтобы использовать фиксированное
+		позиционирование:
+</p><p class="code">
+<span class="code-blue">.item-fixed</span> {<br>
+<span class="code-green">position</span>: fixed;<br>
+<span class="code-green">bottom</span>: 0;<br>
+<span class="code-green">right</span>: 0;<br>
+}
+</p><p>
+    В результате красная картинка окажется в правом нижнем углу экрана.
+		Попробуйте прокрутить страницу, и вы обнаружите, что она не перемещается
+		вместе с остальными элементами на странице, в то время как абсолютно
+		позиционированная фиолетовая картинка перемещается.
+</p><p>
+    Так создаются навигационные панели, которые всегда остаются на экране,
+		а также назойливые всплывающие и упорно не исчезающие pop-up баннеры.
+</p>
+
+<div class="title">позиционированные элементы для анимации<br>
+    positioned elements for animation</div>
+<p>
+    Это немного выходит за рамки данного руководства, поскольку речь идет о HTML
+		и CSS, а не о JavaScript.
+		Однако анимация - это один из основных вариантов использования относительного
+		и абсолютного позиционирования, поэтому давайте заглянем в будущее, анимировав
+		один из наших элементов.
+</p><p>
+    Эти усовершенствованные схемы позиционирования позволяют JavaScript перемещать
+		элементы, избегая при этом какого-либо взаимодействия с окружающими элементами.
+		Например, попробуйте скопировать и вставить следующее в файл schemes.html
+		после третьего элемента .container.
+		Элемент &lt;script&gt; должен быть последним внутри &lt;body&gt;.
+</p><p class="code">
+<span class="code-blue">&lt;script&gt;</span><br>
+<span class="code-strong">var</span> left = 0;<br>
+<br>
+<span class="code-strong">function</span> <span class="code-blue">frame</span>() {<br>
+<span class="code-strong">var</span> element = document.querySelector('.item-relative');<br>
+	    left += 2;<br>
+	    element.style.left = left + 'px';<br>
+<span class="code-strong">if</span> (left &gt;= 300) {<br>
+	      clearInterval(id)<br>
+}<br>
+}<br>
+<br>
+<span class="code-strong">var</span> id = setInterval(frame, 10)<br>
+<span class="code-blue">&lt;/script&gt;</span>
+</p><p>
+    Этот код JavaScript создает простую анимацию, которая постоянно обновляет
+		свойство left в .item-relative.
+		При перезагрузке страницы вы должны увидеть, что синее изображение плавает
+		по правому краю своего контейнера.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-14-animated-relative-positioning-193400.2bdf3e0d.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 14: веб-страница, показывающая простую анимацию относительно
+		позиционированного элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Это довольно примитивный пример, но вы, надеюсь, видите, как он применим к
+		причудливым анимациям пользовательского интерфейса.
+		Если бы вы попытались добиться того же эффекта, манипулируя свойствами margin
+		или padding, вы бы невольно переместили статически расположенные блоки и/или
+		содержащий их элемент .example.
+</p>
+
+<div class="title">позиционированные элементы для меню<br>positioned elements for menus</div>
+<p>
+    Итак, это основные приемы.
+		Давайте сделаем с их помощью что-нибудь <em>продвинутое</em>!
+		В оставшейся части урока мы применим полученные навыки для создания
+		замечательного навигационного меню с интерактивным выпадающим подменю для
+		одной из ссылок.
+		Мы создадим <a href="https://internetingishard.netlify.app/html-and-css/advanced-positioning/example/menu">
+		эту страницу</a> с самого нуля.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-15-submenu-with-z-index-f458d3.4bdcee44.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 15: веб-страница с выпадающим меню
+</small></figcaption>
+</figure>
+
+<p>
+    Фиксированное позиционирование позволит сделать меню прикрепленным к верхней
+		части страницы, а относительное позиционирование создаст якорь для абсолютно
+		позиционированного выпадающего меню.
+		Мы также поговорим о методиках создания навигационных меню и рассмотрим
+		практическое применение <a href="iih06-css-selectors.html#pseudo-classes-for-links">
+		псевдоклассов</a>, о которых мы говорили на уроке <em>Селекторы CSS</em>.
+</p><p>
+    Для начала нам нужна новая веб-страница под названием menu.html, которая имеет
+		заголовок и простое меню верхнего уровня:
+</p><p class="code">
+<span class="code-green">&lt;!DOCTYPE html&gt;</span><br>
+&lt;html lang='en'&gt;<br>
+&lt;head&gt;<br>
+&lt;meta charset='UTF-8'/&gt;<br>
+&lt;title&gt;Awesome!&lt;/title&gt;<br>
+&lt;link href='menu.css' rel='stylesheet'/&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+<br>
+&lt;div class='header'&gt;<br>
+&lt;div class='logo'&gt;&lt;img src='images/awesome-logo.svg'/&gt;&lt;/div&gt;<br>
+&lt;ul class='menu'&gt;<br>
+&lt;li class='dropdown'&gt;&lt;span&gt;Features ▾&lt;/span&gt;&lt;/li&gt;<br>
+&lt;li&gt;&lt;a href='#'&gt;Blog&lt;/a&gt;&lt;/li&gt;<br>
+&lt;li&gt;&lt;a href='#'&gt;Subscribe&lt;/a&gt;&lt;/li&gt;<br>
+&lt;li&gt;&lt;a href='#'&gt;About&lt;/a&gt;&lt;/li&gt;<br>
+&lt;/ul&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</p><p>
+    Навигационные меню почти всегда должны быть оформлены в виде списка &lt;ul&gt;,
+		а не кучи элементов &lt;div&gt;.
+		Такая семантика делает навигацию вашего сайта гораздо более доступной для
+		поисковых систем.
+		Также обратите внимание, как мы готовимся к созданию нашего выпадающего меню,
+		добавляя атрибут class к первому &lt;li&gt; в списке.
+		Этот &lt;span&gt; позволит нам отличить ярлык от подменю, которое он открывает.
+</p><p>
+    Далее нам понадобится новая таблица стилей menu.css, которая, помимо прочего,
+		сделает наш .header более похожим на заголовок:
+</p><p class="code">
+<span class="code-strong">*</span> {<br>
+<span class="code-green">margin</span>: 0;<br>
+<span class="code-green">padding</span>: 0;<br>
+<span class="code-green">box-sizing</span>: border-box;<br>
+}<br>
+<br>
+<span class="code-strong">body</span> {<br>
+<span class="code-green">height</span>: 1200px;<br>
+<span class="code-green">font-size</span>: 18px;<br>
+<span class="code-green">font-family</span>: sans-serif;<br>
+<span class="code-green">color</span>: #5D6063;<br>
+}<br>
+<br>
+<span class="code-strong">a</span>:link,<br>
+<span class="code-strong">a</span>:visited {<br>
+<span class="code-green">color</span>: #5D6063;<br>
+<span class="code-green">text-decoration</span>: none;<br>
+}<br>
+<span class="code-strong">a</span>:hover {<br>
+<span class="code-green">text-decoration</span>: underline;<br>
+}<br>
+<br>
+<span class="code-blue">.header</span> {<br>
+<span class="code-green">position</span>: fixed;<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">justify-content</span>: space-between;<br>
+<br>
+<span class="code-green">width</span>: 100%;<br>
+<span class="code-green">padding</span>: 50px;<br>
+<span class="code-green">background</span>: #D6E9FE;<br>
+}
+</p><p>
+    Все это должно быть вам знакомо.
+		Однако обратите внимание на фиксированное положение .header, благодаря которому
+		наше меню навигации находится поверх любого контента, размещенного на странице.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-16-menu-block-list-items-c1ac6a.3d13722f.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 16: веб-страница с меню, составленным из блоков &lt;li&gt; (без позиционирования)
+</small></figcaption>
+</figure>
+
+<div class="title">строчные элементы меню<br>inline menu items</div>
+<p>
+    Хотя навигационные меню на большинстве сайтов размечены как неупорядоченные
+		списки, на самом деле они не выглядят как списки.
+		Мы можем исправить это.
+		С помощью свойства display, мы сделаем элементы списка <a href="iih05-css-box-model.html#block-and-inline-elements">
+		строчными блоками</a> вместо блоковых блоков.
+		Добавьте в menu.css следующее:
+</p><p class="code">
+<span class="code-blue">.menu</span> {<br>
+<span class="code-green">margin-top</span>: 15px;<br>
+}<br>
+<br>
+<span class="code-blue">.menu</span> > <span class="code-strong">li</span> {<br>
+<span class="code-green">display</span>: inline;<br>
+<span class="code-green">margin-right</span>: 50px;<br>
+}<br>
+<br>
+<span class="code-blue">.menu</span> > <span class="code-strong">li</span>: last-of-type {<br>
+<span class="code-green">margin-right</span>: 0;<br>
+}
+</p><p>
+    Мы используем <a href="https://developer.mozilla.org/ru/docs/Web/CSS/Child_combinator">
+		селекторы дочерних элементов</a>, вместо <a href="iih06-css-selectors.html#descendant-selectors">
+		селекторов потомков</a>.
+		Все потому, что мы хотим выбрать только элементы &lt;li&gt;, находящиеся как раз
+		внутри .menu.
+		Это станет особенно важным, когда мы добавим подменю, имеющее свои собственные
+		элементы &lt;li&gt;, которые мы не хотим стилизовать с помощью этого правила.
+		Также мы добавили отступы margins ко всем элементам списка, но удалили их из
+		последнего &lt;li&gt; псевдоклассом :last-of-type.
+		Отступы margins <em>между</em> элементами - довольно распространенная практика.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-17-menu-inline-list-items-1e8d70.8efcd10b.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 17:  меню, состоящее из строчных элементов &lt;li&gt; (без позиционирования)
+</small></figcaption>
+</figure>
+
+<div class="title">подменю<br>submenus</div>
+<p>
+    Наше подменю будет выглядеть так же, как и меню верхнего уровня, за исключением
+		того, что все оно будет вложено в cписок [list].
+		Измените элемент .menu следующим образом, чтобы весь список .features-menu был
+		завернут в первый &lt;li&gt; элемента .menu.
+</p><p class="code">
+&lt;ul class='menu'&gt;<br>
+&lt;li class='dropdown'&gt;&lt;span&gt;Features &amp;#9662;&lt;/span&gt;<br>
+&lt;ul class='features-menu'&gt;           &lt;!-- Start of submenu --&gt;<br>
+&lt;li&gt;&lt;a href='#'&lt;Harder&lt;/a&gt;&lt;/li&gt;<br>
+&lt;li&gt;&lt;a href='#'&lt;Better&lt;/a&gt;&lt;/li&gt;<br>
+&lt;li&gt;&lt;a href='#'&lt;Faster&lt;/a&gt;&lt;/li&gt;<br>
+&lt;li&gt;&lt;a href='#'&lt;Stronger&lt;/a&gt;&lt;/li&gt;<br>
+&lt;/ul&gt;                               &lt;!-- End of submenu --&gt;<br>
+&lt;/li&gt;<br>
+&lt;li>&lt;a href='#'&lt;Blog&lt;/a&gt;&lt;/li&gt;          &lt;!-- These are the same --&gt;<br>
+&lt;li>&lt;a href='#'&lt;Subscribe&lt;/a&gt;&lt;/li&gt;<br>
+&lt;li>&lt;a href='#'&lt;About&lt;/a&gt;&lt;/li&gt;<br>
+&lt;/ul&gt;
+</p><p>
+    Это дает много важной информации для поисковых систем.
+		Google увидит, что все эти новые элементы связаны с меткой Features и что
+		они образуют отдельную секцию нашего сайта.
+		Рекомендуем размечать сложные навигационные меню именно таким образом.
+</p><p>
+    Что касается CSS, то с интерактивным выпадающим меню мы разберемся позже.
+		Сейчас же давайте просто приведем наше подменю в нужный вид.
+		Добавьте несколько простых стилей, чтобы было видно блок, который мы пытаемся
+		позиционировать:
+</p><p class="code">
+<span class="code-blue">.features-menu</span> {<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">flex-direction</span>: column;<br>
+<span class="code-green">background</span>: #B2D6FF;<br>
+<span class="code-green">border-radius</span>: 5px;<br>
+<span class="code-green">padding-top</span>: 60px;<br>
+}<br>
+<br>
+<span class="code-blue">.features-menu</span> <span class="code-strong">li</span> {<br>
+<span class="code-green">list-style</span>: none;<br>
+<span class="code-green">border-bottom</span>: 1px solid #FFF;<br>
+<br>
+<span class="code-green">padding</span>: flex;<br>
+<span class="code-green">margin</span>: flex;<br>
+}<br>
+<br>
+<span class="code-blue">.features-menu</span> <span class="code-strong">li</span>:last-of-type {<br>
+<span class="code-green">border-bottom</span>: none;<br>
+}
+</p><p>
+    Само подменю оформлено правильно, но оно отображается в неправильном месте и
+		сильно портит остальные элементы меню верхнего уровня.
+		Этого следовало ожидать, поскольку оно все еще статически позиционировано,
+		а значит, взаимодействует со своим родителем и окружающими элементами.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-18-submenu-no-css-positioning-04280e.95686f50.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 18: веб-страница с нестилизованным подменю (только HTML)
+</small></figcaption>
+</figure>
+
+<p>
+    Для создания желаемой верстки используйте ваши новые навыки позиционирования CSS.
+</p>
+
+<div class="title">(Относительно) абсолютные подменю<br>(relatively) absolute submenus</div>
+<p>
+    Мы хотим, чтобы остальные элементы меню верхнего уровня отображались так же,
+		как и до добавления подменю, как будто подменю вообще не было.
+		Да это как раз то, как себя ведут абсолютно позиционированные элементы.
+		Давайте попробуем?
+		Добавьте несколько строк в правило .features-menu:
+</p><p class="code">
+<span class="code-blue">.features-menu</span> {<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">flex-direction</span>: column;<br>
+<span class="code-green">background</span>: #B2D6FF;<br>
+<span class="code-green">border-radius</span>: 5px;<br>
+<span class="code-green">padding-top</span>: 60px;<br>
+<br>
+<span class="code-green">position</span>: absolute;      /* Добавьте эти строки */<br>
+<span class="code-green">top</span>: -25px;<br>
+<span class="code-green">left</span>: -30px;<br>
+}
+</p><p>
+    Отлично!
+		Подменю больше не является частью статического потока страницы, поэтому наши
+		элементы меню верхнего уровня вернулись в нормальное состояние.
+		Однако подменю должно появиться ниже ярлыка <strong>Features</strong>, а
+		не в углу окна браузера.
+		Какое совпадение... мы только что узнали, как это делается!
+</p><p>
+    Подменю находится в &lt;li class='dropdown'&gt;.
+		Превращение его в позиционированный элемент должно изменить систему координат,
+		используемую нашим абсолютно позиционированным .features-menu:
+</p><p class="code">
+<span class="code-blue">.dropdown</span> {<br>
+<span class="code-green">position</span>: relative;<br>
+}
+</p><p>
+    Однако есть одна проблема.
+		Хотя подменю находится в правильном месте, но теперь оно закрывает ярлык <strong>
+		Features</strong>.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-19-submenu-relative-and-absolute-positioning-9fe8a5.24ba19dd.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 19: веб-страница с абсолютно позиционированным подменю внутри
+		относительного элемента
+</small></figcaption>
+</figure>
+
+<div class="title">z-index</div>
+<p>
+    Ранее мы не сталкивались с проблемой "глубины".
+		До сих пор все наши HTML-элементы отображались друг над другом или друг под
+		другом интуитивно понятным образом.
+		Но поскольку мы занимаемся продвинутыми вещами, полагаться на то, что браузер
+		сам определит, какие элементы отображаются поверх других, не стоит.
+</p><p>
+    Свойство z-index позволяет управлять глубиной расположения элементов на странице.
+		Если представить экран как трехмерное пространство, то отрицательные
+		значения z-index уходят дальше вглубь страницы, а положительные - выходят
+		за ее пределы.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-20-css-z-index-c87ef0.83043c0c.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 20: положительный z-index при выходе со страницы и отрицательный
+		z-index при входе на страницу
+</small></figcaption>
+</figure>
+
+<p>
+    Другими словами, элемент .features-menu должен иметь меньший z-index, чем
+		ярлык <strong>Features</strong>.
+		По умолчанию значение z-index равно 0, поэтому давайте сделаем их оба выше
+		этого значения.
+		Мы удобно обернули ярлык Features в &lt;span&gt;, что позволяет нам стилизовать
+		его с помощью дочернего селектора, как показано ниже:
+</p><p class="code">
+<span class="code-blue">.dropdown</span> > <span class="code-strong">span</span> {<br>
+<span class="code-green">z-index</span>: 2;<br>
+<span class="code-green">position</span>: relative;      /* Это важно! */<br>
+<span class="code-green">cursor</span>: pointer;<br>
+}<br>
+<br>
+<span class="code-blue">.features-menu</span> {<br>
+<span class="code-grey"> /* ... */</span><br>
+<span class="code-green">z-index</span>: 1;<br>
+}
+</p><p>
+    Теперь ярлык <strong>Features</strong> должен появиться в верхней части подменю.
+		Обратите внимание на строку position: relative;.
+		Она <em>необходима</em>, потому что только позиционированные элементы обращают
+		внимание на свойство z-index.
+		Об этом легко забыть, поэтому сделайте заметку на следующий раз, на случай,
+		если у вас возникнут проблемы с глубиной, а ваши правила CSS не будут иметь
+		никакого результата.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-21-submenu-with-z-index-f458d3.4bdcee44.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 21: подменю после добавления положительного z-индекса
+</small></figcaption>
+</figure>
+
+<p>
+    Мы добавили пример использования свойства cursor, чтобы при наведении курсора
+		на ярлык он выглядел как ссылка.
+		Подробнее об этом можно прочитать на сайте <a href="https://developer.mozilla.org/ru/docs/Web/CSS/cursor">
+		Mozilla Developer Network</a>.
+</p>
+
+<div class="title">псевдоклассы для выпадающих меню<br>pseudo-classes for dropdown menus</div>
+<p>
+    Отлично!
+		Подменю готово!
+		Наша последняя задача - скрыть его, пока пользователь не наведет на него курсор.
+		Помните <a href="iih06-css-selectors.html#pseudo-classes-for-links">
+		псевдокласс :hover</a> из главы "Селекторы CSS"?
+		Мы используем его, чтобы превратить наше подменю в интерактивное выпадающее
+		меню.
+</p><p>
+    Сначала нам нужно изменить существующее правило .features-menu, добавив
+		селектор-потомок :hover.
+		Тогда подменю будет видно только когда пользователь наведет на него курсор.
+		Обновите селектор .features-menu следующим образом:
+</p><p class="code">
+<span class="code-blue">.dropdown</span>:<span class="code-grey">hover</span>
+<span class="code-blue">.features-menu</span> {    /* Раньше это было `.features-menu` */<br>
+<span class="code-green">display</span>: flex;     /* Оставьте все остальное в прежнем виде */<br>
+<span class="code-green">flex-direction</span>: column;<br>
+<span class="code-green">background</span>: #B2D6FF;<br>
+  /* ... */<br>
+}
+</p><p>
+    Затем нам нужно будет скрыть подменю с помощью свойства display.
+		Добавьте новое правило в menu.css:
+</p><p class="code">
+<span class="code-blue">.features-menu</span> { <span class="code-grey">
+/* Это новое правило. Добавьте его. */</span><br>
+<span class="code-green">display</span>: none;<br>
+}
+</p><p>
+    Установка display в none заставляет элемент полностью исчезнуть.
+		Переопределив это значение с помощью flex в правиле :hover, мы фактически
+		говорим браузеру снова показать .features-menu.
+		Эта хитрая комбинация селекторов-потомков и псевдоклассов позволяет нам по
+		условию скрывать или показывать элемент.
+</p>
+
+<div class="title">резюме</div>
+
+<p>
+    В этой главе мы рассмотрели четыре новые схемы верстки CSS:
+</p><ul>
+<li>Relative - относительное</li>
+<li>Absolute - абсолютное</li>
+<li>Relatively absolute - относительно-абсолютное</li>
+<li>Fixed - фиксированное</li>
+</ul><p>
+    Относительное позиционирование изменяло положение элемента, не затрагивая
+		окружающие его блоки.
+		Абсолютное позиционирование выводило элементы из статического потока страницы
+		и размещало их относительно окна браузера.
+		Относительно абсолютное позиционирование позволяло вернуться в статический
+		поток страницы.
+		Наконец, фиксированное позиционирование позволяло нам создавать элементы,
+		которые не прокручивались вместе с остальной частью страницы.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih09-22-css-positioning-schemes-summary-d7f831.d62ebdc4.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 22: сравнение схем относительного, абсолютного, относительно
+		абсолютного и фиксированного позиционирования
+</small></figcaption>
+</figure>
+
+<p>
+    Мы использовали эти новые методы позиционирования для создания довольно
+		сложного навигационного меню.
+		Если оно показалось вам сложным, значит, так оно и было.
+		Но не волнуйтесь, вам не нужно <em>заучивать</em> HTML и CSS, на которых
+		основано наше меню.
+		Ваша цель должна заключаться в том, чтобы месяца через три вы могли вернуться
+		к этому примеру и понять, что делают все эти декларации position: relative;
+		и position: absolute;.
+</p><p>
+    Это меню также является хорошим примером того, как начало работы с HTML-разметкой
+		значительно упрощает жизнь.
+		Сначала мы создали нужную нам смысловую структуру [semantic structure].
+<em>Затем</em> мы написали несколько замысловатых CSS, чтобы расположить блоки
+    именно там, где нам нужно.
+		Если вы смотрите на сложный эскиз и не уверены, с чего начать, то это отличный
+		способ начать решать поставленную задачу.
+</p><p>
+    У нашего меню все еще есть одна большая недоработка: оно не создано для
+		мобильных устройств.
+		Во-первых, в смартфонах и планшетах отсутствует курсор.
+		Во-вторых, наш макет не отображается хорошо, если размер браузера менее 960
+		пикселей.
+		Первое требует немного магии JavaScript (или <em>очень</em> продвинутого CSS),
+		поэтому мы оставим это для другого курса.
+		Но второе мы сможем решить с помощью адаптивного дизайна на следующем
+		уроке.
+</p>
+
+<section id="chapter-next">
+<a href="iih10-responsive-design.html"
+class="chapter-next">
+    СЛЕДУЮЩИЙ УРОК ></a>
+</section>
+<br><br>
+</div>
+</body>
+</html>

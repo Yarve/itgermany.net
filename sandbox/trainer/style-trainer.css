@@ -1,0 +1,190 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+background-color: #f8f9f9;	/*  #f8f9f9 gray almost white, #EEEEEE light grey #4169E1 blue */
+font-family: arial; /* Century Schoolbook FS */
+font-size: 15px;
+line-height: 145%;
+
+}
+
+
+header {
+width: 900px;
+margin: 0 auto;
+}
+
+.logo {
+display: block;
+margin: 0 auto;
+text-align: center;
+font-size: 0.5em;
+border: 1px solid black;
+}
+
+.logo-text {
+display: block;
+margin: 0 auto;
+text-align: center;
+font-size: 1em;
+border: 1px solid brown;
+}
+
+.app-title {
+border: 1px solid blue;
+display: block;
+width: 900px;
+margin: 0 auto;
+text-align: center;
+font-size: 32px;
+padding: 40px;
+}
+
+.menu-container {
+border: 1px dashed red;
+color: black;
+padding: 20px 0;
+width: 900px;
+margin: 0 auto;
+display: flex;
+  flex-direction: column;
+}
+
+.menu {
+	border: 1px solid red;
+	width: 900px;
+	display: flex;
+	justify-content: center;
+  align-items: center;
+}
+
+.button-start, .button-pause {
+color: white;
+background-color: black;
+font-weight: bold;
+padding: 15px 30px;
+margin: 0 40px;
+text-align: center;
+border-radius: 3px;
+display: block;
+}
+
+.time4answer {
+border: 1px solid orange;
+justify-content: flex-start;
+text-align: center;
+font-size: 12px;
+padding: 0 10px;
+}
+
+.buttons-min {
+border: 1px solid green;
+display: flex;
+justify-content: space-around;
+  padding: inherit;
+font-size: 12px;
+}
+
+.button-1min, .button-2min, .button-3min {
+border: 1px solid black;
+display: block;
+background-color: lightgray;
+padding: 0 10px;
+  margin: 0 2px;
+border-radius: 2px;
+font-size: 1em;
+}
+
+.questions {
+	padding: 3%;
+	border: 2px dashed black;
+	display: flex;
+	justify-content: space-between;
+}
+
+.question-type {
+
+}
+
+.question {
+font-size: 1.5em;
+font-weight: bold;
+}
+
+.button-repeat {
+
+}
+
+.timer-container {
+ display: block;
+  border: 1px dashed green;
+  width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.timer {
+ display: inline-block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  border: 5px solid green;
+  padding: 20px;
+}
+
+
+.buttons-feedback {
+	border: 1px solid blue;
+	width: 900px;
+	display: flex;
+	justify-content: center;
+}
+
+.button-red, .button-orange, .button-green {
+border: 1px solid black;
+display: block;
+justify-content: flex-end;
+color: black;
+font-weight: bold;
+padding: 5px 40px;
+text-align: center;
+}
+
+
+.button-red {
+background-color: red;
+}
+
+.button-orange {
+background-color: orange;
+}
+
+.button-green {
+background-color: green;
+}
+
+.button-help {
+background-color: red;
+border: 1px solid black;
+padding: 10px;
+text-align: center;
+border-radius: 2px;
+width: 20em;
+box-sizing: border-box;
+margin: 80px auto;
+box-shadow: 5px 10px 5px grey;
+}
+
+
+.score {
+font-size: 110%;
+font-weight: bold;
+text-align: center;
+margin: 5%;
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TODO APP</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Arial, sans-serif;
+}
+
+body {
+background-color: white;
+color: black;
+padding: 20px;
+max-width: 800px;
+margin: 0 auto;
+}
+
+h1 {
+display: flex;
+justify-content: space-around;
+align-items: center;
+margin-bottom: 20px;
+}
+
+button {
+padding: 8px 16px;
+cursor: pointer;
+background-color: #f1f1f1;
+border: 1px solid #ddd;
+border-radius: 4px;
+}
+
+details {
+    margin: 40px 0;
+}
+
+.index-section, .category-section {
+margin-bottom: 20px;
+}
+
+h2 {
+margin: 20px 0 10px 0;
+padding-top: 10px;
+border-top: 1px solid #eee;
+}
+
+.todo-item {
+display: flex;
+align-items: center;
+margin-bottom: 10px;
+padding: 8px;
+}
+
+.todo-text {
+margin-left: 10px;
+color: blue;
+cursor: pointer;
+text-decoration: none;
+}
+
+.todo-done {
+color: gray;
+cursor: default;
+}
+
+.todo-checkbox {
+width: 18px;
+height: 18px;
+cursor: pointer;
+}
+
+.delete-icon {
+width: 18px;
+height: 18px;
+cursor: pointer;
+margin-right: 10px;
+}
+
+.edit-field {
+flex-grow: 1;
+padding: 8px;
+margin-right: 10px;
+}
+
+.done-editing-btn {
+display: inline-block;
+padding: 8px 16px;
+background-color: #f1f1f1;
+border: 1px solid #ddd;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.cancel-delete {
+color: blue;
+cursor: pointer;
+padding: 8px;
+}
+
+.index-link {
+color: blue;
+margin-right: 10px;
+cursor: pointer;
+}
+
+.category-link {
+color: blue;
+text-decoration: underline;
+margin-right: 10px;
+cursor: pointer;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
+.back-to-top {
+position:fixed;
+top:2rem;
+/* bottom:1rem; */
+right:-3rem;
+display: inline-flex;
+justify-content: center;
+/* background-color: darkgray; */
+border-radius: 0.5rem;
+padding: 15px 15px;
+text-decoration: none;
+transition: 0.2s ease-out;
+}
+
+.back-to-top img {
+width:10rem;
+}
+
+.back-to-top:hover span{
+transform: translateY(-4px);
+}
+</style>
+</head>
+<body>
+<h1>TODO <button id="add-btn">ADD</button></h1>
+
+<details>
+    <summary>Click to read how it works</summary>
+    <p>This is the hidden content. It appears when you click the summary.</p>
+</details>
+
+<div id="index-section" class="index-section">
+<p>INDEX</p>
+<div>
+<span class="index-link" data-category="FIT">- FIT</span>
+<span class="index-link" data-category="EXP">- EXP</span>
+<span class="index-link" data-category="FIN">- FIN</span>
+<span class="index-link" data-category="FAM">- FAM</span>
+<span class="index-link" data-category="MISC">- MISC</span>
+</div>
+</div>
+
+<div id="category-section" class="category-section" style="display: none;">
+<p>CATEGORY</p>
+<div>
+<span class="category-link" data-category="FIT">- FIT</span>
+<span class="category-link" data-category="EXP">- EXP</span>
+<span class="category-link" data-category="FIN">- FIN</span>
+<span class="category-link" data-category="FAM">- FAM</span>
+<span class="category-link" data-category="MISC">- MISC</span>
+</div>
+</div>
+
+<div id="add-todo-section" style="display: none;">
+<input type="text" id="new-todo-input" placeholder="Describe new Todo and hit Enter" style="width: 100%; padding: 8px;">
+</div>
+
+<div id="todo-lists">
+<div id="FIT-section">
+<h2 id="FIT">FIT</h2>
+<div id="FIT-todos" class="todo-list"></div>
+<div id="FIT-done" class="done-list"></div>
+</div>
+
+<div id="EXP-section">
+<h2 id="EXP">EXP</h2>
+<div id="EXP-todos" class="todo-list"></div>
+<div id="EXP-done" class="done-list"></div>
+</div>
+
+<div id="FIN-section">
+<h2 id="FIN">FIN</h2>
+<div id="FIN-todos" class="todo-list"></div>
+<div id="FIN-done" class="done-list"></div>
+</div>
+
+<div id="FAM-section">
+<h2 id="FAM">FAM</h2>
+<div id="FAM-todos" class="todo-list"></div>
+<div id="FAM-done" class="done-list"></div>
+</div>
+
+<div id="MISC-section">
+<h2 id="MISC">MISC</h2>
+<div id="MISC-todos" class="todo-list"></div>
+<div id="MISC-done" class="done-list"></div>
+</div>
+</div>
+<a href="#" class="back-to-top">
+<span>
+<img src="chatbot-bender-gold.png">
+</span>
+</a>
+<script src="script-todo-localstorage.js"></script>
+</body>
+</html>

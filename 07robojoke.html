@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robojoke</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+font-size: 30px;
+text-align: center;
+margin: 20px;
+}
+img {
+max-width: 200px;
+transition: transform 0.3s ease;
+}
+img.active {
+transform:  scaleX(-1);
+}
+
+button {
+font-size: 2rem; /* Увеличиваем текст кнопки */
+padding: 20px 40px; /* Увеличиваем внутренние отступы кнопки */
+background-color: grey;
+color: white;
+border: none;
+border-radius: 40px;
+cursor: pointer;
+transition: transform 0.3s ease;
+}
+button:hover {
+transform: scale(1.1); /* Лёгкий эффект увеличения при наведении */
+}
+</style>
+</head>
+<body>
+    <h1>Robojoke</h1>
+    <img id="robot" src="images-itg/bender.jpg" alt="Robot Bender">
+    <p id="text">Hit the button, and I tell you something funny!</p>
+    <button id="jokeButton">Come on looser!</button>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const robotImage = document.getElementById('robot');
+    const textParagraph = document.getElementById('text');
+    const jokeButton = document.getElementById('jokeButton');
+
+    jokeButton.addEventListener('click', () => {
+        textParagraph.textContent = "Bite my shiny metal ass! Hahahahaha. Oh wait, you're serious. Let me laugh even harder.";
+        robotImage.classList.add('active');
+
+        setTimeout(() => {
+            robotImage.classList.remove('active');
+        }, 1000);
+    });
+});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body {
+	background-color: #f8f9f9;	/*  #f8f9f9 gray almost white, #EEEEEE light grey #4169E1 blue */
+	font-family: Century Schoolbook FS;
+	font-size: 19px;
+	line-height: 150%;
+} */
+
+header h1,h4 {
+	text-align: center;
+
+}
+
+#index {
+margin: 30px 10px;
+/* border: none; */
+}
+
+header, body {
+font-size: 120%;
+}
+
+.index-chapter {
+list-style-type: none;
+margin-top: 20px;
+}
+
+/* #game-content {
+border: 2px groove black;
+margin: 10px 2px;
+padding: 1px 1px;
+} */
+
+
+#random-game {
+border: 1px solid;
+margin: 10px 0; 
+padding: 10px;
+margin-bottom: 100px;
+}
+
+
+.button-randomgame {
+/* display: block; */
+width: 100%;
+padding:10px;
+border-radius: 5px;
+background: green;
+color: white;
+font-size: 15px;
+}
+
+.button-hide {
+display: block;
+margin: 10px auto;
+padding: 5px;
+font-size: 15px;
+}
+
+h3 {
+color:green;
+padding: 10px;
+}
+
+
+.example {
+font-weight: bold;
+font-style: italic;
+}
+
+section {
+border:1px solid;
+margin: 10px;
+padding: 0 10px;
+}
+
+
+/* #rythm-look-out p {
+	font-size: 1.1em;
+	line-height: 1.6;
+	margin-bottom: 20px;
+} */
+
+.rhyme {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.rhyme-column {
+	flex: 1;
+	font-weight: bold;
+	font-style: italic;
+	/* text-align: center; */
+	padding:10px;
+}
+
+p {
+	padding:10px;
+	line-height: 1.3;
+	font-size:10px;
+}
+.echo {
+	color: green;
+}
+
+
+
+/* Отзывчивый дизайн */
+@media (max-width: 768px) {
+	.poem {
+			flex-direction: column;
+	}
+	.poem-column {
+			margin-bottom: 10px;
+	}
+}

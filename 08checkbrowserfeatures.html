@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browser Features</title>
+<style>
+/* Minimalistic CSS */
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+background: #f5f5f5;
+color: #333;
+}
+
+h1 {
+font-size: 2rem;
+text-align: center;
+margin-bottom: 1rem;
+}
+
+p {
+font-size: 1.5rem;  
+text-align: center;
+}
+
+button {
+    background: linear-gradient(180deg, #007FFF, #1F75FE); /* Синий градиент */
+    color: ivory;
+    border: 1px solid #005BB5; /* Более тёмный оттенок синего для обрамления */
+    padding: 20px 60px;
+    margin: 20px auto;
+    font-size: 2.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    /* 3D-эффект */
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.6), /* Внутренняя подсветка */
+                0 4px 8px rgba(0, 0, 0, 0.2); /* Внешняя тень */
+}
+
+button:hover {
+    background: linear-gradient(180deg, #1F75FE, #007FFF); /* Обратный градиент */
+    box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.8), /* Более яркая внутренняя подсветка */
+                0 8px 16px rgba(0, 0, 0, 0.4); /* Усиленная внешняя тень */
+    transform: translateY(-2px); /* Лёгкое смещение вверх */
+}
+
+button:active {
+    background: linear-gradient(180deg, #005BB5, #007FFF); /* Более тёмные оттенки */
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5), /* Углубление */
+                0 2px 4px rgba(0, 0, 0, 0.2); /* Снижение внешней тени */
+}
+
+
+.output {
+margin-top: 1rem;
+padding: 1rem;
+background-color: white;
+border-radius: 8px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+width: 90%;
+max-width: 400px;
+word-wrap: break-word;
+}
+
+@media (max-width: 600px) {
+h1 {
+font-size: 2.5rem;
+}
+
+button {
+font-size: 1.8rem;
+padding: 10px 32px;
+}
+}
+</style>
+</head>
+<body>
+<h1>Check your Browser Features</h1>
+<p>
+    Wanna know detailed information about your OS,<br> browser,<br> Geolocation,<br> LocalStorage?
+</p><p>
+    Click the button below:
+</p>      
+    
+<button onclick="analyze()">Check</button>
+<div class="output" id="output"></div>
+
+<script>
+// JavaScript to analyze browser and system features
+function analyze() {
+const geolocationSupported = "geolocation" in navigator;
+const localStorageSupported = "localStorage" in window;
+const userAgent = navigator.userAgent;
+
+let browserName = "Unknown Browser";
+let browserVersion = "Unknown Version";
+
+if (userAgent.includes("FxiOS")) {
+    browserName = "Firefox (iOS)";
+    browserVersion = userAgent.match(/FxiOS\/(\d+)/)[1];
+} else if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) {
+browserName = "Google Chrome";
+browserVersion = userAgent.match(/Chrome\/(\d+)/)[1];
+} else if (userAgent.includes("Firefox")) {
+browserName = "Mozilla Firefox";
+browserVersion = userAgent.match(/Firefox\/(\d+)/)[1];
+} else if (userAgent.includes("Duck")) {
+browserName = "DuckDuckGo";
+browserVersion = userAgent.match(/DuckDuckGo\/(\d+)/)[1];
+} else if (userAgent.includes("Safari") && !userAgent.includes("Chrome")) {
+browserName = "Apple Safari";
+browserVersion = userAgent.match(/Version\/(\d+)/)[1];
+} else if (userAgent.includes("Edg")) {
+browserName = "Microsoft Edge";
+browserVersion = userAgent.match(/Edg\/(\d+)/)[1];
+}
+
+const message = `
+<h3>Your Analysis:</h3>
+<p><strong>Browser:</strong> ${browserName} (Version: ${browserVersion})</p>
+<p><strong>User-Agent:</strong> ${userAgent}</p>
+<p><strong>Geolocation Supported:</strong> ${geolocationSupported ? "Yes" : "No"}</p>
+<p><strong>LocalStorage Supported:</strong> ${localStorageSupported ? "Yes" : "No"}</p>
+`;
+
+document.getElementById('output').innerHTML = message;
+}
+</script>
+</body>
+</html>

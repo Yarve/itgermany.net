@@ -1,0 +1,28 @@
+
+
+img {
+  width: 320px; /* init. 300, original pic width 640 */
+/*  height: 143px;  200, then */
+  object-fit: cover;
+  object-position: bottom;
+  padding: 5px;
+}
+
+img:hover {
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.5s;
+}
+
+.container {
+  display: flex;
+  max-width: 1200px; /* 1200, then */
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+figcaption {
+	margin-bottom:10px;
+	text-align: center;
+}

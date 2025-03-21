@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch</title>
+<!-- <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="style-itg.css"> -->
+<style>
+
+* {
+margin:0;
+padding:0;
+box-sizing: border-box;
+}
+
+body {
+text-align: center;
+margin-top: 50px;
+font-family: Arial, sans-serif;
+color:lightskyblue;
+background:navy;
+/* font-size: 1.1rem;
+
+width:100%;
+max-width:100%;
+min-height: 100vh; */
+}
+
+#stopwatch {
+  font-family: 'Digital-7', Arial, sans-serif, monospace;
+  font-size: 8rem;
+  color: #00FFFF; /* #32CD32 Зеленоватый оттенок 
+  text-shadow: 0 0 10px #32CD32, 0 0 20px #32CD32;*/
+  text-shadow: 
+    0 0 20px #00CED1, /* Дальняя подсветка, чуть темнее */
+    0 0 40px #008B8B; /* Эффект глубокого свечения */
+    margin-bottom: 20px;
+}
+
+#stopwatch span {
+    display: inline-block; /* Позволяет задать фиксированную ширину */
+  width: 2ch; /* 2 символа (например, "00") */
+  text-align: center; /* Центрирование текста внутри */  
+}
+
+
+button {
+    font-size: 1.2rem;
+    color: navy;
+background:whitesmoke;
+padding:5px 15px;
+margin: 10px;
+border: none;
+text-transform: uppercase;
+font-family:'space',Arial, sans-serif, monospace;
+}
+
+@font-face {
+  font-family: 'Digital-7';
+  src: url('fonts/digital_7/digital-7.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Space';
+  src: url('fonts/space_age/space_age.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+<div id="stopwatch">
+<span id="minutes">00</span>:<span id="seconds">00</span>:<span id="milliseconds">00</span>
+</div>
+
+<button id="start">start</button>
+<button id="stop">stop</button>
+<button id="reset">reset</button>
+</body>
+<script>
+// code #1 - 48 lines.
+window.onload = function() {
+  var minutes = 0;
+  var seconds = 0;
+  var milliseconds = 0;
+  var interval;
+
+  var minutesSpan = document.getElementById('minutes');
+  var secondsSpan = document.getElementById('seconds');
+  var millisecondsSpan = document.getElementById('milliseconds');
+
+  document.getElementById('start').onclick = function() {
+    clearInterval(interval);
+    interval = setInterval(startTimer, 10);
+  };
+
+  document.getElementById('stop').onclick = function() {
+    clearInterval(interval);
+  };
+
+  document.getElementById('reset').onclick = function() {
+    clearInterval(interval);
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+    minutesSpan.textContent = "00";
+    secondsSpan.textContent = "00";
+    millisecondsSpan.textContent = "00";
+  };
+
+  function startTimer() {
+    milliseconds++;
+    if (milliseconds > 99) {
+      milliseconds = 0;
+      seconds++;
+    }
+    if (seconds > 59) {
+      seconds = 0;
+      minutes++;
+    }
+
+    minutesSpan.textContent = minutes < 10 ? "0" + minutes : minutes;
+    secondsSpan.textContent = seconds < 10 ? "0" + seconds : seconds;
+    millisecondsSpan.textContent = milliseconds < 10 ? "0" + milliseconds : milliseconds;
+  }
+};
+
+// code #2 - 32 lines
+
+// window.onload = function () {
+//   let [minutes, seconds, milliseconds] = [0, 0, 0];
+//   let interval;
+
+//   const updateDisplay = () => {
+//     document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+//     document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+//     document.getElementById('milliseconds').textContent = milliseconds.toString().padStart(2, '0');
+//   };
+
+//   const startTimer = () => {
+//     milliseconds = (milliseconds + 1) % 100;
+//     if (!milliseconds) seconds = (seconds + 1) % 60;
+//     if (!milliseconds && !seconds) minutes++;
+//     updateDisplay();
+//   };
+
+//   document.getElementById('start').onclick = () => {
+//     clearInterval(interval);
+//     interval = setInterval(startTimer, 10);
+//   };
+
+//   document.getElementById('stop').onclick = () => clearInterval(interval);
+
+//   document.getElementById('reset').onclick = () => {
+//     clearInterval(interval);
+//     [minutes, seconds, milliseconds] = [0, 0, 0];
+//     updateDisplay();
+//   };
+// };
+
+
+</script>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Background</title>
+<!-- <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="style-itg.css"> -->
+<style>
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+}
+
+button {
+    padding: 20px 40px;
+    font-size: 24px;
+    cursor: pointer;
+    background: crimson;
+    color:ivory;  
+    border-radius: 10px;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.8);
+    transition: box-shadow 0.3s ease;
+}
+</style>
+</head>
+
+<body>
+<button id="colorButton">Click me!</button>
+
+<script>
+document.getElementById('colorButton').addEventListener('click', function() {
+    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+    document.body.style.backgroundColor = randomColor;
+});
+</script>
+</div>
+</body>
+</html>

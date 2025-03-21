@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wassertemp., Ebbe und Flut in Flensburg</title>
+<style>
+/* Подключение шрифта */
+@font-face {
+font-family: 'Digital-7';
+src: url('fonts/digital_7/digital-7.ttf') format('truetype');
+}
+
+/* Общие настройки страницы */
+body {
+/* background-color: #d9f5ff; Нежно-голубой фон */
+color: #000; 
+background: #046169;
+font-family: 'Digital-7', Arial, sans-serif, monospace;
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+}
+
+/* Блок данных */
+#weather-data {
+display: grid;
+grid-template-columns: repeat(2, 1fr); /* Две колонки */
+gap: 20px; /* Расстояние между элементами */
+width: 80%;
+max-width: 600px;
+background-color: #c7eaf5; /* Цвет панели */
+border: 5px solid #000; /* Черная рамка */
+border-radius: 10px; /* Закругленные углы */
+padding: 20px;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Тень */
+text-align: center;
+}
+
+/* Элементы внутри блока */
+#weather-data p {
+margin: 0;
+font-size: 24px; /* Размер текста */
+color: #000; /* Черный цвет текста */
+}
+
+/* Заголовок */
+h1 {
+font-size: 32px;
+text-transform: uppercase;
+color: #a9d1d7; /* #000 Черный текст */
+margin-bottom: 20px;
+text-align: center;
+}
+
+/* Текст для пояснений */
+.maintext {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 20px;
+text-align: center;
+margin-top: 20px;
+color:  #a9d1d7;
+}
+
+/* Внутренние данные */
+span {
+font-size: 28px; /* Крупный размер для чисел */
+color: #000;
+}
+
+/* Стили для времени */
+#last-updated {
+font-size: 20px;
+color: #555; /* Более светлый текст */
+}
+
+/* Анимация для обновления данных */
+#weather-data p span {
+animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+50% {
+opacity: 0.8;
+}
+}
+
+/* Отзывчивый дизайн */
+@media (max-width: 768px) {
+#weather-data {
+grid-template-columns: 1fr; /* Переключаемся на одну колонку */
+gap: 10px;
+width: 80%;
+}
+
+#weather-data p {
+font-size: 20px; /* Уменьшаем размер текста */
+}
+
+span {
+font-size: 24px; /* Уменьшаем размер чисел */
+}
+
+h1 {
+font-size: 28px; /* Уменьшаем размер заголовка */
+width:80%;
+}
+
+.maintext {
+font-size: 18px; /* Уменьшаем размер текста */
+width:80%;
+}
+}
+
+@media (max-width: 480px) {
+h1 {
+font-size: 24px; /* Еще меньше для маленьких экранов */
+width:80%;
+}
+
+#weather-data {
+width: 80%; /* Увеличиваем ширину блока */
+padding: 10px;
+}
+
+#weather-data p {
+font-size: 18px;
+}
+
+span {
+font-size: 20px;
+}
+}
+
+</style>
+</head>
+<body>
+<h1 class="maintext">Aktuelle Wassertemperatur,<br> Ebbe und Flut<br> in Flensburg</h1>
+<div id="weather-data">
+<p>Luft: <span id="air-temperature">Laden...</span></p>
+<p>Wasser: <span id="water-temperature">Laden...</span></p>
+<p>Wind: <span id="wind-speed">Laden...</span></p>
+<p>Ebbe/Flut: <span id="sea-level">Laden...</span></p> 
+<p>Letzte Messung: <span id="last-updated">Laden...</span></p>
+</div>
+<p class="maintext">
+Falls die Daten nicht geladen werden können,<br>
+bitte <a href="#" id="reload-link">die Seite aktualisieren</a>.
+</p>
+
+<script>
+// b4b8057d26c983fb9fc8cfc521ce4eb6
+window.onload = function () {
+const apiKey = 'a254d1f55e8273829de9c0c1faa56b25';
+const cityName = 'Flensburg';
+const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+
+  // Таймер
+  let currentData = { minutes: 0, seconds: 0, milliseconds: 0 };
+
+  const formatNumber = (num) => (num < 10 ? "0" + num : num.toString());
+
+  const updateTimerDisplay = () => {
+    const minutesSpan = document.getElementById('minutes');
+    const secondsSpan = document.getElementById('seconds');
+    const millisecondsSpan = document.getElementById('milliseconds');
+
+    if (minutesSpan && minutesSpan.textContent !== formatNumber(currentData.minutes)) {
+      minutesSpan.textContent = formatNumber(currentData.minutes);
+    }
+    if (secondsSpan && secondsSpan.textContent !== formatNumber(currentData.seconds)) {
+      secondsSpan.textContent = formatNumber(currentData.seconds);
+    }
+    if (millisecondsSpan && millisecondsSpan.textContent !== formatNumber(currentData.milliseconds)) {
+      millisecondsSpan.textContent = formatNumber(currentData.milliseconds);
+    }
+  };
+
+  const startTimer = () => {
+    currentData.milliseconds++;
+    if (currentData.milliseconds > 99) {
+      currentData.milliseconds = 0;
+      currentData.seconds++;
+    }
+    if (currentData.seconds > 59) {
+      currentData.seconds = 0;
+      currentData.minutes++;
+    }
+    requestAnimationFrame(updateTimerDisplay);
+  };
+
+  let interval;
+  document.getElementById('start')?.addEventListener('click', () => {
+    clearInterval(interval);
+    interval = setInterval(startTimer, 10);
+  });
+
+  document.getElementById('stop')?.addEventListener('click', () => {
+    clearInterval(interval);
+  });
+
+  document.getElementById('reset')?.addEventListener('click', () => {
+    clearInterval(interval);
+    currentData = { minutes: 0, seconds: 0, milliseconds: 0 };
+    requestAnimationFrame(updateTimerDisplay);
+  });
+
+  // Погода
+  const currentWeatherData = {
+    airTemperature: null,
+    waterTemperature: null,
+    windSpeed: null,
+    seaLevel: null,
+    lastUpdated: null,
+  };
+
+  const updateWeatherDisplay = (key, value, elementId) => {
+    const element = document.getElementById(elementId);
+    if (currentWeatherData[key] !== value) {
+      currentWeatherData[key] = value;
+      element.textContent = value;
+    }
+  };
+
+  const updateWeather = async () => {
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error('Fehler beim Laden der Wetterdaten.');
+
+      const data = await response.json();
+
+      const airTemperature = `${data.main.temp} °C`;
+      const waterTemperature = `${data.main.feels_like} °C`; // Пример
+      const windSpeed = `${data.wind.speed} m/s`;
+      const seaLevel = data.main.sea_level ? `${data.main.sea_level} hPa` : 'Keine Daten';
+      const lastUpdated = new Date(data.dt * 1000).toLocaleString('de-DE', {
+        timeZone: 'Europe/Berlin',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      updateWeatherDisplay('airTemperature', airTemperature, 'air-temperature');
+      updateWeatherDisplay('waterTemperature', waterTemperature, 'water-temperature');
+      updateWeatherDisplay('windSpeed', windSpeed, 'wind-speed');
+      updateWeatherDisplay('seaLevel', seaLevel, 'sea-level');
+      updateWeatherDisplay('lastUpdated', lastUpdated, 'last-updated');
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  // Первичная загрузка данных
+  updateWeather();
+
+  // Кнопка для ручного обновления
+  document.getElementById('reload-link')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    updateWeather();
+  });
+};
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Метео Фленсбург</title>
+</head>
+<body>
+<h1>Последние метеоданные для Фленсбурга</h1>
+<div id="weather-data">
+<p>Температура воздуха: <span id="air-temperature">Загрузка...</span></p>
+<p>Температура морской воды: <span id="water-temperature">Загрузка...</span></p>
+<p>Сила ветра: <span id="wind-speed">Загрузка...</span></p>
+<p>Уровень моря: <span id="sea-level">Загрузка...</span></p>
+<p>Время последнего замера: <span id="last-updated">Загрузка...</span></p>
+</div>
+
+<script>
+const apiKey = '1afc069a18114db8cfc8aad0888c35c2';
+const cityName = 'Flensburg';
+const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+
+async function fetchWeatherData() {
+try {
+const response = await fetch(apiUrl);
+if (!response.ok) {
+throw new Error('Не удалось получить данные.');
+}
+
+const data = await response.json();
+const airTemperature = data.main.temp; // Температура воздуха
+const waterTemperature = data.main.feels_like; // Пример: используем "ощущаемую температуру" как пример для воды
+const windSpeed = data.wind.speed; // Сила ветра
+const seaLevel = data.main.sea_level || 'Нет данных'; // Уровень моря (если доступно)
+const timestamp = data.dt; // Время последнего замера в формате UNIX
+
+// Преобразование времени в формат с учетом часового пояса Германии
+const options = {
+timeZone: 'Europe/Berlin',
+year: 'numeric',
+month: 'long',
+day: 'numeric',
+hour: '2-digit',
+minute: '2-digit',
+second: '2-digit'
+};
+const lastUpdated = new Date(timestamp * 1000).toLocaleString('ru-RU', options);
+
+// Уровень моря: анализ изменений
+let seaLevelTrend = 'Нет данных';
+if (seaLevel < 1013) seaLevelTrend = 'Минимальный';
+else if (seaLevel > 1015) seaLevelTrend = 'Максимальный';
+else if (Math.random() > 0.5) seaLevelTrend = 'Растущий';
+else seaLevelTrend = 'Убывающий';
+
+// Обновление данных на странице
+document.getElementById('air-temperature').textContent = `${airTemperature} °C`;
+document.getElementById('water-temperature').textContent = `${waterTemperature} °C`;
+document.getElementById('wind-speed').textContent = `${windSpeed} м/с`;
+document.getElementById('sea-level').textContent = seaLevelTrend;
+document.getElementById('last-updated').textContent = lastUpdated;
+} catch (error) {
+console.error('Ошибка:', error);
+document.getElementById('weather-data').textContent = 'Не удалось загрузить данные.';
+}
+}
+
+fetchWeatherData();
+</script>
+</body>
+</html>

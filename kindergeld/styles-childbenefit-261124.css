@@ -1,0 +1,251 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: whitesmoke;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  padding: 10px;
+}
+
+/* Container to center content */
+section {
+  max-width: 600px; /* Restrict width for readability */
+  margin: 0 auto; /* Center align content */
+  padding: 15px;
+  background: white;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a clean look */
+}
+
+/* Headings */
+h1, h2 {
+  color: black;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Add spacing between inputs */
+}
+
+input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  outline: none;
+}
+
+input:focus {
+  border-color: royalblue;
+}
+
+
+.notabene {
+  font-size: 14px;
+  color: grey;
+  margin: 30px 5px;
+
+}
+
+.cleardata p {
+  text-align:center;
+  font-size: 12px;
+  padding: 20px 20px 10px 20px;
+}
+
+.cleardata button{
+  display:block;
+  padding: 10px 60px;
+  /* color: red; */
+  margin: 0 auto;
+}
+
+.copyrights {
+  display: block;
+  text-align: center;
+  max-width: 600px; /* Совпадает с шириной белого окна */
+  margin: 5px auto; /* Центрирование для окна */
+}
+
+/* Rating container Formsubmit*/
+.rating-formsubmit {
+  font-family: Arial, sans-serif;
+  /* background-color: #f9f9f9; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+
+.stars {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #ddd;
+  transition: color 0.3s;
+  
+}
+
+.star.selected {
+  color: gold; /* Закрашенная звезда */
+}
+
+
+.star:hover,
+.star:hover ~ .star {
+  color: #ffb400;
+}
+
+.rating-container {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+   border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  max-width: 300px;
+  width: 100%;
+
+}
+
+.rating-container h4 {
+  /* font-size: 1.5rem; */
+  margin-bottom: 10px;
+  color: #333;
+
+}
+
+.rating-container p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #666;
+  
+}
+
+.send-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.send-button.active {
+  background-color: green; /* Активная кнопка */
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+.send-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+
+
+/* Rating container by ChatGPT 
+
+.rating-body {
+  display: flex;
+  justify-content: center;
+    align-items: center;
+}
+
+.rating-container {
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+}
+
+.rating-container h3 {
+  /* font-size: 1.5rem; */
+  /*
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.rating-container p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+
+  color: grey; /* #666; */
+}
+/*
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.star {
+  font-size: 2rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star:hover,
+.star:hover ~ .star {
+  color: #ffb400;
+}
+
+.star.selected {
+  color: #ffb400;
+}
+
+
+/* Responsive design */
+@media only screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+    padding: 5px;
+  }
+
+  section {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  small {
+    font-size: 11px;
+  }
+}

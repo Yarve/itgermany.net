@@ -1,0 +1,42 @@
+*{
+    margin:0%;
+    padding:0%;
+    box-sizing:border-box;
+}
+
+.container {
+    height:100vh;
+    width:100vw;
+    overflow-x: hidden;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+header {
+height: 100px;
+flex: 1 0 1400px;
+background: #fff;
+border:1px solid;
+}
+
+section{
+    height:450px;
+    flex:1 0 250px;
+    margin:5px;
+    background: #ccc;
+    border:1px solid;
+}
+
+aside {
+height: 450px;
+flex: 1 0 250px;
+margin:5px;
+background: #ff6699;
+}
+
+footer {
+height: 205px;
+flex: 1 0 1200px;
+background: #219909;
+border:1px solid;
+}

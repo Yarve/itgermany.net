@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your IP-Address</title>
+<!-- <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="style-itg.css"> -->
+<style>
+
+* {
+margin:0;
+padding:0;
+box-sizing: border-box;
+}
+
+body {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 0;
+font-family: Arial, sans-serif;
+font-size: 1.1rem;
+color:limegreen;
+background:black;
+width:100%;
+max-width:100%;
+min-height: 100vh;
+}
+
+#ip-address {
+font-size: 2.2rem;
+}
+</style>
+</head>
+
+<body>
+<p>Your IP Address is:</p>
+<p id="ip-address"></p>
+
+</body>
+<script>
+fetch('https://api.ipify.org?format=json')
+.then(res => res.json())
+.then(data => document.getElementById('ip-address').innerText = data.ip);
+</script>
+</html>

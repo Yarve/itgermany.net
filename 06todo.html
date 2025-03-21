@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do-Liste</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+background-color: #f5f5f5;
+color: #333;
+}
+
+h1 {
+text-align: center;
+margin: 20px 0;
+color: #444;
+}
+
+form {
+display: flex;
+justify-content: center;
+gap: 10px;
+margin: 20px;
+padding: 0 10px;
+}
+
+input[type="text"] {
+flex: 1;
+padding: 10px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+button {
+padding: 10px 15px;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+background-color: #d3d3d3; /* hellgrau */
+color: #333;
+cursor: pointer;
+}
+
+button:hover {
+background-color: #a9a9a9; /* dunkelgrau */
+}
+
+ul {
+list-style: none;
+padding: 0;
+margin: 0 10px;
+}
+
+li {
+display: flex; 
+align-items: center; 
+gap: 10px; /* Abstand Checkbox - Text */
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+margin-bottom: 10px;
+background-color: #fff;
+}
+
+.completed {
+text-decoration: line-through;
+color: gray;
+}
+
+#removeCompleted {
+display: block;
+margin: 20px auto;
+padding: 10px 20px;
+font-size: 16px;
+background-color: #d3d3d3; /* hellgrau */
+border: none;
+border-radius: 5px;
+color: #333;
+cursor: pointer;
+}
+
+#removeCompleted:hover {
+background-color: #a9a9a9;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+form {
+flex-direction: column;
+align-items: stretch;
+gap: 15px;
+}
+
+input[type="text"], button {
+width: 100%;
+}
+
+li {
+gap: 10px; 
+flex-direction: row; /* waagerechte Reihenfolge */
+align-items: center;
+}
+
+button {
+font-size: 14px;
+padding: 8px 10px;
+}
+
+#removeCompleted {
+width: 90%;
+}
+}
+</style>
+</head>
+<body>
+<h1>To-Do-Liste</h1>
+
+
+<form id="taskForm">
+<input type="text" id="taskInput" placeholder="Neue Aufgabe hinzufügen..." required>
+<button type="submit">Hinzufügen</button>
+</form>
+
+<button id="removeCompleted">Erledigte entfernen</button>
+
+<ul id="taskList">
+<!-- Aufgaben werden hier dynamisch hinzugefügt -->
+</ul>
+
+<script>
+document.getElementById("taskForm").addEventListener("submit", function (event) {
+event.preventDefault();
+
+const taskInput = document.getElementById("taskInput");
+const taskText = taskInput.value.trim();
+if (taskText === "") return;
+
+const listItem = document.createElement("li");
+
+const checkbox = document.createElement("input");
+checkbox.type = "checkbox";
+
+const textNode = document.createTextNode(` ${taskText}`);
+listItem.appendChild(checkbox);
+listItem.appendChild(textNode);
+
+const taskList = document.getElementById("taskList");
+taskList.appendChild(listItem);
+
+taskInput.value = "";
+listItem.scrollIntoView({ behavior: "smooth" });
+});
+
+document.getElementById("taskList").addEventListener("change", function (event) {
+if (event.target.tagName === "INPUT" && event.target.type === "checkbox") {
+const listItem = event.target.parentElement;
+listItem.classList.toggle("completed", event.target.checked);
+}
+});
+
+document.getElementById("removeCompleted").addEventListener("click", function () {
+const taskList = document.getElementById("taskList");
+const tasks = taskList.querySelectorAll("li");
+
+tasks.forEach(task => {
+if (task.classList.contains("completed")) {
+taskList.removeChild(task);
+}
+});
+});
+</script>
+</body>
+</html>

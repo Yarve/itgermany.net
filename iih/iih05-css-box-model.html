@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+<title>5. БЛОКОВАЯ МОДЕЛЬ В CSS</title>
+<!-- <link rel="stylesheet" href="../css/style.css"> -->
+<link rel="stylesheet" href="style-iih.css">
+</head>
+
+<body>
+<!--
+<div class="page">
+<div class="blur"></div>
+<header class="header" id='header'> -->
+<header>
+</header>
+<!--
+<section class="main">
+<div class="container"> -->
+<h1><a href="/" title="RUS EDITION of Interneting is Hard">HTML & CSS IS HARD - НА РУССКОМ</a></h1>
+<h2>БЛОКОВАЯ МОДЕЛЬ В CSS</h2>
+<p>УРОК Nº 5.</p>
+<p><em>
+    Просто и понятно про рамки и отступы (padding, borders, margins)
+</em></p>
+
+<hr>
+<p>
+    На <a href="iih04-hello-css.html">предыдущем уроке</a> были представлены
+		основные свойства CSS для форматирования текста, но это был лишь один из
+		аспектов стилизации страниц.
+		Определение разметки веб-страницы - это совершенно другое дело.
+		Именно этому и посвящен данный урок.
+</p><p>
+    "Блоковая модель CSS" это набор правил, определяющих отображение
+		в Интернете любой веб-страницы.
+		CSS рассматривает каждый элемент HTML-документа как "блок" [или "бокс"]
+		с кучей различных свойств, определяющих	его местоположение на странице.
+		До сих пор все наши веб-страницы были просто набором элементов.
+		Блоковая модель - это набор инструментов для настройки стандартной
+		схемы расположения элементов.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-01-css-html-and-the-box-model-9d82a2.21d4d282.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 1: таблица стилей CSS, разбитая на две части (форматирование текста
+		и блоковая модель)
+</small></figcaption>
+</figure>
+
+<p>
+    Значительная часть работы веб-разработчика - это превращения дизайнерского
+		эскиза в веб-страницу посредством блоковой модели CSS.
+		Возникнает вопрос - а зачем изучать все эти правила вместо того, чтобы
+		просто загрузить одно большое статичное изображение веб-страницы?
+		Загрузил эскиз-картинку на веб-сервер и все.
+		Разве этого недостаточно?
+</p><p>
+    Да, это значительно упростило бы жизнь.
+		Однако, если не разделять контент на HTML, поисковики не смогут определить
+		структуру наших веб-страниц, не будет возможности сделать наш сайт <a href="iih10-responsive-design.html">
+		адаптивным</a> и добавить шикарную анимацию или интерактивность
+		с помощью JavaScript.
+		Цена этого компромисса слишком высока, чтобы игнорировать использование CSS.
+</p><p>
+    Ниже мы рассмотрим основные компоненты блоковой модели: paddings, margins, рамки,
+		inline- и блоковые блоки.
+		Можно считать, что это "микро" CSS-макеты, ибо эта модель определяет специфику
+		поведения блоков.
+		На следующих уроках вы больше узнаете о том, как структура HTML и блоковая модель
+		объединяются для создания сложных CSS-версток.
+</p>
+
+<div class="title">подготовка<br>setup</div>
+<p>
+    Для начала создайте новую папку css-box-model.
+		Поместите туда новую веб-страницу boxes.html.
+		Напишите следующий код:
+</p><p class="code">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html lang='en'&gt;<br>
+&lt;head&gt;<br>
+&lt;meta charset='UTF-8'/&gt;<br>
+&lt;title&gt;Boxes Are Easy!&lt;/title&gt;<br>
+&lt;link rel='stylesheet' href='box-styles.css'/&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&lt;h1&gt;Headings Are Block Elements&lt;/h1&gt;<br>
+<br>
+&lt;p&gt;Paragraphs are blocks, too. &lt;em&gt;However&lt;/em&gt;, &amp;lt;em&amp;gt; and &amp;lt;strong&amp;gt;
+<br>
+elements are not. They are &lt;strong&gt;inline&lt;/strong&gt; elements.&lt;/p&gt;<br>
+<br>
+&lt;p&gt;Block elements define the flow of the HTML document, while inline elements<br>
+do not.&lt;/p&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</p><p>
+    Вы помните из урока <a href="iih04-hello-css.html">Hello, CSS</a> как HTML-файл
+		ссылается на таблицу стилей CSS?
+		В данном случае это файл будет box-styles.css.
+		Создайте и этот файл для данного урока (пока что его можно оставить пустым).
+</p><p>
+    Надеемся, что вы уже освоились с особенностями работы в <a href="iih01-intro.html#atom">
+		редакторе Atom</a> для создания файлов и папок.
+		Если нет, то обязательно просмотрите инструкцию по использованию редактора Atom
+		на вводном уроке этого учебника.
+</p>
+
+<div class="title" id="block-and-inline-elements">блоковые и строчные элементы<br>
+block elements and inline elements</div>
+<p>
+    В разделе <em>Что нужно знать о веб-страницах</em> мы вкратце рассказали,
+<a href="iih02-basic-web-pages.html#elements-italic">как CSS использует "блоки"</a>
+    для разметки веб-страницы.
+		Каждый отображаемый элемент HTML это блок.
+		Они бывают двух видов: "блоковые*" и "строчные (inline)".
+</p><p class="notetran">
+    * - "блоковый блок" (block box) звучит немного неуклюже.
+		И все же я сознательно не употребляю другой перевод слова box - "бокс".
+		Потому что на ресурсе, на который ссылается Oliver James, автор данного учебника
+		- Mozilla Developers Network (MDN), <a href="https://developer.mozilla.org/ru/docs/Learn/CSS/Building_blocks/The_box_model">
+		box переводится как "блок"</a>.
+</p]
+
+<figure>
+<img class="pic-pages" src="./images/iih05-02-inline-vs-block-boxes-f3e662.816f1448.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 2: сравнение элементов: блоковый [block box] и строчные [inline boxes]
+</small></figcaption>
+</figure>
+
+<p>
+    Все элементы HTML, с которыми мы работали, по умолчанию имеют определенный
+		тип блока.
+		Например, &lt;h1&gt; и &lt;p&gt; - это элементы блокового уровня, а &lt;em&gt;
+		и &lt;strong&gt; - inline-элементы.
+		Давайте улучшим внешний вид наших блоков, добавив в box-styles.css
+		следующий код:
+</p><p class="code">
+h1, p {<br>
+<span class="code-green">background-color</span>: #DDE0E3;    /* светло-серый */ <br>
+}<br>
+<br>
+em, strong {<br>
+<span class="code-green">background-color</span>: #B2D6FF;    /* светло-голубой */<br>
+}
+</p><p>
+	Свойство background-color заполняет только фон выбранного блока.
+	Это даст нам четкое представление о структуре нашей страницы-примера.
+	Наши заголовки и абзацы должны иметь светло-серый фон, а акцентирующие [italic]
+	и сильные [strong] элементы - голубой.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-03-block-boxes-and-inline-boxes-7cfa0a.1ef04f8c.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 3: веб-страница, где блоковые блоки - серые, а строчные - голубые.
+</small></figcaption>
+</figure>
+
+<p>
+    Это демонстрирует нам несколько очень важных особенностей поведения,
+		присущего блоковым и строчным блокам:
+</p><ul>
+<li><strong>
+    Блоковые блоки</strong> всегда появляются <strong>ниже</strong> предшествующего
+	  блокового элемента.
+		Это "естественный" или "статический" поток HTML-документа, когда он отображается
+		веб-браузером.
+</li><li><strong>
+	  Ширина блоковых блоков</strong> устанавливается автоматически на основе ширины
+		их родительского контейнера.
+		В этом случае ширина блоков всегда равна ширине окна браузера.
+</li><li><strong>
+    Стандартная высота блоковых блоков</strong> зависит от содержащегося в нем
+		контента.
+		Сужая окно браузера, &lt;h1&gt; разбивается на две строки, и его
+		высота изменяется соответствующим образом.
+</li><li><strong>
+	  Inline-блоки</strong> не влияют на <strong>вертикальный интервал</strong>.
+		Они предназначены для стилизации содержимого <em>внутри</em> блока
+		(НЕ для определения макета!).
+</li><li><strong>
+    Ширина inline-блоков</strong> зависит от содержащегося в них контента
+		(НЕ от ширины родительского элемента!).
+</li>
+</ul>
+
+<div class="title" id="changing-box-behavior">изменяем поведение блоков<br>
+changing box behavior</div>
+ <p>
+    Мы можем переопределить установленный по умолчанию тип box элементов HTML
+		с помощью CSS-свойства display.
+		К примеру, вам вдруг захотелось строчные элементы &lt;em&gt; и &lt;strong&gt;
+		превратить в блоковые.
+		Для этого необходимо обновить наше правило в box-styles.css таким образом:
+</p><p class="code">
+em, strong {<br>
+<span class="code-green">background-color</span>: #B2D6FF;<br>
+<span class="code-green">display</span>: block;<br>
+}
+</p><p>
+   Теперь эти элементы действуют как наши заголовки и абзацы: они начинаются с
+	 отдельной строки и заполняют всю ширину браузера.
+	 Это очень удобно, когда мы хотим сделать элементы &lt;a&gt; кнопками или
+	 отформатировать элементы &lt;img/&gt; (оба эти элемента по
+	 умолчанию inline-блоки).
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-04-turning-inline-into-block-boxes-772f4c.603c149e.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 4: вот что происходит, когда с помощью CSS-свойства display мы из
+		inline-блоков делаем блоковые блоки
+</small></figcaption>
+</figure>
+
+<p>
+    Однако делать &lt;em&gt; и &lt;strong&gt; блоковыми элементами - плохая идея.
+		Поэтому давайте превратим их обратно в inline-блоки.
+		Для этого поменяем их свойство display на inline, как показано ниже:
+</p><p class="code">
+em, strong {<br>
+<span class="code-green">background-color</span>: #B2D6FF;<br>
+<span class="code-green">display</span>: inline; <span class="code-grey">
+/* em и strong строчные (inline) по умолчанию */</span>
+<br>
+}
+</p>
+
+<div class="title">контент, padding, рамка, margin<br>content, padding, border, and margin</div>
+ <p>
+    Блоковая модель CSS - это набор правил, определяющих размеры каждого элемента
+		веб-страницы.
+    Для каждого блока (как inline-, так и блокового), данная модель предусматривает
+		четыре свойства:</p><ul>
+<li><strong>
+	  Content </strong> [содержимое*] - текст, картинка или другой медиаконтент,
+	  содержащийся в элементе.</li>
+<li><strong>
+	  Padding</strong> [внутренний отступ*] - пространство между содержимым блока
+		и его границей.</li>
+<li><strong>
+	  Border</strong> [рамка] отделяет padding от margin</li>
+<li><strong>
+	  Margin</strong> [внешний отступ*] - пространство между блоком и окружающими
+		блоками.</li>
+</ul><p>
+    Все это необходимо браузеру для отображения блока какого-либо элемента.
+		Контент есть "содержимое" HTML-документа.
+		Из этих четырех свойств только контент несет cемантическую ценность (именно
+		поэтому <a href="iih02-basic-web-pages.html#structure-vs-presentation">
+	  контент находится в HTML</a>).
+		Остальные три свойства отвечают за внешний вид, то есть за презентацию
+		контента.
+		Поэтому все три определяются правилами CSS.
+</p><p class="notetran">
+    * - понятия внешнего и внутреннего отступов из-за схожести легко может привести
+		к путанице.
+		Поэтому я решил оставить исходные англ. названия: padding и margin.
+		По этой же причине, для лучшей наглядности, "содержимое" зачастую заменяется
+		словом "контент".
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-05-css-box-model-73a525.23b2d64b.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 5: блоковая модель CSS: содержимое (content), внутренний отступ (padding),
+		рамка (border) и внешний отступ (margin)
+</small></figcaption>
+</figure>
+
+<div class="title">внутренний отступ<br>padding</div>
+<p>
+    Давайте начнем изнутри.
+		Мы уже рассматривали контент, теперь на очереди padding.
+		Свойство padding... вы уже наверно догадались... определяет отступ для
+		выбранного элемента:
+</p><p class="code">
+h1 {<br>
+<span class="code-green">padding</span>: 50px;<br>
+}
+</p><p>
+    Это добавляет по 50 пикселей с каждой стороны заголовка &lt;h1&gt;.
+		Обратите внимание (скриншот ниже), как расширяется цвет фона, заполняя это пространство.
+		Так всегда происходит с padding, поскольку он находится внутри рамки,
+		а все, что находится внутри рамки, имеет фон.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-06-increasing-heading-padding-5a289d.f7902edc.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 6: увеличение отступов в &lt;h1&gt; (размер фона увеличился)
+</small></figcaption>
+</figure>
+
+<p>
+    Иногда требуется стилизовать только одну сторону элемента.
+		Для этого в CSS предусмотрены следующие свойства:
+</p><p class="code">
+p {<br>
+<span class="code-green">padding-top</span>: 20px;<br>
+<span class="code-green">padding-bottom</span>: 20px;<br>
+<span class="code-green">padding-left</span>: 10px;<br>
+<span class="code-green">padding-right</span>: 10px;<br>
+}
+</p><p>
+	Для изменения padding можно использовать любые единицы измерения
+	(не только пиксели!).
+	Помните <a href="iih04-hello-css.html#units-of-measurement">единицы em</a>?
+	Они особенно удобны тем, что делают margin ваших элементов изменяющимся вместе
+	с изменением размера основного шрифта.
+</p>
+
+<div class="title-under" id="shorthand-formats">СОКРАЩЕННЫЕ ФОРМАТЫ<br>
+shorthand formats</div>
+<p>
+    Вводить все эти свойства может быть утомительно, поэтому CSS предусматривает
+		альтернативную "сокращенную" форму свойства padding.
+		Вы сможете задать верхний/нижний и левый/правый padding всего одной строкой CSS.
+		Когда вы указываете <em>два</em> значения свойства padding, они интерпретируются как
+		значения вертикального и горизонтального padding соответственно.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-07-padding-shortform-two-values-a7ed4c.ae7f23f3.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 7: свойство "внутренний отступ" (padding) с выделенными
+		вертикальными и горизонтальными значениями
+</small></figcaption>
+</figure>
+
+<p>
+    Это означает, что наше предыдущее правило может быть переписано так:
+</p><p class="code">
+h1 {<br>
+<span class="code-green">padding</span>: 20px 10px; <span class="code-grey">
+/* вертикально горизонтально */</span>
+<br>
+}
+</p><p>
+    Альтернативный вариант: <em>четыре</em> значения устанавливают padding для
+		каждой стороны элемента по отдельности.
+		Значения идут по часовой стрелке, начиная с верхнего:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-08-padding-shortform-four-values-93c021.2ee1e6b2.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 8: cвойство padding с разноцветными значениями верх,
+		справа, низ и слева
+</small></figcaption>
+</figure>
+
+<p>
+    Давайте попробуем удалить 10px правого padding из предыдущего правила.
+		Получится по 20 пикселей сверху и снизу каждого абзаца, 10 пикселей
+		слева и ни одного справа:
+</p><p class="code">
+h1 {<br>
+<span class="code-green">padding</span>: 20px 0 20px 10px; <span class="code-grey">
+/* сверху,справа, снизу и слева */</span>
+<br>
+}
+</p><p>
+    Использовать сокращенные форматы или нет - в значительной степени вопрос
+		личных предпочтений и стандартов работы в будущей команде.
+		Некоторым разработчикам импонирует лаконичность сокращенного формата.
+		А другие считают, что длинную форму легче понять с первого взгляда
+		(и следовательно, легче обслуживать).
+		В какой-то момент своей карьеры веб-разработчика вы столкнетесь
+		со всеми этими форматами.
+</p>
+
+<div class="title">рамки<br>borders</div>
+<p>
+    Продолжая наше путешествие от центра блоковой модели CSS, мы видим рамку:
+		линию, проведенную вокруг контента и padding элемента.
+		Свойство рамки требует нового синтаксиса, который нам еще не знаком.
+		Сначала мы определим ширину обводки рамки, затем ее стиль, а затем ее цвет.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-09-css-border-syntax-d8ba17.61c3122e.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 9: свойство "рамка" (border), показывающее синтаксис размера, стиля и цвета
+</small></figcaption>
+</figure>
+
+<p>
+    Попробуйте добавить рамку вокруг нашего заголовка &lt;h1&gt;, изменив правило
+		в файле box-styles.css:
+</p><p class="code">
+h1 {<br>
+<span class="code-green">padding</span>: 50px;<br>
+<span class="code-green">border</span>: 1px solid #5D6063;<br>
+}
+</p><p>
+    Это команда браузеру нарисовать тонкую серую линию вокруг нашего заголовка.
+		Посмотрите как рамка вплотную примыкает к padding, не оставляя никакого зазора.
+		А если уменьшить размеры браузера так, что заголовок будет разделен
+		на две строки, то padding и рамка все равно останутся на своих местах.
+</p><p>
+    Если нарисовать рамку вокруг всего заголовка, то он будет выглядеть как
+		вебсайт из 1990-х.
+		Так что мы ограничимся только нижней частью заголовка.
+		Как и для свойства padding, так и для border существуют четыре свойства:
+		-top, -bottom, -left и -right.
+</p><p class="code">
+<span class="code-green">border-bottom</span>: 1px solid #5D6063;
+</p><p>
+    Рамки являются обычными элементами дизайна, но они также неоценимы для отладки.
+		Когда Вы не уверены в том, как отображается блок, задайте следуещее правило:
+		border: 1px solid red;
+		Это отчетливо покажет padding, margin и общие размеры блока с помощью всего
+		одной строки CSS.
+		После того, как Вы выяснили причину сбоя, просто удалите это правило.
+</p><p>
+    Дополнительную информацию о стилях оформления рамок вы найдете на сайте <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/border-style">
+		Mozilla Developer Network</a>.
+</p>
+
+<div class="title">внешние отступы<br>margins</div>
+<p>
+    Margins определяют пространство за рамкой элемента.
+		Или, точнее, пространство между блоком и окружающими его блоками.
+		Давайте добавим немного свободного пространства к нижней части каждого
+		элемента &lt;p&gt;:
+</p><p class="code">
+<span class="code-strong">p</span> {<br>
+<span class="code-green">padding</span>: 20px 0 20px 10px;<br>
+<span class="code-green">margin-bottom</span>: 50px;<span class="code-grey"> /* добавьте это */</span><br>
+}
+</p><p>
+    Это демонстрирует специфический для боковых сторон вариант свойства margin,
+		и это свойство допускает те же <a href="#shorthand-formats">сокращенные форматы</a>,
+		что и padding.
+</p><p>
+    Свойства margin и padding могут выполнять одну и ту же задачу во многих ситуациях,
+		что затрудняет определение того, какой из них является "правильным" выбором.
+		Наиболее характерными причины для выбора:
+</p>
+<ul>
+<li>Padding блока имеет фон, в то время как margin всегда прозрачен.</li>
+<li>Padding включен в "кликабельную" область элемента, а margin - нет.</li>
+<li>Padding НЕ схлопывается по вертикали, в то время как margin схлопывается
+	  (мы обсудим это подробнее в следующей секции).</li>
+</ul>
+<p>
+	  Если ни один из этих пунктов не помог вам принять решение в пользу padding или
+		margin, то не заморачивайтесь по этому поводу - просто выберите один из них.
+		В CSS обычно существует несколько способов решения проблемы.
+</p>
+
+<div class="title-under">MARGINS И СТРОЧНЫЕ ЭЛЕМЕНТЫ<br>margins on inline elements</div>
+
+<p>
+    Одним из самых заметных отличий между блоковыми и inline-элементами -
+		их поведение по отношению к margin.
+		Inline-блоки <em>полностью игнорируют</em> верхний и нижний margin элемента.
+		Для примера добавим достаточно большой margin к нашему элементу &lt;strong&gt;.
+	  Посмотрите, что произойдет.
+</p><p class="code">
+<span class="code-strong">strong</span> {<br>
+<span class="code-green">margin</span>: 50px;<br>
+}
+</p><p>
+    Горизонтальные margin-отступы отображаются так, как ожидалось, но при этом
+		вертикальное пространство вокруг нашего &lt;strong&gt; ничуть не изменилось.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-10-margins-on-inline-elements-4c569c.91f5003a.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 10: демонстрация отсутствия вертикального пространства у inline-блоков
+</small></figcaption>
+</figure>
+
+<p>
+    Если мы изменим margin на padding, то обнаружим совсем другое поведение у
+		padding в блоке.
+		Пространство вокруг блока расширилось, однако вертикальное отображение
+		окружающих блоков не изменилось.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-11-paddings-on-inline-elements-fb52d0.41e49ee9.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 11: демонстрация вертикального padding на inline-блоках
+</small></figcaption>
+</figure>
+
+<p>
+    Дело в том, что inline-блоки форматируют фрагменты текста внутри блока и,
+		таким образом, оказывают ограниченное влияние на отображение страницы.
+		Если хотите поэкспериментировать с вертикальным пространством страницы, вам
+		следует использовать элементы блокового уровня (к счастью, мы уже знаем, как
+<a href="#changing-box-behavior">изменить тип блока элемента</a>).
+</p><p>
+    Итак, прежде чем биться головой о стену, пытаясь понять, почему не работает
+		верхний или нижний margin, вспомните о проверке свойства display.
+		Поверьте, рано или поздно это произойдет.
+</p>
+
+<div class="title">вертикальное схлопывание<br>vertical margin collapse</div>
+<p>
+    Еще одной странностью блоковой модели CSS является "вертикальное схлопывание
+		margin".
+		Когда два блока с вертикальными margin расположенны друг над другом,
+		они схлопываются.
+    Казалось бы оба margin должны добавляться друг к другу.
+		Однако отображается только самый большой из них.
+</p><p>
+    Давайте для наглядности добавим к нашему элементу &lt;p&gt; верхний margin
+		в 25 пикселей.
+</p><p class="code">
+<span class="code-strong">p</span> {<br>
+<span class="code-green">padding</span>: 20px 0 20px 10px;<br>
+<br>
+<span class="code-green">margin-top</span>: 25px;<br>
+<span class="code-green">margin-bottom</span>: 50px;<br>
+}
+</p><p>
+    Каждый абзац получит по 50 пикселей снизу и 25 сверху.
+		Вместе получается 75 пикселей между нашими элементами &lt;p&gt;, верно?
+		Неверно!
+		Между ними по-прежнему будет только 50px, потому что меньшее верхнее поле
+		схлопывается в большее нижнее.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-12-vertical-margin-collapse-bba78e.083d1c6b.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 12: cлева: вертикальное поле без схлопывания [uncollapsed], справа:
+		схлопывающееся вертикальное поле [collapsed]
+</small></figcaption>
+</figure>
+
+<p>
+    Такое поведение очень полезно при работе с множеством различных типов элементов
+		когда вы хотите определить их <em>минимальное</em> пространство между другими
+		элементами.
+</p>
+
+<div class="title-under">предотврашение схлопывания<br>preventing margin collapse</div>
+<p>
+    Эффект схлопывания полей может быть и очень досадным.
+		Все таки иногда хотелось бы не допускать этого.
+		Все, что нужно сделать, это поместить между ними еще один невидимый элемент:
+</p><p class="code">
+&lt;p&gt;Paragraphs are blocks, too. &lt;em&gt;However&lt;/em&gt;, &amp;lt;em&amp;gt; and &amp;lt;strong&amp;gt;
+<br>
+elements are not. They are &lt;strong&gt;inline&lt;/strong&gt; elements.&lt;/p&gt;<br>
+<br>
+&lt;div style=<span class="code-rust">'padding-top: 1px'</span>&gt;&lt;div&gt;<span class="code-grey"> /* добавьте это */</span><br>
+<br>
+&lt;p&gt;Block elements define the flow of the HTML document, while inline elements<br>
+do not.&lt;/p&gt;<br>
+</p><p>
+    Подробнее о &lt;div&gt; поговорим в следующей секции.
+		Самое важное здесь то, что только <em>следующие друг за другом</em> элементы
+		могут схлопываться друг в дружку.
+		Помещение элемента с ненулевой высотой (padding-top) между абзацами заставляет
+		их отображать оба поля - и верхнее в 25px, и нижнее в 50px.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-13-preventing-margin-collapse-4b96ca.e5b2db6e.png"
+width="30%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 13: добавление пустого &lt;div&gt; не дает вертикальному полю схлопываться
+</small></figcaption>
+</figure>
+
+<p>
+    Помните, что padding никогда не схлопывается.
+		Поэтому в виде альтернативы можно использовать padding
+		вместо margin.
+		Однако это срабатывает только, если не использовать padding ни для чего другого
+		(а в данный момент мы используем, поэтому остановимся на варианте с &lt;div&gt;).
+</p><p>
+    Третий вариант избежать схлопывания - соблюдение правила для margin "только
+		снизу или только сверху*".
+		Например, если все наши элементы определяют <em>только</em> bottom-margin,
+		они не будут схлопываться.
+</p><p>
+    И наконец, в схеме компоновки <a href="iih08-flexbox.html">flexbox</a> margin
+		не схлопывается, так что для современных сайтов это вообще не проблема.
+</p><p class="notetran">
+    * - bottom-only or top-only margin convention.
+</p>
+
+<div class="title">универсальные блоки<br>generic boxes</div>
+<p>
+    До сих пор все рассмотренные HTML-элементы придавали дополнительный
+		смысл их контенту.
+		В этом и заключается смысл HTML, но все же иногда нужен некий
+		универсальный блок только для стилизации веб-страницы.
+		Для этого и предназначены &lt;div&gt; и &lt;span&gt;.
+</p><p>
+    И &lt;div&gt;, и &lt;span&gt; являются "контейнерными" элементами, не
+		оказывающими никакого влияния на семантическую структуру HTML-документа.
+		Однако они позволяют добавлять CSS-стили к любым местам веб-страницы.
+		Например, иногда нужно предотвратить добавить margin-схлопывание невидимой рамкой
+		или сгруппировать первые абзацы статьи в краткий обзор с иным форматированием.
+</p><p>
+    На протяжении всего курса мы будем часто использовать &lt;div&gt;.
+		А пока давайте создадим простую кнопку, добавив в нижнюю часть нашего файла
+		boxes.html следующее:
+</p><p class="code">
+<span class="code-blue">&lt;div&gt;</span>Button<span class="code-blue">&lt;/div&gt;</span>
+</p><p>
+    А в файл box-styles.css добавьте стили для нашей кнопочки.
+		Большинство из них должны быть знакомы по предыдущей главе, за исключением
+		нового <a href="https://developer.mozilla.org/ru/docs/Web/CSS/border-radius">
+		свойства border-radius</a>:
+</p><p class="code">
+	<span class="code-strong">div</span> {<br>
+	<span class="code-green">background-color</span>: #5995DA;<br>
+	<span class="code-green">font-weight</span>: bold;<br>
+	<span class="code-green">padding</span>: 20px;<br>
+	<span class="code-green">text-align</span>: center;<br>
+	<span class="code-green">border</span>: 2px solid #5D6063;<br>
+	<span class="code-green">border-radius</span>: 5px;<br>
+	}
+</p><p>
+    В результате мы получим большую синюю кнопку, занимающую всю ширину браузера:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-14-generic-div-for-button-70dc27.fed38f83.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 14: элементы &lt;div&gt; используемые для кнопки
+</small></figcaption>
+</figure>
+
+<p>
+    Эти стили применяются и к невидимому &lt;div&gt;, которым мы отменили
+		margin-схлопывание (см. выше).
+		Очевидно, что для практической пользы от отдельных &lt;div&gt;
+		необходимо их как-то выделить.
+		Для этого и нужны <a href="iih06-css-selectors.html#class-selectors">
+		селекторы классов</a> (см. следующ. урок).
+		А пока что просто удалим или закомментируем этот невидимый &lt;div&gt;.
+</p><p>
+    Единственная реальная разница между &lt;div&gt; и &lt;span&gt; заключается в том,
+		что &lt;div&gt; предназначен для блоков, а &lt;span&gt; -
+		для строк.
+</p>
+
+<div class="title" id="explicit-dimensions">явно выраженные размеры<br>explicit dimensions</div>
+
+<p>
+    До сих пор мы позволяли нашим HTML-элементам определять свои размеры автоматически.
+		Paddings, margins, рамки, с которыми мы экспериментировали,
+		обхватывают все внутри блока элемента.
+		Если добавить в наш &lt;em&gt; больше текста, то все будет расширяться,
+		чтобы вместить его:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-15-auto-content-width-for-em-element-85d5d2.fac0e1bd.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 15: элемент &lt;em&gt; расширяется при добавлении контента
+</small></figcaption>
+</figure>
+
+<p>
+    Но иногда в макете требуется явно выраженный размер, например, боковая
+		панель шириной ровно 250 пикселей.
+		Для этого в CSS предусмотрены свойства width и height.
+		Они имеют приоритет над размером содержимого блока по умолчанию.
+</p><p>
+    Давайте придадим нашей кнопке фиксированную ширину, добавив в box-styles.css
+		следующее свойство:
+</p><p class="code">
+<span class="code-strong">div</span> {<br>
+<span class="code-grey">
+	/* уже заданные декларации */</span><br>
+<span class="code-green">width</span>: 200px;<br>
+	}
+</p><p>
+    Вместо ширины во все окно браузера, ширина кнопки стала 200px и она прилегает
+		к левой стороне страницы:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-16-explicit-width-on-generic-div-78d595.8fed0f85.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 16: демонстрания явного CSS-свойства width для кнопки
+</small></figcaption>
+</figure>
+
+<p>
+    Также заметьте, что сделав заголовок кнопки длиннее, он автоматически перейдет
+		на следующую строку, а элемент увеличится по вертикали, чтобы вместить этот
+		новый контент.
+		Это стандартное поведение можно изменить свойствами <a href="https://developer.mozilla.org/ru/docs/Web/CSS/white-space">
+		white-space</a> и <a href="https://developer.mozilla.org/ru/docs/Web/CSS/overflow">
+		overflow</a>.
+</p>
+
+<div class="title">блоки контента и блоки рамки<br>content boxes and border boxes</div>
+
+<p>
+    Свойства width и height в блоке определяют только <em>размер контента</em>.
+		Padding и рамка добавляются <em>поверх</em> заданных вами размеров.
+		Это объясняет, почему на скриншоте нашей кнопки вы получите изображение
+		шириной 244 пикселя, несмотря на то, что заявленная ширина width: 200px.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-17-box-sizing-content-box-09f48a.6fded525.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 17: размеры блока контента, добавляющие padding и рамку к ширине элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Само собой разумеется, это может быть несколько противоречивым, когда вы
+		пытаетесь разметить страницу.
+		Представьте, что вы пытаетесь заполнить контейнер размером 600px тремя блоками
+		шириной: 200px, но они не помещаются, поскольку все они имеют рамку в 1px
+		(что делает их фактическую ширину 202px).
+</p><p>
+    К счастью, CSS позволяет изменить способ расчета ширины блока с помощью
+		свойства box-sizing.
+		По умолчанию оно имеет значение content-box, что приводит к описанному выше
+		поведению.
+		Посмотрим, что произойдет, если мы изменим его значение на border-box:
+</p><p class="code">
+<span class="code-strong">div</span> {<br>
+<span class="code-green">color</span>: #FFF;<br>
+	<span class="code-green">background-color</span>: #5995DA;<br>
+	<span class="code-green">font-weight</span>: bold;<br>
+	<span class="code-green">padding</span>: 20px;<br>
+<span class="code-green">text-align</span>: center;<br>
+	<span class="code-green">border</span>: 2px solid #5D6063;<br>
+	<span class="code-green">border-radius</span>: 5px;<br>
+	<br>
+<span class="code-green">width</span>: 200px;<br>
+<span class="code-green">box-sizing</span>: border-box; <span class="code-grey">
+	/* добавьте это */</span><br>
+}
+</p><p>
+    В результате фактическая ширина блока будет равна 200px - с учетом padding и рамки.
+		Разумеется, ширина контента теперь определяется автоматически:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-18-box-sizing-border-box-ace2be.624b1ea3.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 18: размеры border-box с учетом padding и рамки в сочетании с шириной элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Это гораздо более интуитивно понятно, поэтому border-box для всех блоков
+		веб-разработчики сегодня считают оптимальным решением.
+</p>
+
+<section>
+<div class="title" id="aligning-boxes">выравнивание блоков <br>aligning boxes</div>
+
+<p>
+    Выравнивание блоков по горизонтали - распространенная задача для веб-разработчиков,
+		и блоковая модель предлагает множество способов ее решения.
+		Мы уже рассмотрели <a href="iih04-hello-css.html#text-alignment">свойство
+		text-align</a>, которое выравнивает контент и <em>строчные</em> блоки внутри
+		элемента блокового уровня.
+		Выравнивание <em>блоковых</em> блоков - это совсем другая история.
+</p><p>
+    Попробуйте добавить в нашу таблицу стилей следующее правило.
+		Оно будет выравнивать только контент внутри блоковых блоков, но не сами блоки.
+		Наша кнопка &lt;div&gt; все равно будет выровнена по левому краю, независимо
+		от выравнивания текста в &lt;body&gt;:
+</p><p class="code">
+<span class="code-strong">body</span> {<br>
+<span class="code-green">text-align</span>: center;<br>
+}
+</p><p>
+    Существует три метода горизонтального выравнивания элементов на уровне блоков:
+		центрирование auto-margins, floats для выравнивания по левому/правому краю
+		и flexbox для полного контроля над выравниванием.
+		Да, к сожалению, выравнивание на уровне блоков совершенно не связано со
+		свойством text-align.
+</p>
+
+<div class="title-under">ЦЕНТРИРОВАНИЕ С ПОМОЩЬЮ АВТО-ОТСТУПОВ<br>
+    centering with auto-margins</div>
+<p>
+<a href="iih07-floats.html">
+    Floats</a> и <a href="iih08-flexbox.html">flexbox</a> - это сложные темы, которым
+		мы посвятили отдельные главы-уроки.
+		Зато сейчас у нас есть все необходимые знания для работы с auto-margins.
+		Устанавливая для левого и правого полей элемента блокового уровня
+		значение auto, мы получаем центрирование блока в его родительском элементе.
+</p><p>
+    Например, мы можем отцентрировать нашу кнопку следующим образом:
+</p><p class="code">
+<span class="code-strong">div</span> {<br>
+<span class="code-green">color</span>: #FFF;<br>
+<span class="code-green">background-color</span>: #5995DA;<br>
+<span class="code-green">font-weight</span>: bold;<br>
+<span class="code-green">padding</span>: 20px;<br>
+<span class="code-green">text-align</span>: center;<br>
+<br>
+<span class="code-green">width</span>: 200px;<br>
+<span class="code-green">box-sizing</span>: border-box;<br>
+<span class="code-green">margin</span>: 20px auto;<span class="code-grey">
+/* вертикально горизонтально */</span><br>
+}
+</p><p>
+    Обратите внимание, что это работает только с блоками, для которых явно
+		задана ширина.
+		Уберите строку width: 200px, и наша кнопка будет занимать всю ширину браузера,
+		что сделает "центрирование" бессмысленным.
+</p>
+
+<section>
+<div class="title" id="resetting-styles">сброс стилей<br>resetting styles</div>
+<p>
+    Заметили белую каемку вокруг нашей страницы (см. скриншот ниже)?
+		Это marging, padding и поля, добавленные браузером по умолчанию.
+		Различные браузеры имеют разные стандартные стили для всех HTML-элементов,
+		что затрудняет создание одинаковых таблиц стилей.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih05-19-resetting-box-sizing-and-margins-72ff64.c2d5ab5e.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 19: слева веб-страница с стандартной белой каемкой из-за margin и padding.
+		Справа веб-страница без белой каемки после сброса настроек (with reset)
+</small></figcaption>
+</figure>
+
+<p>
+    В большинстве случаев полезно переопределить стили по умолчанию на предсказуемое
+		значение с помощью "универсального" CSS-селектора (*).
+		Попробуйте добавить его в верхнюю часть нашего файла box-styles.css:
+</p><p class="code">
+<span class="code-strong">*</span> {<br>
+<span class="code-green">margin</span>: 0;<br>
+<span class="code-green">padding</span>: 0;<br>
+<span class="code-green">box-sizing</span>: border-box;<br>
+}
+</p><p>
+    Этот селектор соответствует каждому элементу HTML, эффективно сбрасывая
+		свойства margin и padding на нашей веб-странице.
+		Все наши блоки также были преобразованы в border-box, что, опять же,
+		является налучшей практикой.
+</p><p>
+    Подобный сброс можно найти в верхней части почти каждой таблицы стилей CSS
+		в Интернете.
+		Все может оказаться гораздо сложнее, но три простых декларации, показанные
+		выше, позволяют нам уверенно настраивать блоковую модель CSS для своих целей,
+		не опасаясь непредвиденных взаимодействий со стилями браузера по умолчанию.
+</p>
+</section>
+<section>
+<div class="title">резюме</div>
+<p>
+    Более подробно о практическом использовании блоковой модели CSS мы узнаем по
+		мере углубления в создание сложных веб-страниц.
+		Пока же воспринимайте ее как новый инструмент в вашем арсенале CSS.
+		Ознакомившись с несколькими ключевыми понятиями из этой главы, вы ощутите
+		себя гораздо более подготовленным к преобразованию дизайнерского эскиза в
+		реальную веб-страницу:
+</p><ul>
+<li>Все состоит из блоков.</li>
+<li>Блоки могут быть строчными (inline) или блоковыми (block-level).</li>
+<li>Блоки имеют контент, padding, рамку и margin.</li>
+<li>Они также имеют, казалось бы, случайные правила взаимодействия.</li>
+<li>Овладев блоковой моделью, можно сверстать большинство веб-страниц.</li>
+</ul><p>
+    Как и на прошлом уроке, только что рассмотренные CSS-свойства могут показаться
+		простыми - так оно и есть.
+		Но стоит взглянуть на посещаемые сайты через призму блоковой модели, - и вы
+		увидите эти свойства буквально повсюду.
+</p><p>
+    Наше изучение универсальных блоков (&lt;div&gt; и &lt;span&gt;) было
+		несколько ограниченным, поскольку у нас не было возможности извлечь отдельный
+		HTML-элемент из нашей веб-страницы.
+		Мы исправим это на следующем уроке, где более подробно рассмотрим селекторы CSS.
+</p>
+
+<p id="chapter-next">
+<a href="iih06-css-selectors.html"
+class="chapter-next">
+    СЛЕДУЮЩИЙ УРОК ></a>
+</p>
+</section>
+<br><br>
+</div>
+</body>
+</html>

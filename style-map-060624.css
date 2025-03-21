@@ -1,0 +1,125 @@
+* {
+
+box-sizing: border-box;
+}
+
+body {
+font-family: Arial , sans-serif;
+line-height: 1.8;
+padding: 15px;
+}
+
+h1, h2 {
+padding: 10px 5px;
+}
+
+ul {
+	padding: 15px 15px;
+	line-height: 50px;
+}
+
+ol {
+	margin: 10px 0;
+	padding: 15px 15px;
+	line-height: 50px;
+}
+
+
+
+hr {
+	margin-top: 20px;
+}
+
+a:link {
+  color: #24338A; /* initially #6900ff; */
+}
+
+a:visited {
+  color: #0097DC; /* initially #a5c300; */
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  color: #24338A;
+}
+
+
+
+html {
+scroll-behavior: smooth;
+}
+
+.copyshare {
+	padding: 30px 30px;
+	font-size: 30px;
+	font-weight: bold;
+	color: red;
+}
+
+.back-to-top {
+position:fixed;
+bottom:1rem;
+right:1rem;
+display: inline-flex;
+justify-content: center;
+background-color: darkgray;
+border-radius: 0.5rem;
+padding: 15px 15px;
+text-decoration: none;
+opacity: 50%;
+transition: 0.2s ease-out;
+}
+
+.back-to-top img {
+width:2rem;
+}
+
+.back-to-top:hover span{
+transform: translateY(-4px);
+}
+
+
+/*  Dark theme
+:root{
+  color-scheme: light dark;
+  accent-color: magenta;
+}
+
+label{
+  display: block;
+  margin-top: 10px;
+}
+
+.full{
+  height: 120vh;
+}
+
+ Dark theme ends */
+
+ @media only screen and (max-width:720px) {
+ #home{
+ width: 90%;
+ margin: 20px auto;
+ }
+
+ #desktop-navbar {
+ display: none;
+ }
+
+ #mobile-navbar {
+ display: block;
+ }
+
+ #navbar-switch {
+ padding: 5px 10px;
+ font-weight: bold;
+ cursor: pointer;
+ }
+
+ #list-content {
+ display: none;
+ }
+ }

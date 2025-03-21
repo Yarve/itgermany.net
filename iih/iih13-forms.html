@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+<title>13. ФОРМЫ</title>
+<!-- <link rel="stylesheet" href="../css/style.css"> -->
+<link rel="stylesheet" href="style-iih.css">
+</head>
+
+<body>
+<!--
+<div class="page">
+<div class="blur"></div>
+<header class="header" id='header'> -->
+<header>
+</header>
+<!--
+<section class="main">
+<div class="container"> -->
+<h1><a href="/" title="RUS EDITION of Interneting is Hard">HTML & CSS IS HARD - НА РУССКОМ</a></h1>
+<h2>ФОРМЫ</h2>
+<div class="chapter">УРОК Nº 13.</div>
+<p><em>
+    Самый понятный учебник веб-разработки для получения пользовательских вводных
+</em></p>
+
+
+<p>
+    Элементы HTML-форм позволяют собирать данные от посетителей вашего сайта.
+		Списки рассылки, контактные формы и комментарии в блогах - обычные примеры
+		для небольших сайтов, но в организациях, которые полагаются на свой сайт для
+		получения прибыли, формы священны и почитаемы.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-01-html-form-elements-939709.b6e2f779.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 1: примеры ввода текста, текстовых полей, радиокнопок, чекбоксов
+		и других элементов HTML-форм
+</small></figcaption>
+</figure>
+
+<p>
+    Формы - это "денежные страницы".
+		С их помощью сайты электронной коммерции продают свои товары, SaaS-компании*
+		собирают оплату за свои услуги, а некоммерческие группы собирают деньги
+		в Интернете.
+		Многие компании оценивают успех своего сайта по эффективности его форм,
+		потому что они отвечают на такие вопросы, как "сколько лидов наш сайт
+		отправил в отдел продаж?" и "сколько людей подписались на наш продукт на
+		прошлой неделе?".
+		Зачастую формы подвергаются бесконечным A/B-тестированиям и оптимизации.
+</p><p class="notetran">
+    * - SaaS (Software as a service) - программное обеспечение как услуга.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-02-form-frontend-and-backend-2a0f80.f3e81924.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 2:  элементы фронтэнд-формы, отправляющие входные данные на бэкенд-сервер
+		для обработки
+</small></figcaption>
+</figure>
+
+<p>
+    У функциональной HTML-формы есть два аспекта: фронтенд (пользовательский интерфейс)
+		и бэкенд (внутренний сервер).
+		Первый - это <em>внешний вид</em> формы (определяемый HTML и CSS), а второй -
+		это код, который ее обрабатывает (сохраняет данные в БД, отправляет
+		e-mail и т. д.).
+		Ниже мы полностью сосредоточимся на фронтенде.
+		Обработку форм (бэкенд) оставим для следующего учебника.
+</p>
+
+<div class="title">подготовка<br>setup</div>
+<p>
+    К сожалению, невозможно обойти тот факт, что стилизация форм - это <em>сложно</em>.
+		Всегда полезно иметь макет страницы, которую вы хотите создать, прежде чем
+		начать ее кодировать, и это особенно актуально для форм.
+		Итак, вот пример, который мы будем создавать в этой главе:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-03-responsive-form-mockup-963e65.0b2938bc.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 3: макеты веб-страницs для смартфонов и ноутбуков/ПК с несколькими
+		элементами форм
+</small></figcaption>
+</figure>
+
+<p>
+    Как видите, это форма подачи заявок на участие в конференции для фиктивного докладчика.
+		В ней присутствует довольно хороший набор элементов HTML-форм: различные типы
+		текстовых полей, группа радиокнопок, выпадающее меню, флажок и кнопка отправки.
+</p><p>
+    Создайте новый <a href="iih01-intro.html#atom">Atom-проект</a> под названием
+		forms и поместите в него новый HTML-файл под названием speaker-submission.html.
+		Для начала добавим разметку для заголовка.
+		(Эй, между прочим, здесь тоже есть <a href="iih12-semantic-html.html#headers">
+		семантический HTML</a>!)
+</p><p class="code">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html lang='en'&gt;<br>
+&lt;head&gt;<br>
+&lt;meta charset='UTF-8'/&gt;<br>
+&lt;title&gt;Speaker Submission&lt;/title&gt;<br>
+&lt;link rel='stylesheet' href='styles.css'><br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&lt;header class='speaker-form-header'><br>
+&lt;h1&gt;Speaker Submission&lt;/h1&gt;<br>
+&lt;p&gt;&lt;em&gt;Want to speak at our fake conference? Fill out<br>
+this form.&lt;/em>&lt;/p&gt;<br>
+&lt;/header&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</p><p>
+    Затем создайте файл styles.css и добавьте в него следующий CSS.
+		Здесь используется простая техника <a href="iih08-flexbox.html">flexbox</a> для
+		центрирования заголовка (и формы) независимо от ширины окна браузера:
+</p><p class="code">
+<span class="code-strong">*</span> {<br>
+<span class="code-green">margin</span>: 0;<br>
+<span class="code-green">padding</span>: 0;<br>
+<span class="code-green">box-sizing</span>: border-box;<br>
+}<br>
+<br>
+<span class="code-strong">body</span> {<br>
+<span class="code-green">color</span>: #5D6063;<br>
+<span class="code-green">background-color</span>: #EAEDF0;<br>
+<span class="code-green">font-family</span>: "Helvetica", "Arial", sans-serif;<br>
+<span class="code-green">font-size</span>: 16px;<br>
+<span class="code-green">line-height</span>: 1.3;<br>
+<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">flex-direction</span>: column;<br>
+<span class="code-green">align-items</span>: center;<br>
+}<br>
+<br>
+<span class="code-blue">.speaker-form-header</span> {<br>
+<span class="code-green">text-align</span>: center;<br>
+<span class="code-green">background-color</span>: #F6F7F8;<br>
+<span class="code-green">border</span>: 1px solid #D6D9DC;<br>
+<span class="code-green">border-radius</span>: 3px;<br>
+
+<br>
+<span class="code-green">width</span>: 80%;<br>
+<span class="code-green">margin</span>: 40px 0;<br>
+<span class="code-green">padding</span>: 50px;<br>
+}<br>
+<br>
+<span class="code-blue">.speaker-form-header</span> <span class="code-strong">h1</span> {<br>
+<span class="code-green">font-size</span>: 30px;<br>
+<span class="code-green">margin-bottom</span>: 20px;<br>
+}
+</p><p>
+    Обратите внимание, что мы придерживаемся подхода <a href="iih10-responsive-design.html#mobile-first-developement">
+		mobile-first development</a> (см. урок <em>Адаптивный дизайн</em>).
+		Эти базовые правила CSS дают нам мобильный макет и служат основой макета для
+		ноутбуков/ПК.
+		Медиавыражение макета с фиксированной шириной (для ноутбуков/ПК) мы создадим
+		чуть ниже.
+</p>
+
+<div class="title">формы<br>html forms</div>
+<p>
+    Переходим к формам!
+		Каждую HTML-форму открывает элемент с подходящим названием - &lt;form&gt;.
+		Он поддерживает <a href="https://developer.mozilla.org/ru/docs/Web/HTML/Element/form">
+		множество атрибутов</a>, но самые важные из них - action и method.
+		Добавим пустую форму в наш HTML-документ, прямо под &lt;header&gt;:
+</p><p class="code">
+&lt;form action='' method='get' class='speaker-form'><br>
+&lt;/form>
+</p><p>
+    Атрибут action определяет URL, который обрабатывает форму.
+		Именно сюда отправляются данные, собранные формой, когда пользователь нажимает
+		кнопку <strong>Submit</strong>.
+		Обычно это особый URL, определенный вашим веб-сервером, который знает, как
+		обрабатывать данные.
+		Распространенные технологии бэкенда для обработки форм это <a href="https://nodejs.org/en/">
+		Node.js</a>, <a href="https://www.php.net">PHP</a> и <a href="http://rubyonrails.org">
+		Ruby on Rails</a>, но на этом уроке мы сосредоточимся на фронтенде.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-04-form-action-attribute-68258a.f363aa5f.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 4: &lt;form&gt;-атрибуты действия [action] и метода [method],
+		отправляемые на бэкенд-сервер
+</small></figcaption>
+</figure>
+
+<p>
+    Атрибут method может быть либо <a href="https://developer.mozilla.org/ru/docs/Web/HTTP/Methods/POST">
+		post</a>, либо <a href="https://developer.mozilla.org/ru/docs/Web/HTTP/Methods/GET">
+		get</a>.
+		Оба они определяют, как форма отправляется на внутренний сервер.
+		Это во многом зависит от того, как ваш веб-сервер хочет обрабатывать форму,
+		но общее правило гласит: используйте post, когда вы <em>изменяете</em> данные
+		на сервере.
+		А get оставьте для тех случаев, когда вы только <em>получаете</em> данные.
+</p><p>
+    Оставляя атрибут action пустым, мы указываем форме, что она должна отправляться по тому же URL. В сочетании с методом get это позволит нам просмотреть содержимое формы.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ ФОРМ<br>styling forms</div>
+<p>
+    Конечно, сейчас перед нами пустая форма, но это не значит, что мы не можем
+		добавить к ней несколько стилей, как к контейнеру &lt;div&gt;.
+		Это превратит ее в поле, соответствующее нашему элементу &lt;header&gt;:
+</p><p class="code">
+<span class="code-blue">.speaker-form</span> {<br>
+<span class="code-green">background-color</span>: #F6F7F8;<br>
+<span class="code-green">border</span>: 1px solid #D6D9DC;<br>
+<span class="code-green">border-radius</span>: 3px;<br>
+<br>
+<span class="code-green">width</span>: 80%;<br>
+<span class="code-green">padding</span>: 50px;<br>
+<span class="code-green">margin</span>: 0 0 40px 0;<br>
+}
+</p>
+
+<div class="title">текстовые поля ввода<br>text input fields</div>
+<p>
+    Для сбора пользовательских данных понадобится новый инструмент:
+		элемент &lt;input/&gt;.
+		Для создания текстового поля добавим в &lt;form&gt; немного кода:
+</p><p class="code">
+&lt;div class='form-row'><br>
+&lt;label for='full-name'>Name&lt;/label><br>
+&lt;input id='full-name' name='full-name' type='text'/><br>
+&lt;/div>
+</p><p>
+    Во-первых, наш контейнер &lt;div&gt; поможет со стилизацией.
+		Это обычная практика для разделения элементов ввода.
+		Во-вторых, для меток* формы у нас есть &lt;label&gt;.
+		Это еще один <a href="iih12-semantic-html.html">семантический элемент HTML</a>,
+		так же как и &lt;article&gt; или &lt;figcaption&gt;.
+		Атрибут метки for, должен совпадать с атрибутом id связанного с ней элемента
+&lt;input/&gt;.
+</p><p class="notetran">
+    * - метка - label.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-05-label-element-for-attribute-313489.64666d97.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 5: атрибут for элемента &lt;label&gt; указывает на атрибут id элемента
+&lt;input&gt;
+</small></figcaption>
+</figure>
+
+<p>
+    В-третьих, элемент &lt;input/&gt; создает текстовое поле.
+		Он немного отличается от других элементов, с которыми мы сталкивались, поскольку
+		может кардинально менять внешний вид в зависимости от атрибута type, но он
+		всегда создает некое интерактивное поле для ввода данных пользователем.
+		Помимо текстовых данных далее мы рассмотрим и другие значения.
+		Помните, что <a href="iih06-css-selectors.html#id-selectors">ID-селекторы - это плохо</a>:
+		атрибут id здесь нужен <em>только</em> для связывания его с элементом &lt;label&gt;.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-06-sending-input-variable-to-server-653369.6274c935.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 6: атрибут name элемента &lt;input&gt;, отправляющий переменную на сервер
+</small></figcaption>
+</figure>
+
+<p>
+    Теоретически элемент &lt;input/&gt; представляет собой "переменную", отправляемую
+		на внутренний сервер.
+		Атрибут name определяет имя этой переменной, а значением является то, что
+		пользователь ввел в текстовое поле.
+		Заметьте, что можно заранее заполнить это значение, добавив к элементу &lt;input/&gt;
+		атрибут value.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ ПОЛЕЙ ВВОДА ТЕКСТА<br>styling text input fields</div>
+<p>
+    Элемент &lt;input/&gt; можно стилизовать, как и любой другой элемент HTML.
+		Давайте добавим немного CSS в styles.css, чтобы немного украсить его.
+		Мы используем все концепции из уроков
+<a href="iih04-hello-css.html">Привет, CSS</a>,
+<a href="iih05-css-box-model.html">Блоковая модель в CSS</a>,
+<a href="iih06-css-selectors.html">Селекторы CSS</a> и
+<a href="iih08-flexbox.html">Flexbox</a>:
+</p><p class="code">
+<span class="code-blue">.form-row</span> {<br>
+<span class="code-green">margin-bottom</span>: 40px;<br>
+<span class="code-green">display</span>: flex;<br>
+<span class="code-green">justify-content</span>: flex-start;<br>
+<span class="code-green">flex-direction</span>: column;<br>
+<span class="code-green">flex-wrap</span>: wrap;<br>
+}<br>
+<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span>[type='text'] {<br>
+<span class="code-green">background-color</span>: #FFFFFF;<br>
+<span class="code-green">border</span>: 1px solid #D6D9DC;<br>
+<span class="code-green">border-radius</span>: 3px;<br>
+<span class="code-green">width</span>: 100%;<br>
+<span class="code-green">padding</span>: 7px;<br>
+<span class="code-green">font-size</span>: 14px;<br>
+}<br>
+<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">label</span> {<br>
+<span class="code-green">margin-bottom</span>: 15px;<br>
+}
+</p><p>
+    Новый тип CSS-селектора input[type='text'], называемый "селектором атрибутов",
+		подбирает только те элементы &lt;input/&gt;, у которых атрибут type равен text.
+		Это позволяет нам специально выбирать текстовые поля, а не радиокнопки, которые
+		определяются одним и тем же HTML-элементом (&lt;input type='radio'/&gt;).
+		Подробнее о селекторах атрибутов вы можете прочитать на сайте <a href="https://developer.mozilla.org/ru/docs/Web/CSS/Attribute_selectors">
+		Mozilla Developer Network</a>.
+</p><p>
+    Все наши стили "распределены по именам" в <a href="iih06-css-selectors.html#descendant-selectors">
+		селекторе потомка</a> .form-row.
+		Подобная разделенность стилей &lt;input/&gt; и &lt;label&gt; облегчает создание
+		различных типов форм.
+		Почему следует избегать глобальных селекторов input[type='text'] и label, мы
+		узнаем, когда доберемся до <a href="#radio-buttons">радиокнопок</a>.
+</p><p>
+    Наконец, давайте изменим базовые стили, чтобы создать версию для ноутбуков/ПК.
+		Добавьте в конец нашей таблицы стилей следующее <a href="iih10-responsive-design.html#media-queries">
+		медиавыражение</a>.
+</p><p class="code">
+<span class="code-strong">@media</span> only screen and (min-width: 700px) {<br>
+<span class="code-blue">.speaker-form-header,<br>
+.speaker-form</span> {<br>
+<span class="code-green">width</span>: 600 px;<br>
+}<br>
+<span class="code-blue">.form-row</span> {<br>
+<span class="code-green">flex-direction</span>: row;<br>
+<span class="code-green">align-items</span>: flex-start; <span class="code-grey">/* Чтоб избежать расползания */</span><br>
+<span class="code-green">margin-bottom</span>: 20px;<br>
+}<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span> [type='text'] {<br>
+<span class="code-green">width</span>: 250px;<br>
+<span class="code-green">height</span>: initial;<br>
+}<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">label</span> {<br>
+<span class="code-green">text-align</span>: right;<br>
+<span class="code-green">width</span>: 120px;<br>
+<span class="code-green">margin-top</span>: 7px;<br>
+<span class="code-green">padding-right</span>: 20px;<br>
+}<br>
+}
+</p><p>
+    Посмотрите, как замечательно используется <a href="iih08-flexbox.html#flex-container-direction">
+		свойство flex-direction</a>, чтобы &lt;label&gt;
+		отображалась поверх своего элемента &lt;input/&gt; в мобильном макете, но
+		слева от него в макете для ноутбуков/ПК.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-07-styling-text-input-field-6e4ed3.59f8f642.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 7: страница с одиночным текстовым полем, стилизованным с помощью CSS
+</small></figcaption>
+</figure>
+
+<div class="title">поля ввода электронной почты<br>email input fields</div>
+<p>
+    Атрибут type элемента &lt;input/&gt; также позволяет выполнять базовую валидацию ввода.
+		Добавим еще один элемент ввода, принимающий <em>только</em>
+		адреса электронной почты, а не любые текстовые значения:
+</p><p class="code">
+&lt;div class='form-row'><br>
+&lt;label for='email'>Email&lt;/label><br>
+&lt;input id='email'<br>
+         name='email'<br>
+         type='email'<br>
+         placeholder='joe@example.com'/><br>
+&lt;/div>
+</p><p>
+    Это работает точно так же, как ввод type='text', за исключением автоматической
+		проверки ввода email-адреса.
+		Попробуйте в Firefox набрать что-то не являющееся мейл-адресом, а затем
+		щелкните за пределами поля, чтобы оно потеряло фокус и подтвердило ввод.
+		Поле станет красным, показывая, что введенное значение неверно.
+		Chrome и Safari не выполняют такую проверку, до тех пор пока пользователь не попытается
+		отправить форму.
+		Мы увидим это в действии чуть ниже.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-08-firefox-invalid-email-input-f98cc1.c572f304.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 8: в красной рамке - неверное значение поля электронной почты
+</small></figcaption>
+</figure>
+
+<p>
+    Однако это больше, чем просто валидация.
+		Сообщая браузерам, что мы ищем адрес электронной почты, они могут обеспечить
+		более интуитивный пользовательский опыт.
+		Например, когда браузер смартфона видит атрибут type='email', он отображает
+		особую клавиатуру с легкодоступным символом @.
+</p><p>
+    Также обратите внимание на атрибут placeholder, отображающий какой-либо
+		стандартный текст, когда элемент &lt;input/&gt; пуст.
+		Это хороший прием UX*, побуждающий пользователя ввести собственное значение.
+</p><p>
+    Помимо email-адресов, существует множество других встроенных параметров валидации.
+		Подробнее см. MDN-<a href="https://developer.mozilla.org/ru/docs/Web/HTML/Element/input">
+		справочник по &lt;input/&gt;</a>.
+		Особенно интересны атрибуты required, minlength, maxlength и pattern.
+</p><p class="notetran">
+    * - UX - User Experience - Опыт взаимодействия.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ ПОЛЕЙ ВВОДА электронной почты<br>styling email input fields</div>
+<p>
+    Мы хотим, чтобы наше поле email соответствовало текстовому полю из предыдущей
+		секции.
+		Поэтому добавим еще один селектор атрибутов к существующему правилу input[type='text'],
+		как показано ниже:
+</p><p class="code">
+<span class="code-grey">/* Измените это правило */</span><br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span>[type='text'] {<br>
+<span class="code-green">background-color</span>: #FFFFFF;<br>
+<span class="code-grey">/* ... */</span><br>
+}<br>
+<br>
+<span class="code-grey">/* Чтобы получить еще один селектор */</span><br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span>[type='text'],<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span>[type='email'] {<br>
+<span class="code-green">background-color</span>: #FFFFFF;<br>
+<span class="code-grey">/* ... */</span><br>
+}
+</p><p>
+    Опять же, мы не хотим использовать здесь обычный input type селектор, потому
+		что тогда будут стилизованы <em>все элементы</em> &lt;input/&gt;, включая
+		радиокнопки и чекбоксы.
+		Это часть того, что делает стилизацию форм сложной.
+		Понимание CSS для выделения именно тех элементов, которые вам нужны -
+		крайне важный навык.
+</p><p>
+    Не будем забывать и о стилях для ноутбука/ПК.
+		В нашем медиавыражении обновите правило input[type='text'] так, чтобы оно
+		соответствовало следующему (обратите внимание, что мы готовимся к
+		следующим секциям с селекторами select и textarea):
+</p><p class="code">
+<span class="code-strong">@media</span> only screen and (min-width: 700px) {<br>
+<span class="code-grey">/* ... */<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span> [type='text'],<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span> [type='text'], <span class="code-grey">/* Добавьте */<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span> [type='text'], <span class="code-grey">/* эти */<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span> [type='text'], <span class="code-grey">/* селекторы */<br>
+<span class="code-green">width</span>: 250px;<br>
+<span class="code-green">height</span>: initial;<br>
+}<br>
+<span class="code-grey">/* ... */<br>
+}
+</p><p>
+    Поскольку теперь у нас возможно "верное" и "неверное" входное значение,
+		наверно следует донести это до пользователей.
+<a href="iih06-css-selectors.html#pseudo-classes-for-links">
+		Псевдоклассы</a> :invalid и :valid позволяют стилизовать эти состояния независимо
+		друг от друга.
+		Например, мы хотим сделать рамку и текст красными, если пользователь ввел
+		неприемлемое значение.
+		Добавьте следующее правило в нашу таблицу стилей, вне медиавыражения:
+</p><p class="code">
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span>[type='text']: invalid,<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">input</span>[type='email']: invalid {<br>
+<span class="code-green">border</span>: 1px solid #D55C5F;<br>
+<span class="code-green">color</span>: #D55C5F;<br>
+<span class="code-green">box-shadow</span>: none;
+<span class="code-grey">/* Удаление стандартного красного свечения в Firefox */</span><br>
+}
+
+</p><p>
+    Пока мы не добавим кнопку отправки, вы сможете увидеть это только в Firefox,
+		но идея вам понятна.
+		Существует еще псевдокласс :focus, выбирающий элемент, который
+		пользователь заполняет в данный момент.
+		Это дает еще больше контроля над внешним видом форм.
+</p>
+
+<div class="title" id="radio-buttons">радиокнопки<br>radio buttons</div>
+<p>
+    Изменение свойства type элемента &lt;input/&gt; на radio превращает его в радиокнопку.
+		С радиокнопками дело обстоит немного сложнее, чем с текстовыми полями, поскольку
+		они всегда работают в группах, позволяя пользователю выбрать один вариант из
+		множества предопределенных.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-09-radio-label-fieldset-legend-elements-0affe5.75239169.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 9: &lt;fieldset&gt;, обертывающий &lt;legend&gt; и ряд радиокнопок
+		со связанными элементами &lt;label&gt;
+</small></figcaption>
+</figure>
+
+<p>
+    Это означает, что нужна не только метка для каждого элемента &lt;input/&gt;,
+		но и способ группировки радиокнопок и маркировки всей группы.
+		Для этого предназначены &lt;fieldset&gt; и &lt;legend&gt;.
+		Каждая созданная группа радиокнопок должна:
+</p><ul>
+<li>Быть обернута в &lt;fieldset&gt;, который помечен &lt;legend&gt;.</li>
+<li>Связывать элемент &lt;label&gt; с каждой радиокнопкой</li>
+<li>Использовать один и тот же атрибут name для каждой радиокнопки в группе.</li>
+<li>Использовать разные атрибуты value для каждой радиокнопки.</li>
+</ul><p>
+    Наш пример с радиокнопкой содержит все эти компоненты.
+		Добавьте в элемент &lt;form&gt; под полем электронной почты следующее:
+</p><p class="code">
+&lt;fieldset class='legacy-form-row'><br>
+&lt;legend>Type of Talk&lt;/legend><br>
+&lt;input id='talk-type-1'<br>
+         name='talk-type'<br>
+         type='radio'<br>
+         value='main-stage' /><br>
+&lt;label for='talk-type-1' class='radio-label'>Main Stage&lt;/label><br>
+&lt;input id='talk-type-2'<br>
+         name='talk-type'<br>
+         type='radio'<br>
+         value='workshop'<br>
+         checked /><br>
+&lt;label for='talk-type-2' class='radio-label'>Workshop&lt;/label><br>
+&lt;/fieldset>
+</p><p>
+    В отличие от текстовых полей, пользователь не может вводить свои значения в
+		радиокнопки, поэтому каждая из них нуждается в явном атрибуте value.
+		Именно это значение отправится на сервер, когда пользователь отправит форму.
+		Также очень важно, чтобы у каждой радиокнопки был одинаковый атрибут name, иначе
+		форма не поймет, что они входят в одну группу.
+</p><p>
+    Мы также добавили новый атрибут - checked.
+		Это атрибут "булева типа".
+		Он никогда не принимает значения - он либо существует в элементе &lt;input/&gt;,
+		либо не существует.
+		Если он присутствует на элементе радиокнопки или галочки, то этот элемент будет
+		выбран/отмечен по умолчанию.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ РАДИОКНОПОК<br>styling radio buttons</div>
+<p>
+    Когда речь идет о стилизации радиокнопок, против нас работает несколько вещей.
+		Во-первых, просто больше элементов, о которых нужно беспокоиться.
+		Во-вторых, элементы &lt;fieldset&gt; и &lt;legend&gt; имеют довольно уродливые стили по
+		умолчанию, и в разных браузерах они не слишком согласованы.
+		В-третьих, на момент написания этой статьи &lt;fieldset&gt; не поддерживает
+		flexbox.
+</p><p>
+    Не волнуйтесь! Это хороший пример того, как <a href="iih07-floats.html">
+		обтекание</a> [floats] может быть хорошим Plan B для устаревших/неудобных элементов.
+		Вы заметили, что вместо существующего класса радиокнопки .form-row, мы выбрали
+		новый класс .legacy-form-row?
+		Так он будет полностью отделен от других элементов, используя
+		floats вместо flexbox.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-10-radio-button-float-layout-df003b.a95fa586.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 10:  мобильная версия, созданная блоковым блоком &lt;label&gt; и версия
+		для ноутбуков/ПК с плавающим элементом слева
+</small></figcaption>
+</figure>
+
+<p>
+    Начнем со стилей для смартфонов и планшетов, добавив следующие правила за
+		пределами медиавыражения.
+		Мы избавимся от стандартных стилей &lt;fieldset&gt; и &lt;legend&gt;, затем
+		сделаем радиокнопки и ярлыки обтекаемыми, чтобы они отображались в одну строку
+		под &lt;legend&gt;:
+</p><p class="code">
+<span class="code-blue">.legacy-form-row</span> {<br>
+<span class="code-green">border</span>: none;<br>
+<span class="code-green">margin-bottom</span>: 40px;<br>
+}<br>
+<br>
+<span class="code-blue">.legacy-form-row</span> <span class="code-strong">legend</span> {<br>
+<span class="code-green">margin-bottom</span>: 15px;<br>
+}<br>
+<br>
+<span class="code-blue">.legacy-form-row .radio-label</span> {<br>
+<span class="code-green">display</span>: block;<br>
+<span class="code-green">font-size</span>: 14px;<br>
+<span class="code-green">padding</span>:  0 20px 0 10px;<br>
+}<br>
+<br>
+<span class="code-blue">.legacy-form-row</span> <span class="code-strong">input</span> [type='radio'] {<br>
+<span class="code-green">margin-top</span>: 2px;<br>
+}<br>
+<br>
+<span class="code-blue">.legacy-form-row .radio-label,<br>
+.legacy-form-row</span> <span class="code-strong">input</span> [type='radio'] {<br>
+<span class="code-green">float</span>: left;<br>
+}
+</p><p>
+    В версии для ноутбуков/ПК нужно, чтобы &lt;legend&gt; располагался на одной линии
+		с элементами &lt;label&gt; из предыдущей секции (отсюда ширина: 120px),
+		чтобы <em>все элементы</em> были плавающими (float), и отображались на одной
+		линии.
+		Обновите наши медиавыражения, включив в них следующее:
+</p><p class="code">
+<span class="code-strong">@media</span> only screen and (min-width: 700px) {<br>
+<span class="code-grey">/* ... */</span><br>
+<span class="code-blue">.legacy-form-row</span> {<br>
+<span class="code-green">margin-bottom</span>: 10px; <br>
+}<br>
+<span class="code-blue">.legacy-form-row</span> <span class="code-strong">legend</span> {<br>
+<span class="code-green">width</span>: 120px;<br>
+<span class="code-green">text-align</span>: right;<br>
+<span class="code-green">padding-right</span>: 20px;<br>
+}<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">legend</span> {<br>
+<span class="code-green">float</span>: left;<br>
+}<br>
+}
+
+</p><p>
+    Что касается макетов, то это довольно хорошее кроссбраузерное решение.
+		Однако настройка внешнего вида самой кнопки - это уже другая история.
+		Это возможно, если воспользоваться атрибутом checked, но это немного сложно.
+		Мы оставим вас гуглить "custom radio button CSS" и исследовать эту кроличью
+		нору самостоятельно.
+</p>
+
+<div class="title">элементы select (выпадающие меню)<br>select elements
+(dropdown menus)</div>
+<p>
+    Выпадающие меню являются альтернативой радиокнопкам, поскольку они позволяют
+		пользователю выбрать один из множества вариантов.
+		Элемент &lt;select&gt; представляет собой выпадающее меню и содержит множество
+		элементов &lt;option&gt;, которые представляют каждый элемент.
+</p><p class="code">
+&lt;div class='form-row'><br>
+&lt;label for='t-shirt'>T-Shirt Size&lt;/label><br>
+&lt;select id='t-shirt' name='t-shirt'><br>
+&lt;option value='xs'>Extra Small&lt;/option><br>
+&lt;option value='s'>Small&lt;/option><br>
+&lt;option value='m'>Medium&lt;/option><br>
+&lt;option value='l'>Large&lt;/option><br>
+&lt;/select><br>
+&lt;/div>
+</p><p>
+    Как и в элементах радиокнопки &lt;input/>, у нас есть атрибуты name и value,
+		которые передаются на внутренний сервер.
+		Но вместо того, чтобы быть определенными в одном элементе, они распределены
+		между элементами &lt;select> и &lt;option>.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ ЭЛЕМЕНТОВ SELECT<br>styling select elements</div>
+<p>
+    Как и радиокнопки, элементы &lt;select>, с трудом поддаются стилизации.
+		На это есть своя причина.
+		Выпадающие элементы - это сложный интерактивный элемент, и их поведение
+		значительно отличается на разных устройствах.
+		Например, на iPhone нажатие на элемент &lt;select> приводит к появлению
+		собственного прокручивающегося компонента пользовательского интерфейса,
+		который значительно упрощает навигацию по меню.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-11-select-dropdown-in-iphone-a9968d.5e9c2541.png"
+width="30%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 11: три элемента &lt;option> в прокручивающемся меню &lt;select>
+		в нижней части экрана iPhone
+</small></figcaption>
+</figure>
+
+<p>
+    Лучше всего позволить браузеру/устройству определить оптимальный способ
+		предварительной настройки элемента &lt;select>, поэтому мы сохраним простоту
+		нашего CSS.
+		К сожалению, даже самые простые вещи оказываются иногда на удивление сложными.
+		Например, попробуйте изменить размер шрифта нашего элемента &lt;select>:
+</p><p class="code">
+<span class="code-blue">.form-row</span> <span class="code-strong">select</span> {<br>
+<span class="code-green">width</span>: 100%;<br>
+<span class="code-green">padding</span>: 5px;<br>
+<span class="code-green">font-size</span>: 14px; <span class="code-grey">/* Это не работает в Chrome или Safari */</span><br>
+}
+</p><p>
+    Это работает в Firefox, но не в Chrome или Safari!
+		Чтобы исправить ситуацию, можно использовать префикс для свойства appearance,
+		характерный для конкретного производителя:
+</p><p class="code">
+<span class="code-blue">.form-row</span> <span class="code-strong">select</span> {<br>
+<span class="code-green">width</span>: 100%;<br>
+<span class="code-green">padding</span>: 5px;<br>
+<span class="code-green">font-size</span>: 14px; <span class="code-grey">/* Это не работает в Chrome или Safari */</span><br>
+<span class="code-green">-webkit-appearance</span>: none; <span class="code-grey">/* Данный префикс заставит это работать */</span><br>
+}
+</p><p>
+    Префикс -webkit будет применяться <em>только</em> к Chrome и Safari (они работают на
+		движке WebKit), а Firefox останется незатронутым.
+		По сути это хак.
+		Даже MDN говорит о том, что <a href="https://developer.mozilla.org/ru/docs/Web/CSS/appearance">
+		не стоит использовать это свойство CSS</a>.
+</p><p>
+    Подобные трудности со стилями - серьезный аспект при создании формы.
+		Если вам нужны пользовательские стили, лучше использовать радиокнопки или виджеты JavaScript UI.
+<a href="https://getbootstrap.com/docs/3.4/javascript/">
+		Bootstrap Dropdowns</a> и <a href="https://jqueryui.com/selectmenu/#default">
+		jQuery Selectmenu</a> - распространенные JavaScript-решения для настройки меню выбора.
+		В любом случае, теперь вы хотя бы понимаете суть проблемы.
+		Подробнее о проблемах &lt;select> можно прочитать <a href="https://developer.mozilla.org/en-US/docs/Learn/Forms/Advanced_form_styling#Dealing_with_the_select_nightmare">
+		здесь</a>.
+</p>
+
+<div class="title">ТЕКСТОВЫЕ ПОЛЯ<br>textareas</div>
+<p>
+    Элемент &lt;textarea> создает многострочное текстовое поле, предназначенное
+		для большого количества текста от пользователя.
+		Они подходят для таких вещей, как биографии, эссе и комментарии.
+		Давайте добавим &lt;textarea> в нашу форму вместе с небольшим инструктирующим
+		текстом:
+</p><p class="code">
+&lt;div class='form-row'><br>
+&lt;label for='abstract'>Abstract&lt;/label><br>
+&lt;textarea id='abstract' name='abstract'>&lt;/textarea><br>
+&lt;div class='instructions'>Describe your talk in 500 words or less&lt;/div><br>
+&lt;/div>
+</p><p>
+    Заметьте, что этот элемент не является самозакрывающимся, как элемент &lt;input/>,
+		поэтому вам всегда нужен закрывающий тег &lt;/textarea>.
+		Если вы хотите добавить текст по умолчанию, он должен находиться внутри тега,
+		а не в атрибуте value.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ ТЕКСТОВЫХ ПОЛЕЙ<br>styling textareas</div>
+<p>
+    К счастью, стилизация текстовых полей довольно проста.
+		Добавьте в ваш файл styles.css (перед медиавыражением!) следующее:
+</p><p class="code">
+<span class="code-blue">.form-row</span> <span class="code-strong">textarea</span> {<br>
+<span class="code-green">font-family</span>: "Helvetica", "Arial", sans-serif;<br>
+<span class="code-green">font-size</span>: 14px;<br>
+<br>
+<span class="code-green">border</span>: 1px solid #D6D9DC;<br>
+<span class="code-green">border-radius</span>: 3px;<br>
+<br>
+<span class="code-green">min-height</span>: 200px;<br>
+<span class="code-green">margin-bottom</span>: 10px;<br>
+<span class="code-green">padding</span>: 7px;<br>
+<span class="code-green">resize</span>: none;<br>
+}<br>
+<br>
+<span class="code-blue">.form-row .instructions</span> {<br>
+<span class="code-green">color</span>: #999999;<br>
+<span class="code-green">font-size</span>: 14px;<br>
+<span class="code-green">margin-bottom</span>: 30px;<br>
+}
+</p><p>
+    По умолчанию многие браузеры позволяют пользователю изменять размер элементов
+&lt;textarea> до нужных размеров.
+		Мы отключили это с помощью свойства resize.
+</p><p>
+    Также нам нужно немного поправить макет для ноутбуков/ПК.
+		&lt;div>-элемент .instructions должен находиться под &lt;textarea>, поэтому
+		давайте сдвинем его влево на ширину колонки &lt;label>.
+		В конец нашего медиавыражения добавьте следующее правило:
+</p><p class="code">
+<span class="code-strong">@media</span> only screen and (min-width: 700px) {<br>
+<span class="code-grey">/* ... */<br>
+<span class="code-blue">.form-row .instructions</span> {<br>
+<span class="code-green">margin-left</span>: 120px;<br>
+}<br>
+}
+</p>
+
+<div class="title">чекбоксы<br>checkboxes</div>
+<p>
+    Чекбоксы - это что-то вроде радиокнопок, но они позволяют пользователю выбрать
+		сколько угодно вариантов вместо всего одного.
+		Это упрощает задачу, ибо браузеру не нужно знать, какие флажки входят
+		в одну группу.
+		Другими словами, нам не нужна обертка &lt;fieldset> или общие атрибуты имен
+		[shared name attributes].
+		Добавьте в конец формы следующее:
+</p><p class="code">
+&lt;div class='form-row'><br>
+&lt;label class='checkbox-label' for='available'><br>
+&lt;input id='available'<br>
+name='available'<br>
+type='checkbox'<br>
+value='is-available'/><br>
+&lt;span>I’m actually available the date of the talk&lt;/span><br>
+&lt;/label><br>
+&lt;/div>
+</p><p>
+    То, как мы использовали &lt;label> здесь, немного отличается от предыдущих
+		секций.
+		Вместо того чтобы быть отдельным элементом, &lt;label> обертывает
+		соответствующий элемент &lt;input/>.
+		Это вполне допустимо, и так будет проще подобрать нужный нам макет.
+		Но все же лучше использовать атрибут for.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ ЧЕКБОКСОВ<br>styling checkboxes</div>
+<p>
+    Для мобильного макета нам нужно всего лишь переопределить margin-bottom,
+		который мы установили для остальных элементов &lt;label>.
+		Добавьте в styles.css, вне медиавыражения, следующее:
+</p><p class="code">
+<span class="code-blue">.form-row .checkbox-label</span> {<br>
+<span class="code-green">margin-bottom</span>: 0;<br>
+}
+</p><p>
+    А внутри медиавыражения мы должны учесть 120-пиксельную колонку с метками:
+</p><p class="code">
+<span class="code-strong">@media</span> only screen and (min-width: 700px) {<br>
+<span class="code-grey">/* ... */<br>
+<span class="code-blue">.form-row .checkbox-label</span> {<br>
+<span class="code-green">margin-left</span>: 120px;<br>
+<span class="code-green">width</span>: auto;<br>
+}<br>
+}
+</p><p>
+    Обернув и чекбокс, и текст метки, можно использовать ширину auto для расположения
+		всего поля формы в одну строку.
+		Помните, что ширина auto заставляет блок соответствовать размеру его контента?
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-12-adding-a-checkbox-8a0541.ad08759c.png"
+width="45%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 12: веб-страница с несколькими элементами HTML-формы, включая чекбокс
+</small></figcaption>
+</figure>
+
+<div class="title">кнопки отправки<br>submit buttons</div>
+<p>
+    И наконец, завершим нашу форму кнопкой отправки.
+		Элемент &lt;button> это кнопка, отправляющая содержащуюся
+		в ней &lt;form>:
+</p><p class="code">
+&lt;div class='form-row'><br>
+&lt;button>Submit&lt;/button><br>
+&lt;/div>
+</p><p>
+    При нажатии на кнопку браузер проверяет все элементы &lt;input/> в форме.
+		Если проблем с валидацией	не возникло, он отправляет ее по URL-адресу action.
+		Если в поле email вы ввели что-то, не являющееся адресом электронной почты
+		и нажмете кнопку &lt;button>, то увидите сообщение об ошибке.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-13-chrome-invalid-email-input-3ae531.21eff6a1.png"
+width="60%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 13: сообщение об ошибке ввода недопустимого значения для поля
+		электронной почты
+</small></figcaption>
+</figure>
+
+<p>
+    Это также дает нам возможность увидеть, как данные пользователя отправляется
+		на сервер.
+		Сначала заполните все поля &lt;input/> и убедитесь, что e-mail валидируется
+		верно.
+		Затем нажмите кнопку и просмотрите полученный URL в браузере.
+		Там должно быть что-то вроде этого:
+</p><p class="code">
+speaker-submission.html?full-name=Rick&email=rick%40internetingishard.com&talk-type=workshop&t-shirt=l&abstract=Derp.&available=is-available
+</p><p>
+    Все, что находится после ? представляет собой переменные в нашей форме.
+		За атрибутом name каждого &lt;input/> следует знак равенства, затем его значение.
+		Каждая переменная отделяется символом &amp;.
+		Если бы у нас был внутренний сервер, ему было бы очень просто получить всю
+		эту информацию, запросить базу данных (или что-то еще) и сообщить, была ли
+		отправка формы успешной или нет.
+</p>
+
+<div class="title-under">СТИЛИЗАЦИЯ КНОПОК<br>styling buttons</div>
+<p>
+    В <a href="iih06-css-selectors.html#pseudo-classes-for-links">секции "Псевдоклассы"</a>
+		урока <em>Селекторы CSS</em> у нас был опыт стилизации кнопок.
+		Тогда мы применяли эти стили к элементу &lt;a>, но мы можем использовать те же
+		приемы и для &lt;button>.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih13-14-styling-a-submit-button-7e80de.07a2978c.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 14: кнопка отправки формы
+</small></figcaption>
+</figure>
+
+<p>
+    Очистим этот безобразный стандартный стиль &lt;button>, добавив в таблицу
+		стилей следующее:
+</p><p class="code">
+<span class="code-blue">.form-row</span> <span class="code-strong">button</span> {<br>
+<span class="code-green">font-size</span>: 16px;<br>
+<span class="code-green">font-weight</span>: bold;<br>
+<br>
+<span class="code-green">color</span>: #FFFFFF;<br>
+<span class="code-green">background-color</span>: #5995DA;<br>
+<br>
+<span class="code-green">border</span>: none;<br>
+<span class="code-green">border-radius</span>: 3px;<br>
+<br>
+<span class="code-green">padding</span>: 10px 40px;<br>
+<span class="code-green">cursor</span>: pointer;<br>
+}<br>
+<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">button</span>:hover {<br>
+<span class="code-green">background-color</span>: #76AEED;<br>
+}<br>
+<br>
+<span class="code-blue">.form-row</span> <span class="code-strong">button</span>:active {<br>
+<span class="code-green">background-color</span>: #407FC7;<br>
+}
+</p><p>
+    Как и в случае с чекбоксом, учитываем колонку с метками шириной 120px, поэтому
+		включаем в медиавыражения еще одно правило:
+</p><p class="code">
+<span class="code-strong">@media</span> only screen and (min-width: 700px) {<br>
+<span class="code-grey">/* ... */</span><br>
+<span class="code-blue">.form-row</span> <span class="code-strong">button</span>{<br>
+<span class="code-green">margin-left</span>: 120px; <br>
+}<br>
+}
+</p>
+
+<div class="title">РЕЗЮМЕ</div>
+<p>
+    На этом уроке вы узнали про наиболее распространенные элементы форм HTML.
+		Теперь у вас есть все эти инструменты для сбора данных от посетителей вашего сайта:
+</p><ul>
+<li>&lt;input type='text'/></li>
+<li>&lt;input type='email'/></li>
+<li>&lt;input type='radio'/></li>
+<li>&lt;select> и &lt;option></li>
+<li>&lt;textarea></li>
+<li>&lt;input type='checkbox'/></li>
+<li>&lt;button></li>
+</ul><p>
+    Для создания красивых форм вы должны хорошо разбираться в HTML и CSS, но для
+		того, чтобы сделать эти формы функциональными, требуются навыки, которых у
+		вас пока нет.
+		Эти навыки выходят за рамки данного учебника, но, возможно, вам будет полезно
+		узнать о них.
+		В общем, существует два способа обработки форм:
+</p><ul>
+<li>Используйте атрибут action, чтобы отправить данные формы на внутренний URL-адрес,
+	  который затем перенаправляет на страницу "Успех" [success page] или "Ошибка"
+		[error page].
+		Выше мы уже говорили об этом, и никакого JavaScript тут не требуется.</li>
+<li>Используйте AJAX-запросы, чтобы отправить форму, не покидая страницу.
+	  Сообщения об успехе или ошибке отображаются на той же странице путем управления
+		HTML с помощью JavaScript.</li>
+</ul><p>
+    В зависимости от структуры вашей компании, обработка форм может не входить в
+		ваши обязанности фронтенд-веб-разработчика.
+		В этом случае скооперируйтесь с бэкенд-разработчиком из вашей команды,
+		чтобы убедиться, что &lt;form> отправляет правильные пары имя-значение.
+		Иначе вам придется позаботиться о том, чтобы фронтенд и бэкенд ваших форм
+		гармонично сочетались друг с другом.
+</p><p>
+    Далее вас ожидает <a href="/">заключительный урок</a>.
+		Мы завершим навыки работы с фронтендом, подробно обсудив веб-шрифты и
+		практические принципы типографики, которые должен знать каждый разработчик.
+</p>
+
+<section id="chapter-next">
+<a href="iih14-web-typography.html"
+class="chapter-next">
+    СЛЕДУЮЩИЙ УРОК ></a>
+</section>
+<br><br>
+</div>
+</body>
+</html>

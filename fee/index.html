@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dienstleistungen Preisrechner</title>
+<link rel="stylesheet" href="style-fee.css">
+</head>
+<body>
+<h1>Wie viel kostet eine Website oder eine App?</h1>
+
+<form id="pricing-form">
+<!-- Frage 1: Was soll gemacht werden? -->
+<fieldset>
+<legend>Was soll gemacht werden?</legend>
+<label><input type="checkbox" name="services" value="web_create" data-price="300"> Webseite erstellen</label><br>
+<label><input type="checkbox" name="services" value="app_create" data-price="200"> App erstellen</label><br>
+<label><input type="checkbox" name="services" value="web_update" data-price="350"> Webseite überarbeiten</label><br>
+<label><input type="checkbox" name="services" value="app_update" data-price="250"> App überarbeiten</label>
+</fieldset>
+
+<!-- Frage 2: Logo -->
+<fieldset>
+<legend>Ist bereits ein Logo vorhanden?</legend>
+<label><input type="radio" name="logo" value="0"> Ja</label><br>
+<label><input type="radio" name="logo" value="45"> Logo erstellen</label><br>
+<label><input type="radio" name="logo" value="35"> Soll überarbeitet werden</label>
+</fieldset>
+
+<!-- Frage 3: Texte -->
+<fieldset>
+<legend>Benötigen Sie Texte?</legend>
+<label><input type="radio" name="text" value="0"> Nein</label><br>
+<label><input type="radio" name="text" value="75"> Ja</label><br>
+<label><input type="radio" name="text" value="55"> Teils / Teils</label>
+</fieldset>
+
+<button type="button" id="calculate">Preis berechnen</button>
+</form>
+
+<h2>Gesamtpreis: <span id="total-price">0</span></h2>
+<footer>
+<p>
+zum<br> <a href="/">PORTFOLIO</a>.
+</p>
+</footer>
+<script src="script-fee.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+<title>Kindergeld Calculator</title>
+<link rel="stylesheet" href="styles-childbenefit-060125.css">
+</head>
+<body>
+<!-- <img src="logo-familienkasse.svg">   
+<h1>Kindergeld Navigator</h1> -->
+<h1>KINDERGELD NAVIGATOR</h1>
+<div id="language-switcher" style="text-align: center; margin-bottom: 20px;">
+<a href="#" class="language-link" data-lang="en">English</a> |
+<a href="#" class="language-link" data-lang="ru">Русский</a> |
+<a href="#" class="language-link" data-lang="ua">Українська</a>
+</div>
+<section id="kid1-newcomer">
+<h2>Was your child born outside of Germany?</h2>
+<!-- <p>If no, <a href="#kid1-form">please click here</a>.
+</p> -->
+<details>
+<summary>If yes, please click here.</summary>
+
+<!-- Начало раскрываемого блока -->
+<form>
+<label for="entry-month">Specify the month of entry Germany:</label>
+<input type="text" id="entry-month" name="entry-month" placeholder="MM">
+<br>
+<label for="entry-year">Specify the year of entry Germany:</label>
+<input type="text" id="entry-year" name="entry-year" placeholder="YYYY">
+</form>
+<small>
+Hint: Check the entry stamp in the passport.
+</small>
+<!-- Конец раскрываемого блока -->
+</section>
+
+
+<section id="kid1-form">
+<h2>Your child's birth time</h2>
+<form>
+<label for="month">Enter month of birth:</label>
+<input type="text" id="month" name="month" placeholder="MM">
+<br>
+<label for="year">Enter year of birth:</label>
+<input type="text" id="year" name="year" placeholder="YYYY">
+</form>
+</section>
+
+
+<section id="kid1-age">
+<h2>Your child's age</h2>
+<p>
+Your child is 00 year and 00 months old. <br>
+Which is 00 months in total.
+</p>
+</section>
+<section id="kid1-balancedue">
+<p>
+If you will apply for Kindergeld now (formalities last about 2 months), 
+<strong>you will receive 00 Euro in total</strong>.
+</p>
+
+<div class="cleardata">
+<p>For a new cadiculation, clear the form data below:</p>
+<button id="clear-data" onclick="clearUserData()">Clear data</button>
+</div>
+
+<p class="notabene">
+Note that the exact sum depends on the future Kindergeld monthly amount in 
+the future years.
+Since 1. January 2023 it is 250 Euro per child monthly.
+</p>
+<hr>
+
+
+
+
+
+<div class="rating-formsubmit">
+<div class="rating-container">
+<h4>How useful is the idea of this App?</h4>
+<p>Please rate usefulness of this calculator (not its functionality or appearance).</p>
+<div class="stars">
+<span class="star" data-value="1">&#9733;</span>
+<span class="star" data-value="2">&#9733;</span>
+<span class="star" data-value="3">&#9733;</span>
+<span class="star" data-value="4">&#9733;</span>
+<span class="star" data-value="5">&#9733;</span>
+</div>
+<form action="https://formsubmit.co/yafalin@gmail.com" method="POST" id="rating-form">
+<input type="hidden" name="rating" id="rating-input">
+<button type="submit" class="send-button" id="send-button" disabled>Send my rating</button>
+</form>
+</div>
+</div>
+
+
+</section>
+<p class="copyrights">
+Kindergeld Navigator - version 2.7 (06.01.2025)<br>
+Copyrights by <a href="https://yarve.com/">
+Jaroslav Plotnikov</a>
+</p>
+</body>
+<script src="script-childbenefit-060125.js"></script>
+</html>

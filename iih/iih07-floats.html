@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+<title>7. FLOATS</title>
+<!-- <link rel="stylesheet" href="../css/style.css"> -->
+<link rel="stylesheet" href="style-iih.css">
+</head>
+
+<body>
+<!--
+<div class="page">
+<div class="blur"></div>
+<header class="header" id='header'> -->
+<header>
+</header>
+<!--
+<section class="main">
+<div class="container"> -->
+<h1><a href="/" title="RUS EDITION of Interneting is Hard">HTML & CSS IS HARD - НА РУССКОМ</a></h1>
+<h2>FLOATS</h2>
+<section>
+<p>УРОК Nº 7.</p>
+<p><em>
+		Добротный учебник классической веб-разработки + user-friendly введение в CSS-верстку
+</em></p>
+</section>
+
+<p>
+    За последние несколько уроков мы научились управлять размером <a href="iih05-css-box-model.html">
+		блоков</a> и пространством вокруг них, но в основном мы были привязаны к
+		стандартному вертикальному потоку страницы.
+		Блоковые элементы всегда располагались вертикально друг под другом, ограничивая
+		нас одноколоночным макетом.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-01-vertical-vs-horizontal-stacking-064f76.97b50cda.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 1: вертикальный поток элементов в сравнении с
+		горизонтальным потоком
+</small></figcaption>
+</figure>
+
+<p id="grid-01">
+    "Обтекание" [float] позволяют размещать элементы блокового уровня рядом, а не
+		друг под другом.
+		Это очень важно.
+		С его помощью можно создавать всевозможные макеты, включая боковые колонны,
+		многоколоночные страницы, grid-сетки и статьи в журнальном стиле с текстом,
+		обтекающим изображение.
+		Именно здесь наконец-то мы начнем создавать настоящие веб-страницы.
+</p><p>
+    В современных веб-сайтах макеты на основе плавающих элементов в основном
+		заменены на <a href="iih08-flexbox.html">Flexbox</a>.
+		Но это не значит, что этот урок не стоит читать.
+		На протяжении более десяти лет плавающие макеты служили основой большинству
+		веб-сайтов, а это значит, что в какой-то момент своей карьеры вы
+		с ними обязательно столкнетесь.
+</p><p>
+		Возможно, ограниченная природа обтекающих элементов сделает их более мягким
+		введением в верстку CSS, чем Flexbox.
+		Вместо того чтобы быть перегруженными всеми возможностями Flexbox, это ваш шанс
+		сосредоточиться на <em>процессе</em> создания сложного макета веб-страницы.
+</p>
+
+<div class="title">подготовка<br>setup</div>
+<p>
+    На этом уроке на примере довольно простого проекта мы рассмотрим CSS-понятие
+		"обтекание" [float].
+		Вместо того чтобы работать с HTML-контентом, как это было в предыдущих главах,
+		мы будем стилизовать кучу пустых элементов &lt;div&gt;.
+		В итоге мы получим нечто похожее на изображение ниже.
+		Это довольно сильно отличается от тех типов веб-страниц, которые мы создавали
+		до сих пор, не так ли?
+</p>
+
+<figure id="grid-02">
+<img class="pic-pages" src="./images/iih07-02-floats-final-example-e0e9f7.a06b11e5.png"
+width="45%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 2: веб-страница с боковой float-панелью, текстом, обтекающим картинку
+		и плавающей сеткой в футере
+</small></figcaption>
+</figure>
+
+<p>
+    Сначала создайте новую папку floats, затем добавьте новую веб-страницу
+		floats.html со следующей разметкой:
+</p><p class="code">
+<span class="code-green">&lt;!DOCTYPE html&gt;</span><br>
+&lt;html lang='en'&gt;<br>
+&lt;head&gt;<br>
+&lt;meta charset='UTF-8'/&gt;<br>
+&lt;title&gt;Floats&lt;/title&gt;<br>
+&lt;link rel='stylesheet' href='styles.css'/&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&lt;div class='page'&gt;<br>
+&lt;div class='menu'&gt;Menu&lt;/div&gt;<br>
+&lt;div class='sidebar'&gt;Sidebar&lt;/div&gt;<br>
+&lt;div class='content'&gt;Content&lt;/div&gt;<br>
+&lt;div class='footer'&gt;Footer&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+</p><p>
+    Это дает нам базовую структуру большинства сайтов в Интернете.
+		У нас есть место для размещения навигационного меню, боковой панели,
+		основного контента и футера.
+		Все эти элементы можно считать <a href="iih06-css-selectors.html#container-divs">
+		div-контейнерами</a>, в которые помещается HTML-контент.
+</p><p>
+    Открыв файл floats.html в браузере, вы не увидите ничего особенного, потому
+		что у пустых элементов высота равна нулю.
+		Мы исправим это в следующей секции.
+</p><p class="code">
+<span class="code-strong">*</span> {<br>
+<span class="code-green">margin</span>: 0;<br>
+<span class="code-green">padding</span>: 0;<br>
+<span class="code-green">box-sizing</span>: border-box;<br>
+}
+</p><p>
+    Не забудьте создать таблицу стилей styles.css, как показано выше.
+		Этот код <a href="iih05-css-box-model.html#resetting-styles">
+		сбрасывает стандартное поведение блока</a>,
+</p>
+
+<div class="title">стандартная модель поведения html-макета<br>default html layout behavior</div>
+<p>
+    Плавающие элементы изменяют стандартный макет веб-страницы, поэтому для начала
+		нам следует разобраться, что именно является "стандартным" поведением.
+		Мы уже говорили об этом в разделе <a href="iih05-css-box-model.html#block-and-inline-elements">
+		Блоковые и строчные элементы</a>, но сейчас это приобретает гораздо большее значение.
+</p><p>
+    Мы можем лучше рассмотреть наш пример страницы, добавив некоторые цвета фона
+		и четко выраженную высоту для каждого из наших элементов &lt;div&gt;.
+		Добавьте следующее в файл styles.css:
+</p><p class="code">
+<span class="code-blue">.menu</span> {<br>
+<span class="code-green">height</span>: 100px;<br>
+<span class="code-green">background-color</span>: #B2D6FF;
+<span class="code-grey"> /* умеренно синий */</span><br>
+}<br>
+<br>
+<span class="code-blue">.sidebar</span> {<br>
+<span class="code-green">height</span>: 300px;<br>
+<span class="code-green">background-color</span>: #F09A9D;
+<span class="code-grey"> /* красный */</span><br>
+}<br>
+<br>
+<span class="code-blue">.content</span> {<br>
+<span class="code-green">height</span>: 500px;<br>
+<span class="code-green">background-color</span>: #F5CF8E;
+<span class="code-grey"> /* желтый */</span><br>
+}<br>
+<br>
+<span class="code-blue">.footer</span> {<br>
+<span class="code-green">height</span>: 200px;<br>
+<span class="code-green">background-color</span>: #D6E9FE;
+<span class="code-grey"> /* голубой */</span><br>
+}
+</p><p>
+    В результате мы получаем красивую радугу, но это не совсем то, что нам нужно,
+		хотя и демонстрирует некоторые полезные концепции.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-03-default-css-layout-behavior-9b2b1f.0d2b49a4.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 3: веб-страница с четырьмя цветными блоками, появляющимися
+		вертикально один за другим
+</small></figcaption>
+</figure>
+
+<p>
+    Здесь важно то, что каждый элемент уровня блока заполняет 100 % ширины
+		родительского элемента (в данном случае &lt;div class='page'&gt;), и они
+		отображаются вертикально друг под другом.
+		И по-прежнему мы ограничены одноколоночным макетом.
+</p><p>
+    Обычно высота этих блоков определяется автоматически в зависимости от содержащегося
+		в них контента.
+		Однако на этом уроке речь идет об управлении макетами, поэтому мы не будем
+		иметь дело с реальным контентом.
+		Вот почему нам нужны <a href="iih05-css-box-model.html#explicit-dimensions">
+		явно выраженные свойства высоты</a>.
+</p><p>
+    Стоит взглянуть на то, что происходит, когда мы уменьшаем ширину элемента.
+		Обновите наше правило .sidebar, изменив его на следующее:
+</p><p class="code">
+<span class="code-blue">.sidebar</span> {<br>
+<span class="code-green">width</span>: 200px;
+<span class="code-grey"> /* добавьте это */</span><br>
+<span class="code-green">height</span>: 300px;<br>
+<span class="code-green">background-color</span>: #F09A9D;<br>
+}
+</p><p>
+    Элемент боковой панели становится более узким, но остальные блоки остаются
+		на прежних местах.
+		Все блоки по-прежнему отображаются вертикально один за другим.
+		Именно такое поведение мы и будем получать с помощью плавающих элементов.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-04-default-css-layout-behavior-explicit-width-97b8ac.9348c1c1.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 4: веб-страница с красным блоком боковой панели в левой части
+		страницы и белым фоном рядом с ним
+</small></figcaption>
+</figure>
+
+<div class="title">перемещение плавающего элемента<br>floating an element</div>
+<p>
+    Свойство CSS float дает нам контроль над <em>горизонтальным</em> положением
+		элемента.
+		Чтобы "сплавить" боковую панель влево, мы командуем браузеру выровнять ее по левой
+		стороне страницы.
+		Переместите нашу боковую панель влево с помощью следующей строки:
+</p><p class="code">
+	<span class="code-blue">.sidebar</span> {<br>
+	<span class="code-green">float</span>: left;
+	<span class="code-grey"> /* добавьте это */</span><br>
+	<span class="code-green">width</span>: 200px;<br>
+	<span class="code-green">height</span>: 300px;<br>
+	<span class="code-green">background-color</span>: #F09A9D;<br>
+}
+</p><p>
+    Однако это не только <em>выравнивает</em> боковую панель, но и сообщает окружающим
+		элементам, что они могут <em>обтекать</em> боковую панель, а не начинаться
+		под ней.
+		Как если бы боковая панель находилась внутри блока .content, так что любая
+		HTML-разметка в .content обходила бы блок боковой панели.
+		Таким образом, мы получаем макет в стиле журнальной страницы:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-05-floated-sidebar-d926d5.58d46437.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 5: веб-страница с красным блоком боковой панели, "плавающим" поверх
+		следующего элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Вы также можете перемещать элементы вправо, как показано ниже (однако мы оставим
+		нашу боковую панель перемещенной влево).
+		Или, если вы переопределяете объявление float, вы можете отменить его с помощью
+		значения none.
+		Это наиболее распространенные значения для свойства float.
+</p><p class="code">
+<span class="code-strong">float: right;</span>
+<span class="code-grey">/* Выравнивание по правому краю */</span><br>
+<span class="code-strong">float: none;</span>
+<span class="code-grey">/* Возврат к стандартному потоку */</span>
+</p><p>
+    Теперь у нас есть все необходимые инструменты для выравнивания элементов
+		на уровне блоков: плавающие элементы для выравнивания по левому/правому краю
+		и метод auto-margins для выравнивания по центру.
+		Помните, что это относится только к <em>блоковым</em> блокам.
+		Строчные [inline] блоки выравниваются с помощью свойства text-align, как <a href="iih05-css-box-model.html#aligning-boxes">
+		описано ранее</a>.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-06-floats-and-auto-margin-for-alignment-536a81.5e77dde7.png"
+width="65%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 6: float left (блок в левой части контейнера), auto margins (блок
+		в центре контейнера), float right (блок в правой части контейнера)
+
+</small></figcaption>
+</figure>
+
+<div class="title">перемещение внутри родителей<br>floating inside of parents</div>
+<p>
+    Плавающие блоки всегда выравниваются по левому или правому краю родительского
+		элемента.
+		В нашем примере родителем боковой панели является &lt;div class='page'&gt;,
+		ширина которого равна ширине окна браузера.
+		Поэтому наша боковая панель плавает в крайней левой части страницы.
+</p><p>
+    Давайте изменим это, придав нашей странице макет фиксированной ширины.
+		И снова пригодится метод центрирования auto-margins.
+		Добавьте в файл styles.css следующее:
+</p><p class="code">
+<span class="code-blue">.page</span> {<br>
+<span class="code-green">width</span>: 900px;<br>
+<span class="code-green">margin</span>: auto;<br>
+}
+</p><p>
+    Теперь мы видим, что .sidebar плавает слева от контейнера .page, а не у
+		края окна браузера.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-07-floating-in-fixed-width-page-a9c965.2c1c55f4.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 7: веб-страница с цветными блоками, расположенными по центру браузера
+</small></figcaption>
+</figure>
+
+<p>
+    Подобное позиционирование вложенных div-контейнеров - это способ создания
+		сложных макетов веб-сайтов.
+		Мы начали с .page, чтобы отцентрировать <em>всю страницу</em>.
+		Затем выровняли по левому краю боковую панель <em>внутри</em> этой
+		отцентрированной страницы.
+		Все может оказаться гораздо сложнее, но наш простой пример демонстрирует
+		простую истину верстки CSS: все является блоком внутри блока внутри другого
+		блока.
+</p>
+
+<div class="title">множественные плавающие элементы<br>multiple floats</div>
+<p>
+    Давайте рассмотрим наш плавающий элемент "в журнальном стиле", добавив
+		четко выраженную ширину в блок .content:
+</p><p class="code">
+<span class="code-blue">.content</span> {<br>
+<span class="code-green">width</span>: 650px;
+<span class="code-grey">/* Добавьте это */</span><br>
+<span class="code-green">height</span>: 500px;<br>
+<span class="code-green">background-color</span>: #F5CF8E;<br>
+}
+</p><p>
+    Это наглядно показывает, что наша боковая панель находится <em>внутри</em>
+		блока .content: если вы сделаете их скриншот, то получите изображение шириной
+		650 пикселей, а не 850 (ширина нашей боковой панели - 200 пикселей).
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-08-floating-inside-another-container-1cfd76.02349b0d.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 8: на веб-странице показана плавающая слева красная боковая панель
+		поверх статично расположенного элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Такое поведение плавающего элемента хорошо для картинок (что мы <a href="#floats-for-content">
+		рассмотрим позже</a>), но для макета страницы мы хотим, чтобы блок контента
+		находился <em>рядом с</em> боковой панелью, а не обтекал ее.
+		Для этого нам нужно указать блоку контента, чтобы он тоже "плавал" слева.
+		Добавьте еще одну строку в правило .content:
+</p>
+
+<p class="code">
+<span class="code-blue">.content</span> {<br>
+<span class="code-green">float</span>: left;
+<span class="code-grey">/* Добавьте это */</span><br>
+<span class="code-green">width</span>: 650px;<br>
+<span class="code-green">height</span>: 500px;<br>
+<span class="code-green">background-color</span>: #F5CF8E;<br>
+}
+</p><p>
+    Когда вы располагаете несколько плавающих элементов в одном направлении,
+		они будут располагаться горизонтально, как в стандартном алгоритме вертикального
+		расположения, только повернутые на 90 градусов.
+		Приведенный выше код приводит к тому, что весь наш блок контента оказывается
+		справа от боковой панели, а не оборачивается вокруг нее.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-09-two-floats-next-to-each-other-37f154.455c9b95.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 9: веб-страница, показывающая красную боковую панель рядом с плавающим
+		элементом, выровненным по левому краю
+</small></figcaption>
+</figure>
+
+<p>
+    Это дает нам полный контроль над горизонтальным выравниванием наших блочных блоков.
+		Попробуйте поэкспериментировать со значениями плавающих элементов для .sidebar
+		и .content, и вы увидите, что в вашем распоряжении уже есть несколько различных
+		макетов:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-10-float-layout-combinations-e52716.fa30c391.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 10: четыре потенциальные комбинации левого и правого плавающих
+		элементов для двух элементов
+</small></figcaption>
+</figure>
+
+<p>
+    Прежде чем двигаться дальше, убедитесь, что оба элемента плавают слева.
+		Это позволит создать макет для боковой панели и блоков контента, но, к сожалению,
+		испортит наш элемент .footer.
+</p>
+
+<div class="title">после float<br>After a Float</div>
+<p>
+    Вы, наверное, заметили, что наш футер отображается в правом верхнем углу,
+		прямо под .menu.
+		Это происходит потому, что плавающие элементы удаляются из нормального
+		потока страницы.
+		Высота наших плавающих элементов не влияет на вертикальное положение футера,
+		поэтому он просто размещается под последним элементом, который <em>не был</em>
+		плавающим.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-11-floats-outside-of-normal-flow-5dc559.dc04b315.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 11: веб-страница с прозрачными блоками, показывающая плавающие
+		элементы поверх статично расположенного футера
+</small></figcaption>
+</figure>
+
+<p>
+    Мы можем увидеть это более четко, добавив красную рамку вокруг нашего
+		элемента .page:
+</p><p class="code">
+<span class="code-blue">.page</span> {<br>
+<span class="code-green">width</span>: 900px;<br>
+<span class="code-green">margin</span>: 0 auto;<br>
+<span class="code-green">border</span>: 1px solid red;
+<span class="code-grey">/* Добавьте это */</span><br>
+}
+</p><p>
+    Обратите внимание, что рамка есть только вокруг элементов .menu и .footer.
+		Словно плавающих элементов там вообще не было.
+		Есть два способа исправить это: очистить плавающий элемент и скрыть переполнение.
+</p>
+
+<div class="title-under">ОЧИСТКА ПЛАВАЮЩИХ ЭЛЕМЕНТОВ<br>Clearing Floats</div>
+<p>
+	"Очистка" плавающего элемента - это когда мы командуем блоку игнорировать все
+	плавающие элементы, которые появляются перед ним.
+	Вместо того чтобы обтекать плавающий блок, очищенный элемент всегда появляется
+	после всех плавающих элементов.
+	Это как бы заставляет блок вернуться в вертикальный поток страницы по умолчанию.
+</p><p>
+    Мы можем использовать свойство clear, чтобы опустить наш футер в нижнюю
+		часть страницы:
+</p><p class="code">
+	<span class="code-blue">.footer</span> {<br>
+	<span class="code-green">clear</span>: both;
+	<span class="code-grey">/* Добавьте это */</span><br>
+	<span class="code-green">height</span>: 200px;<br>
+	<span class="code-green">background-color</span>: #FD6E9FE;<br>
+	}
+</p><p>
+    Обычно нужно очистить и левый, и правый плавающие элементы, как мы сделали
+		здесь, но вы можете выбрать очистку только одного или другого элемента,
+		указав значения left или right.
+		Обратите внимание, что красная рамка теперь проходит по всему футеру,
+		указывая на то, что плавающие элементы действительно учитываются при
+		определении высоты контейнера .page:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-12-clearing-a-float-44a4d5.3120fe8a.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 12: веб-страница, показывающая, как футер опускается после очистки
+		к нижней части плавающих элементов
+</small></figcaption>
+</figure>
+
+<p>
+    В зависимости от типа макета, который вы пытаетесь создать, это вполне
+    приемлемое решение.
+		На этом можно было бы остановиться, но мы собираемся подробнее изучить
+		поведение плавающих элементов, превратив нашу страницу в макет без окружающих полей,
+		в котором цвета фона заполняют все окно браузера.
+</p><p>
+    Посмотрите, что произойдет, если мы уберем меню и футер из элемента .page.
+		Измените элемент &lt;body&gt; так, чтобы он соответствовал следующему:
+</p><p class="code">
+&lt;body&gt;<br>
+&lt;div class='menu'&gt;Menu&lt;/div&gt;<br>
+<br>
+&lt;div class='page'&gt;<br>
+&lt;div class='sidebar'&gt;Sidebar&lt;/div&gt;<br>
+&lt;div class='content'&gt;Content&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+<br>
+&lt;div class='footer'&gt;Footer&lt;/div&gt;<br>
+&lt;/body&gt;<br>
+</p><p>
+    Поскольку .menu и .footer находятся за пределами фиксированной ширины .page,
+		они занимают всю ширину окна.
+		И это именно то, что нам нужно.
+		Однако обратите внимание, что у .page снова нулевая высота, несмотря на то,
+		что футер по-прежнему освобождает боковую панель и блоки контента.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-13-full-bleed-layout-broken-clear-58057f.fed0b0ab.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 13: веб-страница, выделяющая нулевую высоту .page &lt;div&gt;
+		с плавающими элементами
+</small></figcaption>
+</figure>
+
+<p>
+    И снова единственные элементы в .page - плавающие элементы, поэтому они не
+		учитываются при определении высоты.
+		Другими словами, перемещение футера за пределы контейнера .page нарушило наше
+		исправление с помощью свойства clear.
+</p>
+
+<div class="title-under">СКРЫТИЕ ПЕРЕПОЛНЕНИЯ<br>Hiding Overflow</div>
+<p>
+    Очистка плавающих элементов решает проблему высоты только в том случае,
+		если <em>внутри</em> элемента-контейнера есть элемент, к которому можно добавить
+		свойство clear.
+		Теперь, когда наш футер находится за пределами .page, нам нужен новый способ
+		заставить плавающие элементы учитывать высоту их контейнера.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-14-methods-for-clearing-floats-6429d9.ec231f81.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 14: слева: очистка с помощью дочернего элемента. Справа: очистка
+		с помощью родительского элемента
+</small></figcaption>
+</figure>
+
+<p>
+    Решением является <a href="https://developer.mozilla.org/ru/docs/Web/CSS/overflow">
+		свойство overflow</a>.
+		Добавляя overflow: hidden к контейнеру div, мы указываем ему на необходимость
+		распознавать высоту всех плавающих элементов, которые он содержит.
+		Вот как мы можем добавить цвет фона к элементу .page и добиться того,
+		чтобы он действительно отображался:
+</p><p class="code">
+<span class="code-blue">.page</span> {<br>
+<span class="code-green">width</span>: 900px;<br>
+<span class="code-green">margin</span>: 0 auto;<br>
+<span class="code-green">overflow</span>: hidden;
+<span class="code-grey">/* Добавьте это */</span><br>
+<span class="code-green">background-color</span>: #EAEDF0;
+<span class="code-grey">/* Добавьте это */</span><br>
+}
+</p><p>
+    Теперь вы увидите светло-серый фон на странице .page вместо белого, задаваемого
+		по умолчанию.
+		Это еще не полноценный фон (мы рассмотрим его в следующей секции).
+		Важным моментом здесь является поведение этого самого overflow: hidden.
+		Без него мы бы не смогли увидеть фон контейнера .page, потому что его высота
+		была бы нулевой.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-15-full-bleed-layout-overflow-hidden-826f9e.15d9dbed.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 15: серый фон, заполняющий всю высоту контейнера .page &lt;div&gt;
+</small></figcaption>
+</figure>
+
+<p>
+    Подводя итог, можно сказать, что если у вас есть избыточный элемент HTML
+		в нижней части контейнера div, используйте прозрачное решение.
+		В прочих случаях добавьте объявление overflow: hidden к элементу контейнера.
+		Суть обоих вариантов заключается в том, что вам нужен способ указать браузеру
+		на необходимость включения плавающих элементов в высоту их контейнерного
+		элемента, чтобы их фон отображался.
+</p>
+
+<div class="title">макеты во всю ширину окна<br>Full-Bleed Layouts</div>
+<p>
+    Далее мы хотим сделать так, чтобы фон нашей .page заполнял все окно браузера,
+		не изменяя выравнивания боковых панелей и блоков контента.
+		Проблема в том, что наш .page занят центрированием всего, и мы не можем
+		использовать его для полноцветного фона, поскольку центрирование требует
+		явно выраженного свойства width.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-16-full-bleed-layout-with-container-85a6d1.dea28519.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 16: веб-страница, на которой виден серый фон, заполняющий всю
+		высоту .page &lt;div&gt;, вплоть до левого и правого краев
+</small></figcaption>
+</figure>
+
+<p>
+    Пора сделать <em>еще один</em> контейнер div.
+		Поместив блок вокруг .page, мы продолжаем центрировать материал, одновременно
+		предоставляя место для определения свойства background-color.
+		Измените &lt;body&gt; как показано ниже:
+</p><p class="code">
+	&lt;body&gt;<br>
+	&lt;div class='menu'&gt;Menu&lt;/div&gt;<br>
+	<br>
+&lt;div class='container'&gt; <span class="code-grey">&lt;!-- Добавьте это --&gt;</span><br>
+&lt;div class='page'&gt;<br>
+&lt;div class='sidebar'&gt;Sidebar&lt;/div&gt;<br>
+&lt;div class='content'&gt;Content&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt; <span class="code-grey">&lt;!-- Добавьте это --&gt;</span><br>
+<br>
+&lt;div class='footer'&gt;Footer&lt;/div&gt;<br>
+&lt;/body&gt;<br>
+</p><p>
+    Помните, что при стандартном отображении блоков [default block-rendering behavior]
+		элементы заполняют ширину своего контейнера.
+		Поэтому мы можем перенести объявление фонового цвета в правило .container,
+		чтобы получить фон на всю щирину страницы:
+</p><p class="code">
+<span class="code-blue">.page</span> {<br>
+<span class="code-green">width</span>: 900px;<br>
+<span class="code-green">margin</span>: 0 auto;<br>
+}<br>
+<br>
+<span class="code-blue">.container</span> {<br>
+<span class="code-green">overflow</span>: hidden;<br>
+<span class="code-green">background-color</span>: #EAEDF0;<br>
+}
+</p><p>
+    Как и в предыдущей секции, нам по-прежнему нужна строка overflow: hidden,
+		чтобы заставить .container обращать внимание на высоту плавающих элементов.
+		Без нее мы бы не увидели цвет фона, потому что высота .container была бы нулевой.
+</p><p>
+    Таким образом, мы получаем три вложенных элемента &lt;div&gt; для оформления
+		нашей страницы: обертку .container для заполнения всего окна браузера, страницу
+		фиксированной ширины .page для выравнивания по центру и, наконец, блоки .sidebar
+		и .content, выровненные по левому краю.
+		Подобное вложение и выравнивание довольно типично для большинства макетов
+		веб-сайтов.
+</p>
+
+<div class="title">обтекание для колонок одной ширины<br>Floats for Equal-Width Columns</div>
+<p>
+    Мы уже рассмотрели макет страницы с боковой панелью, макет с фиксированной
+		шириной и макет с заполнением всего окна браузера.
+		Float-элементы также можно использовать для создания многоколоночных макетов.
+		Это работает так же, как и плавающие элементы .sidebar и .content - просто их
+		будет больше.
+</p><p>
+    Следующий шаг - добавить три колонки одинаковой ширины в наш футер.
+		Обновите элемент &lt;footer&gt; следующим образом:
+</p><p class="code">
+&lt;div class='footer'&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;/div&gt;
+</p><p>
+    Мы можем оформить каждую из этих колонок так же, как и остальную часть нашей
+		страницы.
+		Добавьте новое правило в styles.css:
+</p><p class="code">
+<span class="code-blue">.column</span> {<br>
+<span class="code-green">float</span>: left;<br>
+<span class="code-green">width</span>: 31%;<br>
+<span class="code-green">margin</span>: 20px 1.15%;<br>
+<span class="code-green">height</span>: 160px;<br>
+<span class="code-green">background-color</span>: #B2D6FF;
+<span class="code-grey"> /* умеренно синий */</span><br>
+}
+</p><p>
+    Впервые мы используем процентные значения вместо пиксельных.
+		Проценты в CSS относятся к ширине родительского элемента.
+		В результате мы получаем три колонки, размер которых автоматически изменяется
+		на одну треть окна браузера.
+		Измените размер окна браузера, и вы увидите, как наши колонки увеличиваются
+		и уменьшаются соответственно.
+		Это начало <a href="iih10-responsive-design.html">адаптивного дизайна</a>.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-17-floats-for-columns-8a52b0.246a8ba6.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 17: веб-страница с футером, состоящим из трех дочерних элементов
+		одинаковой ширины
+</small></figcaption>
+</figure>
+
+<p>
+    Однако давайте не будем упускать из виду главный тезис этого урока: плавающие
+		элементы позволяют располагать элементы горизонтально, а не вертикально.
+		Изменяя ширину плавающих элементов, получаем всевозможные варианты
+		компоновки, от боковых панелей до нескольких колонок и сеток.
+</p>
+
+<div class="title" id="floats-for-grids">обтекание для сеток<br>Floats for Grids</div>
+<p>
+    Хотите сетку [grid] в футере вместо 3 колонок?
+		Запросто!
+		Когда не хватает места для горизонтальной укладки плавающего элемента, он
+		опускается на следующую строку.
+		Все, что нам нужно сделать, это добавить еще несколько элементов .column:
+</p><p class="code">
+&lt;div class='footer'&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;div class='column'&gt;&lt;/div&gt;<br>
+&lt;/div&gt;
+</p><p>
+    Вуаля! Сетка! Ну, почти...
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-18-floats-for-grids-7ed8b0.b6737f70.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 18: веб-страница с футером, имеющим 3 колонки и 2 строки дочерних
+		элементов
+</small></figcaption>
+</figure>
+
+<p id="grid-03">
+    Наш фон футера слишком короток.
+		К счастью, мы уже знаем, как это исправить.
+		Давайте заменим явную высоту футера на другую - overflow: hidden, чтобы он
+		мог вместить любое количество элементов сетки:
+</p><p class="code">
+<span class="code-blue">.footer</span> {<br>
+<span class="code-green">overflow</span>: hidden;<br>
+<span class="code-green">background-color</span>: #D6E9FE;<br>
+}
+</p><p>
+    С помощью этой же техники можно создавать сетки любого размера.
+		Например, для создания фотогалереи с кучей миниатюр достаточно поместить
+		элементы сетки в .page, а не в футер, и добавить к ним элементы &lt;img/&gt;.
+		Но, опять же, помните, что <a href="iih08-flexbox.html">flexbox</a> - это
+		более современный способ создания подобных макетов.
+</p>
+
+<div class="title-under">О СТАНДАРТАХ НАИМЕНОВАНИЯ ФАЙЛОВ<br>
+    A Brief Note on Naming Conventions </div>
+<p>
+    Название класса .column уже не совсем корректно.
+		Этот сценарий - хороший пример того, почему мы хотим избегать имен классов,
+<a href="iih06-css-selectors.html#class-naming-conventions">которые ссылаются
+	  на внешний вид</a>.
+		"Column" не очень подходит, потому что содержащийся в ней контент не обязательно
+		должен отображаться в нескольких колонках (например, в мобильном макете,
+		скорее всего, будет только одна колонка).
+		Лучшим названием было бы что-нибудь вроде .footer-item, но мы оставим это на
+		ваше усмотрение.
+</p>
+
+<div class="title" id="floats-for-content">обтекание для контента<br>Floats for Content</div>
+<p>
+    Существует два аспекта определения макета веб-страницы.
+		У вас есть общая структура страницы, над которой мы работали на протяжении
+		всей этой главы.
+		Это такие вещи, как расположение боковой панели, размер навигационного меню и т. д.
+		Другой аспект макетов - это стилизация отдельных HTML-компонентов (вашего
+		фактического контента), которые находятся внутри общей структуры страницы.
+</p><p>
+    Процесс работы с последними такой же, просто они вложены внутрь первых.
+		Давайте добавим немного фиктивного контента в наш элемент .content, чтобы
+		было с чем экспериментировать:
+</p><p class="code">
+&lt;div class='container'&gt;<br>
+&lt;div class='page'&gt;<br>
+&lt;div class='sidebar'&gt;&lt;/div&gt;<br>
+&lt;div class='content'&gt;<br>
+<br>
+&lt;p&gt;Ad netus sagittis velit orci est non ut urna taciti metus donec magnis<br>
+hendrerit adipiscing mauris sit a proin ultrices nibh.&lt;/p&gt;<br>
+<br>
+&lt;p&gt;Enim suspendisse ac scelerisque nascetur vestibulum parturient sed mi<br>
+dolor eu non adipiscing non neque scelerisque netus ullamcorper sed<br>
+parturient integer.Eros dui risus non sodales ullamcorper libero a dis<br>
+cubilia a orci iaculis cursus.&lt;/p&gt;<br>
+<br>
+&lt;p&gt;Egestas at aliquam a egestas accumsan cum elementum consectetur conubia<br>
+tristique eu et vitae condimentum in ante consectetur suscipit a a duis<br>
+vestibulum gravida morbi sagittis.Parturient scelerisque facilisis<br>
+ullamcorper a a pretium a nisl parturient semper senectus accumsan ipsum<br>
+mus scelerisque eget ridiculus.Accumsan dolor a.&lt;/p&gt;<br>
+<br>
+&lt;p&gt;Ligula taciti vel primis sit a tincidunt habitant parturient parturient<br>
+in parturient ante nulla consectetur sem.Facilisis parturient litora.&lt;/p&gt;<br>
+<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+&lt;/div&gt;
+</p><p>
+    У нас есть изображение и несколько абзацев, которые мы можем стилизовать
+		так же, как и наши структурные div'ы.
+		Например, давайте создадим макет в журнальном стиле, плавающий элемент
+		изображения и текст вокруг него.
+		Для этого в таблицу стилей нужно добавить еще несколько правил:
+</p><p class="code">
+<span class="code-blue">.content</span> {<br>
+<span class="code-green">padding</span>: 20px;<br>
+}<br>
+<br>
+<span class="code-blue">.article-image</span> {<br>
+<span class="code-green">float</span>: left;<br>
+<span class="code-green">width</span>: 300px;<br>
+<span class="code-green">height</span>: 200px;<br>
+<span class="code-green">margin-right</span>: 20px;<br>
+<span class="code-green">margin-bottom</span>: 20px;<br>
+}<br>
+<br>
+<span class="code-strong">p</span> {<br>
+<span class="code-green">margin-bottom</span>: 20px;<br>
+}
+</p><p>
+    Обратите внимание, что у нас есть плавающий элемент внутри плавающего элемента,
+		и все работает просто замечательно.
+		Создание сайта - это рекурсивный процесс: вы создаете высокоуровневую структуру
+		для работы, а затем заполняете ее реальным контентом.
+		Более сложные макеты могут потребовать еще один или два уровня вложенности,
+		но идея та же.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-19-floats-final-example-e0e9f7.a06b11e5.png"
+width="50%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 19: веб-страница, показывающая плавающий элемент с обтекающим его
+		текстовым контентом
+</small></figcaption>
+</figure>
+
+<div class="title-under">СКРЫТИЕ ПЕРЕПОЛНЕНИЯ (ДЛЯ КОНТЕНТА)<br>Hiding Overflow (For Content)</div>
+<p>
+    Примеры вложенных макетов можно встретить повсюду.
+		В качестве последнего примера рассмотрим базовую тему комментариев пользователя.
+		У вас есть изображение, плавающий элемент слева от заголовка и текст рядом с ним:
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-20-overflow-hidden-for-content-735981.e4516a8e.png"
+width="40%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 20: веб-страница, показывающая футер с иконкой и текстом рядом с
+		ней, но не обтекающая его из-за overflow: hidden
+</small></figcaption>
+</figure>
+
+<p>
+    Давайте попробуем создать это в нашем футере.
+		В ваш любимый элемент .column добавьте следующее:
+</p><p class="code">
+&lt;div class='column'&gt;<br>
+&lt;div class='avatar'&gt;&lt;/div&gt;<br>
+&lt;h3 class='username'&gt;Bob Smith&lt;/h3&gt;<br>
+&lt;p class='comment'&gt;Aptent vel egestas vestibulum aliquam ullamcorper volutpat<br>
+ullamcorper pharetra hac posuere a rhoncus purus molestie torquent. Scelerisque<br>
+purus cursus dictum ornare a phasellus. A augue venenatis adipiscing.&lt;/p&gt;<br>
+&lt;/div&gt;<br>
+</p><p>
+    А также соответствующие правила CSS:
+</p><p class="code">
+<span class="code-blue">.avatar</span> {<br>
+<span class="code-green">float</span>: left;<br>
+<span class="code-green">width</span>: 60px;<br>
+<span class="code-green">height</span>: 60px;<br>
+<span class="code-green">margin</span>: 25px;<br>
+<span class="code-green">border-radius</span>: 40px;<br>
+<span class="code-green">background-color</span>: #D6E9FE;<br>
+}<br>
+<br>
+<span class="code-blue">.username</span> {<br>
+<span class="code-green">margin-top</span>: 30px;<br>
+}<br>
+<br>
+<span class="code-blue">.comment</span> {<br>
+<span class="code-green">margin</span>: 10px;<br>
+<span class="code-green">overflow</span>: hidden;
+<span class="code-grey"> /* это важно */</span><br>
+}
+</p><p>
+    Это показывает еще один случай использования нашего трюка с overflow: hidden.
+		Наклеив его на наш блок .comment, мы убедились, что текст "горизонтально очищен"
+		(это не технический термин) от плавающего элемента.
+		Без этого последняя строка текста .comment оказалась бы под изображением.
+</p>
+
+<figure>
+<img class="pic-pages" src="./images/iih07-21-no-overflow-hidden-for-content-1cb097.455f0920.png"
+width="70%" alt="Interneting is hard HTML+CSS">
+<figcaption><small>
+    Скриншот 21: веб-страницы со скрытым переполнением (with hidden overflow:
+		текст выровнен по левому краю) и без скрытого переполнения (without...: текст обтекает иконку)
+</small></figcaption>
+</figure>
+
+<p>
+    Другими словами, overflow: hidden ломает макет в журнальном стиле из предыдущей
+		секции, но очень полезным образом.
+</p>
+
+<div class="title">РЕЗЮМЕ</div>
+<p>
+    В этой главе мы впервые познакомились с максимально реалистичными макетами
+		веб-страниц.
+		Мы узнали, как размещать плавающие элементы слева и справа, как работать с
+		контентом после плавающего элемента и как сочетать плавающие элементы с
+		техникой центрирования "auto-margin" из урока <a href="iih05-css-box-model.html">
+		Блоковая модель в CSS</a>.
+		Эти инструменты нужны нам для создания боковых панелей, сеток и макетов в
+		стиле журнала.
+</p><p>
+    Важно чтоб вы помнили вашу роль в процессе создания сайта.
+		Ваша работа как веб-разработчика заключается в том, чтобы получив красивый
+		дизайнерский эскиз, превратить его в HTML и CSS, которые браузеры могут
+		отобразить конечным пользователям.
+		Плавающие элементы - большой шаг вперед в этом направлении, но эта технология
+		уже устаревает.
+		Ей на смену приходит верстка flexbox.
+</p><p>
+    На следующем уроке мы узнаем дополнительные способы компоновки сложных
+		сайтов с помощью flexbox.
+		Свойства CSS будут новыми, но <em>процесс</em> будет таким же, как и сегодня:
+		мы по-прежнему будем выравнивать блоки внутри других блоков, внутри других блоков
+		и так далее, пока не добьемся желаемого макета.
+</p>
+
+
+<section id="chapter-next">
+<a href="iih08-flexbox.html"
+class="chapter-next">
+    СЛЕДУЮЩИЙ УРОК ></a>
+</section>
+<br><br>
+</div>
+</body>
+</html>
